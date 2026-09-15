@@ -1,13 +1,14 @@
 {
-  "name": "pledge-book",
+  "name": "firstlink-register",
   "version": "1.0.0",
-  "description": "",
+  "description": "FirstLink Financial Solutions - collateral loan register",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx",
+    "watch": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "FirstLink Financial Solutions",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

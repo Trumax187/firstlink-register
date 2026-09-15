@@ -462,7 +462,7 @@ export default function PledgeBook() {
       <style>{STYLES}</style>
 
       <div className="pb-top">
-        <div className="pb-mark">EDINA <span>PledgeBook</span></div>
+        <div className="pb-mark">FirstLink <span>PledgeBook</span></div>
         <div className="pb-sub">Collateral loan register</div>
       </div>
 

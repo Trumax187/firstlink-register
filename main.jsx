@@ -1,5 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import PledgeBook from "./pledge-book.jsx";
+import FirstLinkRegister from "./firstlink-register.jsx";
 
-createRoot(document.getElementById("root")).render(<PledgeBook />);
+createRoot(document.getElementById("root")).render(<FirstLinkRegister />);
