@@ -23622,7 +23622,7 @@
     });
     return [state, write];
   }
-  function PledgeBook() {
+  function FirstLinkRegister() {
     const [db, write] = useStore();
     const [tab, setTab] = (0, import_react.useState)("today");
     const [screen, setScreen] = (0, import_react.useState)(null);
@@ -23779,7 +23779,7 @@
         return daysLate(b) - daysLate(a) || d(a.dueOn) - d(b.dueOn);
       });
     }, [db.loans]);
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb" }, /* @__PURE__ */ import_react.default.createElement("style", null, STYLES), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-top" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-mark" }, "FirstLink ", /* @__PURE__ */ import_react.default.createElement("span", null, "PledgeBook")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sub" }, "Collateral loan register")), /* @__PURE__ */ import_react.default.createElement("nav", { className: "pb-nav" }, ["today", "loans", "borrowers", "collateral", "cashbook"].map((t) => /* @__PURE__ */ import_react.default.createElement(
+    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb" }, /* @__PURE__ */ import_react.default.createElement("style", null, STYLES), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-top" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-mark" }, "First", /* @__PURE__ */ import_react.default.createElement("span", null, "Link")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sub" }, "Collateral loan register")), /* @__PURE__ */ import_react.default.createElement("nav", { className: "pb-nav" }, ["today", "loans", "borrowers", "collateral", "cashbook"].map((t) => /* @__PURE__ */ import_react.default.createElement(
       "button",
       {
         key: t,
@@ -24220,7 +24220,7 @@
 .pb-top { background:var(--ink); color:#fff; padding:16px 18px; text-align:center; }
 .pb-mark { font-family:'IBM Plex Serif', Georgia, serif; font-size:21px; letter-spacing:.005em; }
 .pb-mark span { color:var(--brass); font-weight:600; }
-.pb-sub { font-size:12px; color:#d3b8c6; margin-top:3px; letter-spacing:.02em; }
+.pb-sub { font-size:12px; color:#A9BDD9; margin-top:3px; letter-spacing:.02em; }
 .pb-nav { display:flex; gap:2px; background:var(--ink-2); padding:0 10px; overflow-x:auto; justify-content:center; }
 .pb-nav button { white-space:nowrap; }
 .pb-nav button {
@@ -24446,7 +24446,7 @@
       var import_react2 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_firstlink_register();
-      (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ import_react2.default.createElement(PledgeBook, null));
+      (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ import_react2.default.createElement(FirstLinkRegister, null));
     }
   });
   require_main();

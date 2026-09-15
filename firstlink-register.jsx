@@ -1,7 +1,7 @@
 ﻿import React, { useState, useMemo } from "react";
 
 /* ------------------------------------------------------------------
-   PLEDGE BOOK — collateral loan register (prototype, slice 1)
+   FIRSTLINK — collateral loan register (prototype, slice 1)
 
    STORAGE ADAPTER
    All reads/writes go through the `db` object below. Right now it is
@@ -35,7 +35,7 @@ const STYLES = `
 .pb-top { background:var(--ink); color:#fff; padding:16px 18px; text-align:center; }
 .pb-mark { font-family:'IBM Plex Serif', Georgia, serif; font-size:21px; letter-spacing:.005em; }
 .pb-mark span { color:var(--brass); font-weight:600; }
-.pb-sub { font-size:12px; color:#d3b8c6; margin-top:3px; letter-spacing:.02em; }
+.pb-sub { font-size:12px; color:#A9BDD9; margin-top:3px; letter-spacing:.02em; }
 .pb-nav { display:flex; gap:2px; background:var(--ink-2); padding:0 10px; overflow-x:auto; justify-content:center; }
 .pb-nav button { white-space:nowrap; }
 .pb-nav button {
@@ -288,7 +288,7 @@ function useStore() {
 
 /* ---------- app ---------- */
 
-export default function PledgeBook() {
+export default function FirstLinkRegister() {
   const [db, write] = useStore();
   const [tab, setTab] = useState("today");
   const [screen, setScreen] = useState(null);   // {kind:"loan"|"borrower", id}
@@ -462,7 +462,7 @@ export default function PledgeBook() {
       <style>{STYLES}</style>
 
       <div className="pb-top">
-        <div className="pb-mark">FirstLink <span>PledgeBook</span></div>
+        <div className="pb-mark">First<span>Link</span></div>
         <div className="pb-sub">Collateral loan register</div>
       </div>
 
