@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
 
 /* ------------------------------------------------------------------
    PLEDGE BOOK — collateral loan register (prototype, slice 1)
@@ -20,14 +20,14 @@ const STYLES = `
 .pb * { box-sizing: border-box; }
 .pb {
   /* BRAND COLOURS — change these and the whole app follows. */
-  --ink:#3A1E3F;        /* deep plum: header, nav, primary buttons */
-  --ink-2:#55305C;      /* lighter plum: tab bar */
-  --paper:#F6EFF3;      /* soft blush background */
+  --ink:#1B3A6B;        /* navy: header, nav, primary buttons */
+  --ink-2:#2A4E85;      /* lighter navy: tab bar */
+  --paper:#FFFFFF;      /* white background */
   --surface:#fff;
-  --line:#E4D4DE; --muted:#7D6478;
-  --brass:#B76E79;      /* rose gold accent */
-  --brass-soft:#F7E6E8;
-  --ok:#2E7D6B; --late:#C0392B; --done:#8A7686;
+  --line:#D9E0EC; --muted:#6B7280;
+  --brass:#B8860B;      /* FirstLink gold accent */
+  --brass-soft:#F5EBD0;
+  --ok:#2E7D6B; --late:#C0392B; --done:#6B7280;
   font-family:'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
   font-feature-settings:'tnum' 1;
   color:var(--ink); background:var(--paper); min-height:100vh;
@@ -65,7 +65,7 @@ const STYLES = `
   cursor:pointer;
 }
 .pb-row:last-child { border-bottom:0; }
-.pb-row:hover { background:#FCF7FA; }
+.pb-row:hover { background:#F8FAFC; }
 .pb-row-top { display:flex; justify-content:space-between; gap:10px; align-items:center; }
 .pb-name { font-weight:500; font-size:15px; }
 .pb-meta { font-size:13px; color:var(--muted); margin-top:3px; }
@@ -86,7 +86,7 @@ const STYLES = `
 .pb-kv { display:flex; justify-content:space-between; padding:9px 14px; border-bottom:1px solid var(--line); font-size:14px; }
 .pb-kv:last-child { border-bottom:0; }
 .pb-kv span:first-child { color:var(--muted); }
-.pb-kv.total { background:#FCF7FA; font-weight:600; }
+.pb-kv.total { background:#F8FAFC; font-weight:600; }
 .pb-kv.total span:first-child { color:var(--ink); }
 
 .pb-line { padding:10px 14px; border-bottom:1px solid var(--line); font-size:13.5px; display:flex; justify-content:space-between; gap:10px; }
