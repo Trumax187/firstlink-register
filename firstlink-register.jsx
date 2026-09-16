@@ -144,7 +144,8 @@ const STYLES = `
 const K = (n) =>
   "K" + Number(n || 0).toLocaleString("en-ZM", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-const TODAY = new Date("2026-09-15T00:00:00");
+const TODAY = new Date();
+TODAY.setHours(0, 0, 0, 0);
 
 const d = (s) => new Date(s + "T00:00:00");
 const iso = (dt) => dt.toISOString().slice(0, 10);
@@ -272,9 +273,9 @@ const STORE_KEY = "pledgebook.v1";
 function loadStore() {
   try {
     const raw = window.localStorage.getItem(STORE_KEY);
-    return raw ? JSON.parse(raw) : SEED;
+    return raw ? JSON.parse(raw) : EMPTY;
   } catch (e) {
-    return SEED;
+    return EMPTY;
   }
 }
 function saveStore(s) {

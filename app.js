@@ -23602,9 +23602,9 @@
   function loadStore() {
     try {
       const raw = window.localStorage.getItem(STORE_KEY);
-      return raw ? JSON.parse(raw) : SEED;
+      return raw ? JSON.parse(raw) : EMPTY;
     } catch (e) {
-      return SEED;
+      return EMPTY;
     }
   }
   function saveStore(s) {
@@ -24324,7 +24324,8 @@
 @media (max-width:520px){ .pb-two { display:block; } .pb-two > * { margin-bottom:12px; } }
 `;
       K = (n) => "K" + Number(n || 0).toLocaleString("en-ZM", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      TODAY = /* @__PURE__ */ new Date("2026-09-15T00:00:00");
+      TODAY = /* @__PURE__ */ new Date();
+      TODAY.setHours(0, 0, 0, 0);
       d = (s) => /* @__PURE__ */ new Date(s + "T00:00:00");
       iso = (dt) => dt.toISOString().slice(0, 10);
       fmtDate = (s) => d(s).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
