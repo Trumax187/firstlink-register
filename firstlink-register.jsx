@@ -150,8 +150,8 @@ const d = (s) => new Date(s + "T00:00:00");
 const iso = (dt) => {
   const y = dt.getFullYear();
   const m = String(dt.getMonth() + 1).padStart(2, "0");
-  const d = String(dt.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+  const day = String(dt.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 };
 const fmtDate = (s) =>
   d(s).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });

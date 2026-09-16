@@ -24329,8 +24329,8 @@
       iso = (dt) => {
         const y = dt.getFullYear();
         const m = String(dt.getMonth() + 1).padStart(2, "0");
-        const d2 = String(dt.getDate()).padStart(2, "0");
-        return `${y}-${m}-${d2}`;
+        const day = String(dt.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
       };
       fmtDate = (s) => d(s).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
       addDays = (s, n) => {
