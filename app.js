@@ -23779,7 +23779,7 @@
         return daysLate(b) - daysLate(a) || d(a.dueOn) - d(b.dueOn);
       });
     }, [db.loans]);
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb" }, /* @__PURE__ */ import_react.default.createElement("style", null, STYLES), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-top" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-mark" }, "First", /* @__PURE__ */ import_react.default.createElement("span", null, "Link")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sub" }, "Collateral loan register")), /* @__PURE__ */ import_react.default.createElement("nav", { className: "pb-nav" }, ["today", "loans", "borrowers", "collateral", "cashbook"].map((t) => /* @__PURE__ */ import_react.default.createElement(
+    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb" }, /* @__PURE__ */ import_react.default.createElement("style", null, STYLES), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-top" }, /* @__PURE__ */ import_react.default.createElement("img", { src: "./logo.jpeg", alt: "FirstLink Financial Solutions \u2014 Lending Made Easy", className: "pb-logo" })), /* @__PURE__ */ import_react.default.createElement("nav", { className: "pb-nav" }, ["today", "loans", "borrowers", "collateral", "cashbook"].map((t) => /* @__PURE__ */ import_react.default.createElement(
       "button",
       {
         key: t,
@@ -24217,7 +24217,8 @@
   font-feature-settings:'tnum' 1;
   color:var(--ink); background:var(--paper); min-height:100vh;
 }
-.pb-top { background:var(--ink); color:#fff; padding:16px 18px; text-align:center; }
+.pb-top { background:#fff; padding:18px; text-align:center; border-bottom:1px solid var(--line); }
+.pb-logo { max-width:240px; width:100%; height:auto; display:block; margin:0 auto; }
 .pb-mark { font-family:'IBM Plex Serif', Georgia, serif; font-size:21px; letter-spacing:.005em; }
 .pb-mark span { color:var(--brass); font-weight:600; }
 .pb-sub { font-size:12px; color:#A9BDD9; margin-top:3px; letter-spacing:.02em; }

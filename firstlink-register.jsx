@@ -32,7 +32,8 @@ const STYLES = `
   font-feature-settings:'tnum' 1;
   color:var(--ink); background:var(--paper); min-height:100vh;
 }
-.pb-top { background:var(--ink); color:#fff; padding:16px 18px; text-align:center; }
+.pb-top { background:#fff; padding:18px; text-align:center; border-bottom:1px solid var(--line); }
+.pb-logo { max-width:240px; width:100%; height:auto; display:block; margin:0 auto; }
 .pb-mark { font-family:'IBM Plex Serif', Georgia, serif; font-size:21px; letter-spacing:.005em; }
 .pb-mark span { color:var(--brass); font-weight:600; }
 .pb-sub { font-size:12px; color:#A9BDD9; margin-top:3px; letter-spacing:.02em; }
@@ -460,10 +461,8 @@ export default function FirstLinkRegister() {
   return (
     <div className="pb">
       <style>{STYLES}</style>
-
       <div className="pb-top">
-        <div className="pb-mark">First<span>Link</span></div>
-        <div className="pb-sub">Collateral loan register</div>
+        <img src="./logo.jpeg" alt="FirstLink Financial Solutions — Lending Made Easy" className="pb-logo" />
       </div>
 
       <nav className="pb-nav">
