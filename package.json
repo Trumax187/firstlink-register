@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx",
-    "watch": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx --watch"
+    "watch": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx --watch",
+    "serve": "serve -l 3000"
   },
   "keywords": [],
   "author": "FirstLink Financial Solutions",
@@ -15,5 +16,8 @@
     "esbuild": "^0.28.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.6"
   }
 }
