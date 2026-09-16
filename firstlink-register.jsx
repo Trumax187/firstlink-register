@@ -145,10 +145,13 @@ const K = (n) =>
   "K" + Number(n || 0).toLocaleString("en-ZM", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const TODAY = new Date();
-TODAY.setHours(0, 0, 0, 0);
 
-const d = (s) => new Date(s + "T00:00:00");
-const iso = (dt) => dt.toISOString().slice(0, 10);
+const iso = (dt) => {
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth() + 1).padStart(2, "0");
+  const d = String(dt.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+};
 const fmtDate = (s) =>
   d(s).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 const addDays = (s, n) => {
