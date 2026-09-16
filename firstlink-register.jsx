@@ -146,6 +146,7 @@ const K = (n) =>
 
 const TODAY = new Date();
 
+const d = (s) => new Date(s + "T00:00:00");
 const iso = (dt) => {
   const y = dt.getFullYear();
   const m = String(dt.getMonth() + 1).padStart(2, "0");

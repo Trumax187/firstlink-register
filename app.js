@@ -24195,7 +24195,7 @@
       /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Borrower pays ", K(preview), " in interest for the first ", v.periodDays || 30, " days, on top of the", " ", K(Number(v.principal) || 0), " lent. Each renewal adds the same charge again as its own line.")
     );
   }
-  var import_react, STYLES, K, TODAY, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY, monthKey, monthName, sum;
+  var import_react, STYLES, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY, monthKey, monthName, sum;
   var init_firstlink_register = __esm({
     "firstlink-register.jsx"() {
       import_react = __toESM(require_react());
@@ -24325,6 +24325,7 @@
 `;
       K = (n) => "K" + Number(n || 0).toLocaleString("en-ZM", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       TODAY = /* @__PURE__ */ new Date();
+      d = (s) => /* @__PURE__ */ new Date(s + "T00:00:00");
       iso = (dt) => {
         const y = dt.getFullYear();
         const m = String(dt.getMonth() + 1).padStart(2, "0");
