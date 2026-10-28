@@ -1923,6 +1923,12 @@
     }
   });
 
+  // src/styles/theme.css
+  var init_theme = __esm({
+    "src/styles/theme.css"() {
+    }
+  });
+
   // node_modules/scheduler/cjs/scheduler.development.js
   var require_scheduler_development = __commonJS({
     "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
@@ -2395,9 +2401,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React2 = require_react();
+          var React3 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4004,7 +4010,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React2.Children.forEach(props.children, function(child) {
+                  React3.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -13366,7 +13372,7 @@
             /*  */
             2
           );
-          var Layout = (
+          var Layout2 = (
             /*    */
             4
           );
@@ -14078,10 +14084,10 @@
             if ((currentlyRenderingFiber$1.mode & StrictEffectsMode) !== NoMode) {
               fiberFlags |= MountLayoutDev;
             }
-            return mountEffectImpl(fiberFlags, Layout, create, deps);
+            return mountEffectImpl(fiberFlags, Layout2, create, deps);
           }
           function updateLayoutEffect(create, deps) {
-            return updateEffectImpl(Update, Layout, create, deps);
+            return updateEffectImpl(Update, Layout2, create, deps);
           }
           function imperativeHandleEffect(create, ref) {
             if (typeof ref === "function") {
@@ -14119,7 +14125,7 @@
             if ((currentlyRenderingFiber$1.mode & StrictEffectsMode) !== NoMode) {
               fiberFlags |= MountLayoutDev;
             }
-            return mountEffectImpl(fiberFlags, Layout, imperativeHandleEffect.bind(null, create, ref), effectDeps);
+            return mountEffectImpl(fiberFlags, Layout2, imperativeHandleEffect.bind(null, create, ref), effectDeps);
           }
           function updateImperativeHandle(ref, create, deps) {
             {
@@ -14128,7 +14134,7 @@
               }
             }
             var effectDeps = deps !== null && deps !== void 0 ? deps.concat([ref]) : null;
-            return updateEffectImpl(Update, Layout, imperativeHandleEffect.bind(null, create, ref), effectDeps);
+            return updateEffectImpl(Update, Layout2, imperativeHandleEffect.bind(null, create, ref), effectDeps);
           }
           function mountDebugValue(value, formatterFn) {
           }
@@ -18654,7 +18660,7 @@
           };
           function safelyCallCommitHookLayoutEffectListMount(current2, nearestMountedAncestor) {
             try {
-              commitHookEffectListMount(Layout, current2);
+              commitHookEffectListMount(Layout2, current2);
             } catch (error2) {
               captureCommitPhaseError(current2, nearestMountedAncestor, error2);
             }
@@ -18829,7 +18835,7 @@
                     {
                       if ((flags & Passive$1) !== NoFlags$1) {
                         markComponentPassiveEffectUnmountStarted(finishedWork);
-                      } else if ((flags & Layout) !== NoFlags$1) {
+                      } else if ((flags & Layout2) !== NoFlags$1) {
                         markComponentLayoutEffectUnmountStarted(finishedWork);
                       }
                     }
@@ -18847,7 +18853,7 @@
                     {
                       if ((flags & Passive$1) !== NoFlags$1) {
                         markComponentPassiveEffectUnmountStopped();
-                      } else if ((flags & Layout) !== NoFlags$1) {
+                      } else if ((flags & Layout2) !== NoFlags$1) {
                         markComponentLayoutEffectUnmountStopped();
                       }
                     }
@@ -18868,7 +18874,7 @@
                   {
                     if ((flags & Passive$1) !== NoFlags$1) {
                       markComponentPassiveEffectMountStarted(finishedWork);
-                    } else if ((flags & Layout) !== NoFlags$1) {
+                    } else if ((flags & Layout2) !== NoFlags$1) {
                       markComponentLayoutEffectMountStarted(finishedWork);
                     }
                   }
@@ -18887,7 +18893,7 @@
                   {
                     if ((flags & Passive$1) !== NoFlags$1) {
                       markComponentPassiveEffectMountStopped();
-                    } else if ((flags & Layout) !== NoFlags$1) {
+                    } else if ((flags & Layout2) !== NoFlags$1) {
                       markComponentLayoutEffectMountStopped();
                     }
                   }
@@ -18895,7 +18901,7 @@
                     var destroy = effect.destroy;
                     if (destroy !== void 0 && typeof destroy !== "function") {
                       var hookName = void 0;
-                      if ((effect.tag & Layout) !== NoFlags) {
+                      if ((effect.tag & Layout2) !== NoFlags) {
                         hookName = "useLayoutEffect";
                       } else if ((effect.tag & Insertion) !== NoFlags) {
                         hookName = "useInsertionEffect";
@@ -18965,12 +18971,12 @@
                     if (finishedWork.mode & ProfileMode) {
                       try {
                         startLayoutEffectTimer();
-                        commitHookEffectListMount(Layout | HasEffect, finishedWork);
+                        commitHookEffectListMount(Layout2 | HasEffect, finishedWork);
                       } finally {
                         recordLayoutEffectDuration(finishedWork);
                       }
                     } else {
-                      commitHookEffectListMount(Layout | HasEffect, finishedWork);
+                      commitHookEffectListMount(Layout2 | HasEffect, finishedWork);
                     }
                   }
                   break;
@@ -19521,7 +19527,7 @@
                         if (destroy !== void 0) {
                           if ((tag & Insertion) !== NoFlags$1) {
                             safelyCallDestroy(deletedFiber, nearestMountedAncestor, destroy);
-                          } else if ((tag & Layout) !== NoFlags$1) {
+                          } else if ((tag & Layout2) !== NoFlags$1) {
                             {
                               markComponentLayoutEffectUnmountStarted(deletedFiber);
                             }
@@ -19676,14 +19682,14 @@
                   if (finishedWork.mode & ProfileMode) {
                     try {
                       startLayoutEffectTimer();
-                      commitHookEffectListUnmount(Layout | HasEffect, finishedWork, finishedWork.return);
+                      commitHookEffectListUnmount(Layout2 | HasEffect, finishedWork, finishedWork.return);
                     } catch (error2) {
                       captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                     }
                     recordLayoutEffectDuration(finishedWork);
                   } else {
                     try {
-                      commitHookEffectListUnmount(Layout | HasEffect, finishedWork, finishedWork.return);
+                      commitHookEffectListUnmount(Layout2 | HasEffect, finishedWork, finishedWork.return);
                     } catch (error2) {
                       captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                     }
@@ -19976,12 +19982,12 @@
                   if (fiber.mode & ProfileMode) {
                     try {
                       startLayoutEffectTimer();
-                      commitHookEffectListUnmount(Layout, fiber, fiber.return);
+                      commitHookEffectListUnmount(Layout2, fiber, fiber.return);
                     } finally {
                       recordLayoutEffectDuration(fiber);
                     }
                   } else {
-                    commitHookEffectListUnmount(Layout, fiber, fiber.return);
+                    commitHookEffectListUnmount(Layout2, fiber, fiber.return);
                   }
                   break;
                 }
@@ -20264,7 +20270,7 @@
                 case ForwardRef:
                 case SimpleMemoComponent: {
                   try {
-                    commitHookEffectListMount(Layout | HasEffect, fiber);
+                    commitHookEffectListMount(Layout2 | HasEffect, fiber);
                   } catch (error2) {
                     captureCommitPhaseError(fiber, fiber.return, error2);
                   }
@@ -20305,7 +20311,7 @@
                 case ForwardRef:
                 case SimpleMemoComponent: {
                   try {
-                    commitHookEffectListUnmount(Layout | HasEffect, fiber, fiber.return);
+                    commitHookEffectListUnmount(Layout2 | HasEffect, fiber, fiber.return);
                   } catch (error2) {
                     captureCommitPhaseError(fiber, fiber.return, error2);
                   }
@@ -23593,9 +23599,39 @@
     }
   });
 
-  // src/styles/theme.css
-  var init_theme = __esm({
-    "src/styles/theme.css"() {
+  // src/components/Layout.jsx
+  function Layout({ activeTab, setTab, children }) {
+    const tabs = [
+      { id: "today", label: "Dashboard", icon: "\u{1F4CA}" },
+      { id: "loans", label: "Loans", icon: "\u{1F4B0}" },
+      { id: "borrowers", label: "Customers", icon: "\u{1F465}" },
+      { id: "collateral", label: "Collateral", icon: "\u{1F4E6}" },
+      { id: "cashbook", label: "Cashbook", icon: "\u{1F4D2}" }
+    ];
+    return /* @__PURE__ */ import_react.default.createElement("div", { className: "app-layout" }, /* @__PURE__ */ import_react.default.createElement("aside", { className: "sidebar" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-brand" }, /* @__PURE__ */ import_react.default.createElement("img", { src: "/logo.jpeg", alt: "FirstLink" })), /* @__PURE__ */ import_react.default.createElement("nav", { className: "sidebar-nav" }, tabs.map((t) => /* @__PURE__ */ import_react.default.createElement(
+      "button",
+      {
+        key: t.id,
+        className: `nav-item ${activeTab === t.id ? "active" : ""}`,
+        onClick: () => setTab(t.id)
+      },
+      /* @__PURE__ */ import_react.default.createElement("span", { className: "nav-icon" }, t.icon),
+      t.label
+    )))), /* @__PURE__ */ import_react.default.createElement("main", { className: "main-content" }, /* @__PURE__ */ import_react.default.createElement("header", { className: "top-header" }, /* @__PURE__ */ import_react.default.createElement("h1", null, "FirstLink Financial Solutions"), /* @__PURE__ */ import_react.default.createElement("div", { className: "user-profile" }, "Staff")), /* @__PURE__ */ import_react.default.createElement("div", { className: "page-content" }, children)), /* @__PURE__ */ import_react.default.createElement("nav", { className: "mobile-nav" }, tabs.map((t) => /* @__PURE__ */ import_react.default.createElement(
+      "button",
+      {
+        key: t.id,
+        className: `mobile-nav-item ${activeTab === t.id ? "active" : ""}`,
+        onClick: () => setTab(t.id)
+      },
+      /* @__PURE__ */ import_react.default.createElement("span", { className: "nav-icon" }, t.icon),
+      /* @__PURE__ */ import_react.default.createElement("span", { className: "nav-label" }, t.label)
+    ))));
+  }
+  var import_react;
+  var init_Layout = __esm({
+    "src/components/Layout.jsx"() {
+      import_react = __toESM(require_react());
     }
   });
 
@@ -23620,7 +23656,7 @@
     }
   }
   function useStore() {
-    const [state, setState] = (0, import_react.useState)(loadStore);
+    const [state, setState] = (0, import_react2.useState)(loadStore);
     const write = (updater) => setState((s) => {
       const next = updater(s);
       saveStore(next);
@@ -23630,10 +23666,10 @@
   }
   function FirstLinkRegister() {
     const [db, write] = useStore();
-    const [tab, setTab] = (0, import_react.useState)("today");
-    const [screen, setScreen] = (0, import_react.useState)(null);
-    const [form, setForm] = (0, import_react.useState)(null);
-    const [ask, setAsk] = (0, import_react.useState)(null);
+    const [tab, setTab] = (0, import_react2.useState)("today");
+    const [screen, setScreen] = (0, import_react2.useState)(null);
+    const [form, setForm] = (0, import_react2.useState)(null);
+    const [ask, setAsk] = (0, import_react2.useState)(null);
     const confirmThen = (msg, yes, run) => setAsk({ msg, yes, run });
     const openLoan = (id) => {
       setForm(null);
@@ -23712,7 +23748,7 @@
             next = patchLoan(next, l.id, (x) => ({ ...x, status: "active" }));
             next = patchItem(next, l.itemId, "held");
           }
-          return log(next, l.id, "Repayment " + K(r.amount) + " of " + fmtDate(r.on) + " removed \u2014 entered in error");
+          return log(next, l.id, "Repayment " + K(r.amount) + " of " + fmtDate(r.on) + " removed \uFFFD entered in error");
         })
       );
     }
@@ -23772,12 +23808,12 @@
       write((s) => {
         let next = { ...s, loans: [...s.loans, l] };
         next = patchItem(next, v.itemId, "held");
-        return log(next, id, "Loan issued \u2014 " + K(l.principal) + " against " + item(v.itemId).desc);
+        return log(next, id, "Loan issued \uFFFD " + K(l.principal) + " against " + item(v.itemId).desc);
       });
       setForm(null);
       setScreen({ kind: "loan", id });
     }
-    const sortedLoans = (0, import_react.useMemo)(() => {
+    const sortedLoans = (0, import_react2.useMemo)(() => {
       const rank = { overdue: 0, active: 1, cleared: 2, forfeited: 3 };
       return [...db.loans].sort((a, b) => {
         const ra = rank[statusOf(a)], rb = rank[statusOf(b)];
@@ -23785,21 +23821,13 @@
         return daysLate(b) - daysLate(a) || d(a.dueOn) - d(b.dueOn);
       });
     }, [db.loans]);
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-top" }, /* @__PURE__ */ import_react.default.createElement("img", { src: "./logo.jpeg", alt: "FirstLink Financial Solutions \u2014 Lending Made Easy", className: "pb-logo" })), /* @__PURE__ */ import_react.default.createElement("nav", { className: "pb-nav" }, ["today", "loans", "borrowers", "collateral", "cashbook"].map((t) => /* @__PURE__ */ import_react.default.createElement(
-      "button",
-      {
-        key: t,
-        "data-on": tab === t && !screen ? "1" : "0",
-        onClick: () => {
-          setTab(t);
-          home();
-        }
-      },
-      t[0].toUpperCase() + t.slice(1)
-    ))), ask && /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-modal", onClick: () => setAsk(null) }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-modal-card", onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-modal-msg" }, ask.msg), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn warn", onClick: () => {
+    return /* @__PURE__ */ import_react2.default.createElement(Layout, { activeTab: tab, setTab: (t) => {
+      setTab(t);
+      home();
+    } }, ask && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-modal", onClick: () => setAsk(null) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-modal-card", onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-modal-msg" }, ask.msg), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn warn", onClick: () => {
       ask.run();
       setAsk(null);
-    } }, ask.yes), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost", onClick: () => setAsk(null) }, "Cancel")))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-body" }, form && form.kind === "borrower" ? /* @__PURE__ */ import_react.default.createElement(NewBorrower, { db, onCancel: () => setForm(null), onSave: addBorrower }) : form && form.kind === "item" ? /* @__PURE__ */ import_react.default.createElement(NewItem, { db, prefill: form.prefill, onCancel: () => setForm(null), onSave: addItem }) : form && form.kind === "loan" ? /* @__PURE__ */ import_react.default.createElement(
+    } }, ask.yes), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: () => setAsk(null) }, "Cancel")))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-body" }, form && form.kind === "borrower" ? /* @__PURE__ */ import_react2.default.createElement(NewBorrower, { db, onCancel: () => setForm(null), onSave: addBorrower }) : form && form.kind === "item" ? /* @__PURE__ */ import_react2.default.createElement(NewItem, { db, prefill: form.prefill, onCancel: () => setForm(null), onSave: addItem }) : form && form.kind === "loan" ? /* @__PURE__ */ import_react2.default.createElement(
       NewLoan,
       {
         db,
@@ -23808,7 +23836,7 @@
         onSave: addLoan,
         onNeedItem: (bid) => setForm({ kind: "item", prefill: { borrowerId: bid } })
       }
-    ) : loan ? /* @__PURE__ */ import_react.default.createElement(
+    ) : loan ? /* @__PURE__ */ import_react2.default.createElement(
       LoanDetail,
       {
         l: loan,
@@ -23824,7 +23852,7 @@
         onDropRepayment: removeRepayment,
         onDropLoan: removeLoan
       }
-    ) : person ? /* @__PURE__ */ import_react.default.createElement(
+    ) : person ? /* @__PURE__ */ import_react2.default.createElement(
       BorrowerDetail,
       {
         b: person,
@@ -23840,7 +23868,7 @@
         onDropItem: removeItem,
         onDropBorrower: removeBorrower
       }
-    ) : tab === "today" ? /* @__PURE__ */ import_react.default.createElement(
+    ) : tab === "today" ? /* @__PURE__ */ import_react2.default.createElement(
       Dashboard,
       {
         db,
@@ -23859,39 +23887,39 @@
           "Restore samples"
         )
       }
-    ) : tab === "cashbook" ? /* @__PURE__ */ import_react.default.createElement(Cashbook, { db }) : tab === "loans" ? /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, "Loans"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "loan", prefill: {} }) }, "Issue a loan")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, sortedLoans.length === 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "No loans on the book yet."), sortedLoans.map((l) => {
+    ) : tab === "cashbook" ? /* @__PURE__ */ import_react2.default.createElement(Cashbook, { db }) : tab === "loans" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Loans"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "loan", prefill: {} }) }, "Issue a loan")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, sortedLoans.length === 0 && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "No loans on the book yet."), sortedLoans.map((l) => {
       const s = statusOf(l);
-      return /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => openLoan(l.id) }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-name" }, borrower(l.borrowerId).name), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-amt" }, K(owing(l) > 0 ? owing(l) : 0))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-row-top", style: { marginTop: 5 } }, /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-meta" }, item(l.itemId).desc), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, "Due ", fmtDate(l.dueOn), l.renewals > 0 ? " \xB7 renewed " + l.renewals + "\xD7" : ""));
-    }))) : tab === "borrowers" ? /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, "Borrowers"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "borrower" }) }, "Add borrower")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, db.borrowers.length === 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "No borrowers yet."), db.borrowers.map((b) => {
+      return /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => openLoan(l.id) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, borrower(l.borrowerId).name), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-amt" }, K(owing(l) > 0 ? owing(l) : 0))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top", style: { marginTop: 5 } }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-meta" }, item(l.itemId).desc), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, "Due ", fmtDate(l.dueOn), l.renewals > 0 ? " \uFFFD renewed " + l.renewals + "\uFFFD" : ""));
+    }))) : tab === "borrowers" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Borrowers"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "borrower" }) }, "Add borrower")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, db.borrowers.length === 0 && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "No borrowers yet."), db.borrowers.map((b) => {
       const open = db.loans.filter((l) => l.borrowerId === b.id && ["active", "overdue"].includes(statusOf(l)));
       const held = db.items.filter((c) => c.borrowerId === b.id && c.status === "held").length;
-      return /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-row", key: b.id, onClick: () => openBorrower(b.id) }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-name" }, b.name), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-meta" }, open.length ? open.length + " open" : "no open loans")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, b.phone, " \xB7 ", b.area), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, "NRC ", fmtNrc(b.nrc), " \xB7 ", held, " item", held === 1 ? "" : "s", " in store"));
-    })), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Open a borrower to take in an item or issue them a loan.")) : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, "Collateral"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "item", prefill: {} }) }, "Take in an item")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, db.items.length === 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "Nothing on the register yet."), db.items.map((c) => {
+      return /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-row", key: b.id, onClick: () => openBorrower(b.id) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, b.name), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-meta" }, open.length ? open.length + " open" : "no open loans")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, b.phone, " \uFFFD ", b.area), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, "NRC ", fmtNrc(b.nrc), " \uFFFD ", held, " item", held === 1 ? "" : "s", " in store"));
+    })), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Open a borrower to take in an item or issue them a loan.")) : /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Collateral"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "item", prefill: {} }) }, "Take in an item")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, db.items.length === 0 && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing on the register yet."), db.items.map((c) => {
       const ol = openLoanFor(c.id);
-      return /* @__PURE__ */ import_react.default.createElement(
+      return /* @__PURE__ */ import_react2.default.createElement(
         "button",
         {
           className: "pb-row",
           key: c.id,
           onClick: () => ol ? openLoan(ol.id) : c.status === "forfeited" ? openBorrower(c.borrowerId) : setForm({ kind: "loan", prefill: { borrowerId: c.borrowerId, itemId: c.id } })
         },
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-name" }, c.desc), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-chip", "data-s": c.status === "forfeited" ? "forfeited" : c.status }, c.status === "held" ? ol ? "On loan" : "In store" : c.status[0].toUpperCase() + c.status.slice(1))),
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, borrower(c.borrowerId).name, " \xB7 valued ", K(c.value)),
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, c.condition, " \xB7 ", c.location),
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, ol ? "Open the loan" : c.status === "forfeited" ? "Forfeited" : "Free \u2014 tap to lend against it")
+        /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, c.desc), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": c.status === "forfeited" ? "forfeited" : c.status }, c.status === "held" ? ol ? "On loan" : "In store" : c.status[0].toUpperCase() + c.status.slice(1))),
+        /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, borrower(c.borrowerId).name, " \uFFFD valued ", K(c.value)),
+        /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, c.condition, " \uFFFD ", c.location),
+        /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, ol ? "Open the loan" : c.status === "forfeited" ? "Forfeited" : "Free \uFFFD tap to lend against it")
       );
-    })), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "An item stays on the register after a loan closes, so the same TV pledged three times keeps one history."))));
+    })), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "An item stays on the register after a loan closes, so the same TV pledged three times keeps one history."))));
   }
   function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, onIssue, onDropItem, onDropBorrower }) {
     const items = db.items.filter((c) => c.borrowerId === b.id);
     const loans = db.loans.filter((l) => l.borrowerId === b.id);
     const free = items.filter((c) => c.status !== "forfeited" && !openLoanFor(c.id));
-    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-back", onClick: onBack }, "\u2190 All borrowers"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, b.name), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", onClick: onTakeItem }, "Take in an item")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Phone"), /* @__PURE__ */ import_react.default.createElement("span", null, b.phone)), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Area"), /* @__PURE__ */ import_react.default.createElement("span", null, b.area || "\u2014")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "NRC"), /* @__PURE__ */ import_react.default.createElement("span", null, fmtNrc(b.nrc))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("h3", null, "Items brought in"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, items.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "Nothing yet. Take in an item to lend against.") : items.map((c) => {
+    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-back", onClick: onBack }, "? All borrowers"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, b.name), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: onTakeItem }, "Take in an item")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Phone"), /* @__PURE__ */ import_react2.default.createElement("span", null, b.phone)), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Area"), /* @__PURE__ */ import_react2.default.createElement("span", null, b.area || "\uFFFD")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "NRC"), /* @__PURE__ */ import_react2.default.createElement("span", null, fmtNrc(b.nrc))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Items brought in"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, items.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing yet. Take in an item to lend against.") : items.map((c) => {
       const ol = openLoanFor(c.id);
-      return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-line", key: c.id }, /* @__PURE__ */ import_react.default.createElement("div", null, c.desc, /* @__PURE__ */ import_react.default.createElement("em", null, K(c.value), " \xB7 ", c.location)), ol ? /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost sm", onClick: () => onOpenLoan(ol.id) }, "Open loan") : c.status === "forfeited" ? /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-chip", "data-s": "forfeited" }, "Forfeited") : /* @__PURE__ */ import_react.default.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn sm", onClick: () => onIssue(c.id) }, "Issue a loan"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-x", title: "Remove this item", onClick: () => onDropItem(c) }, "\xD7")));
-    })), free.length === 0 && items.length > 0 && /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Every item of theirs is already on loan. Take in another to lend again.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("h3", null, "Loan history"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, loans.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "No loans yet.") : loans.map((l) => {
+      return /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-line", key: c.id }, /* @__PURE__ */ import_react2.default.createElement("div", null, c.desc, /* @__PURE__ */ import_react2.default.createElement("em", null, K(c.value), " \uFFFD ", c.location)), ol ? /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost sm", onClick: () => onOpenLoan(ol.id) }, "Open loan") : c.status === "forfeited" ? /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": "forfeited" }, "Forfeited") : /* @__PURE__ */ import_react2.default.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn sm", onClick: () => onIssue(c.id) }, "Issue a loan"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-x", title: "Remove this item", onClick: () => onDropItem(c) }, "\uFFFD")));
+    })), free.length === 0 && items.length > 0 && /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Every item of theirs is already on loan. Take in another to lend again.")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Loan history"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, loans.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "No loans yet.") : loans.map((l) => {
       const s = statusOf(l);
-      return /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => onOpenLoan(l.id) }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-name" }, K(l.principal), " on ", fmtDate(l.issuedOn)), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, "Balance ", K(Math.max(0, owing(l))), " \xB7 due ", fmtDate(l.dueOn)));
+      return /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => onOpenLoan(l.id) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, K(l.principal), " on ", fmtDate(l.issuedOn)), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, "Balance ", K(Math.max(0, owing(l))), " \uFFFD due ", fmtDate(l.dueOn)));
     }))));
   }
   function allocate(l) {
@@ -23907,8 +23935,8 @@
   }
   function ledger(db) {
     const rows = [];
-    const who = (id) => (db.borrowers.find((b) => b.id === id) || {}).name || "\u2014";
-    const what = (id) => (db.items.find((c) => c.id === id) || {}).desc || "\u2014";
+    const who = (id) => (db.borrowers.find((b) => b.id === id) || {}).name || "\uFFFD";
+    const what = (id) => (db.items.find((c) => c.id === id) || {}).desc || "\uFFFD";
     db.loans.forEach((l) => {
       rows.push({
         on: l.issuedOn,
@@ -23936,7 +23964,7 @@
         on: r.on,
         kind: "Repayment",
         who: who(l.borrowerId),
-        note: r.method + " \u2014 " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
+        note: r.method + " \uFFFD " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
         out: 0,
         cash: r.amount,
         interest: r.interest,
@@ -23951,7 +23979,7 @@
         on: e.at.slice(0, 10),
         kind: "Collateral taken",
         who: who(l.borrowerId),
-        note: what(l.itemId) + " \u2014 no cash until it is sold",
+        note: what(l.itemId) + " \uFFFD no cash until it is sold",
         out: 0,
         cash: 0,
         interest: 0,
@@ -23962,8 +23990,8 @@
     return rows.sort((a, b) => d(b.on) - d(a.on) || a.kind.localeCompare(b.kind));
   }
   function Cashbook({ db }) {
-    const rows = (0, import_react.useMemo)(() => ledger(db), [db]);
-    const months = (0, import_react.useMemo)(() => {
+    const rows = (0, import_react2.useMemo)(() => ledger(db), [db]);
+    const months = (0, import_react2.useMemo)(() => {
       const seen = [];
       rows.forEach((r) => {
         const k = monthKey(r.on);
@@ -23971,7 +23999,7 @@
       });
       return seen;
     }, [rows]);
-    const [month, setMonth] = (0, import_react.useState)(months[0] || monthKey(iso(TODAY)));
+    const [month, setMonth] = (0, import_react2.useState)(months[0] || monthKey(iso(TODAY)));
     const inMonth = rows.filter((r) => monthKey(r.on) === month);
     const year = month.slice(0, 4);
     const inYear = rows.filter((r) => r.on.slice(0, 4) === year);
@@ -24007,7 +24035,7 @@
       a.click();
       URL.revokeObjectURL(url);
     }
-    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, "Cashbook"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost", onClick: download }, "Download ", year)), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-months" }, months.map((k) => /* @__PURE__ */ import_react.default.createElement("button", { key: k, "data-on": k === month ? "1" : "0", onClick: () => setMonth(k) }, d(k + "-01").toLocaleDateString("en-GB", { month: "short", year: "2-digit" })))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-strip" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("b", { className: "pb-out" }, K(m.lent)), /* @__PURE__ */ import_react.default.createElement("span", null, "Lent out")), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("b", { className: "pb-in" }, K(m.received)), /* @__PURE__ */ import_react.default.createElement("span", null, "Taken in")), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("b", null, K(m.interest)), /* @__PURE__ */ import_react.default.createElement("span", null, "Interest earned"))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react.default.createElement("h3", null, /* @__PURE__ */ import_react.default.createElement("span", null, monthName(month)), /* @__PURE__ */ import_react.default.createElement("span", null, inMonth.length, " entries")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, inMonth.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "Nothing recorded this month.") : /* @__PURE__ */ import_react.default.createElement("table", { className: "pb-ledger" }, /* @__PURE__ */ import_react.default.createElement("thead", null, /* @__PURE__ */ import_react.default.createElement("tr", null, /* @__PURE__ */ import_react.default.createElement("th", null, "Entry"), /* @__PURE__ */ import_react.default.createElement("th", { className: "n" }, "Out"), /* @__PURE__ */ import_react.default.createElement("th", { className: "n" }, "In"))), /* @__PURE__ */ import_react.default.createElement("tbody", null, inMonth.map((r, i) => /* @__PURE__ */ import_react.default.createElement("tr", { key: i }, /* @__PURE__ */ import_react.default.createElement("td", null, r.kind, " \u2014 ", r.who, /* @__PURE__ */ import_react.default.createElement("em", null, fmtDate(r.on), " \xB7 ", r.note)), /* @__PURE__ */ import_react.default.createElement("td", { className: "n pb-out" }, r.out ? K(r.out) : r.charged ? "" : ""), /* @__PURE__ */ import_react.default.createElement("td", { className: "n pb-in" }, r.cash ? K(r.cash) : r.charged ? "+" + K(r.charged) + " owed" : ""))))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react.default.createElement("h3", null, /* @__PURE__ */ import_react.default.createElement("span", null, year, " so far")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Lent out"), /* @__PURE__ */ import_react.default.createElement("span", null, K(y.lent))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Taken in"), /* @__PURE__ */ import_react.default.createElement("span", null, K(y.received))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Interest charged"), /* @__PURE__ */ import_react.default.createElement("span", null, K(y.charged))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv total" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Interest actually earned"), /* @__PURE__ */ import_react.default.createElement("span", null, K(y.interest))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Still out with borrowers"), /* @__PURE__ */ import_react.default.createElement("span", null, K(onTheStreet))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Interest charged but unpaid"), /* @__PURE__ */ import_react.default.createElement("span", null, K(stillOwedInterest)))), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Interest earned counts only what has actually been paid. Interest charged includes what is still owed, which is why the two differ \u2014 the gap is the money on paper that has not arrived yet.")));
+    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Cashbook"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: download }, "Download ", year)), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-months" }, months.map((k) => /* @__PURE__ */ import_react2.default.createElement("button", { key: k, "data-on": k === month ? "1" : "0", onClick: () => setMonth(k) }, d(k + "-01").toLocaleDateString("en-GB", { month: "short", year: "2-digit" })))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-strip" }, /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", { className: "pb-out" }, K(m.lent)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Lent out")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", { className: "pb-in" }, K(m.received)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Taken in")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", null, K(m.interest)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest earned"))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, monthName(month)), /* @__PURE__ */ import_react2.default.createElement("span", null, inMonth.length, " entries")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, inMonth.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing recorded this month.") : /* @__PURE__ */ import_react2.default.createElement("table", { className: "pb-ledger" }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("th", null, "Entry"), /* @__PURE__ */ import_react2.default.createElement("th", { className: "n" }, "Out"), /* @__PURE__ */ import_react2.default.createElement("th", { className: "n" }, "In"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, inMonth.map((r, i) => /* @__PURE__ */ import_react2.default.createElement("tr", { key: i }, /* @__PURE__ */ import_react2.default.createElement("td", null, r.kind, " \uFFFD ", r.who, /* @__PURE__ */ import_react2.default.createElement("em", null, fmtDate(r.on), " \uFFFD ", r.note)), /* @__PURE__ */ import_react2.default.createElement("td", { className: "n pb-out" }, r.out ? K(r.out) : r.charged ? "" : ""), /* @__PURE__ */ import_react2.default.createElement("td", { className: "n pb-in" }, r.cash ? K(r.cash) : r.charged ? "+" + K(r.charged) + " owed" : ""))))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, year, " so far")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Lent out"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.lent))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Taken in"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.received))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.charged))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv total" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest actually earned"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.interest))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Still out with borrowers"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(onTheStreet))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged but unpaid"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(stillOwedInterest)))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Interest earned counts only what has actually been paid. Interest charged includes what is still owed, which is why the two differ \uFFFD the gap is the money on paper that has not arrived yet.")));
   }
   function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onRestore }) {
     const open = db.loans.filter((l) => ["active", "overdue"].includes(statusOf(l)));
@@ -24020,40 +24048,40 @@
     const outstanding = open.reduce((s, l) => s + Math.max(0, owing(l)), 0);
     const inStore = db.items.filter((c) => c.status === "held").length;
     const readyToForfeit = overdue.filter(canForfeit).length;
-    const Row = ({ l, tail }) => /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => onOpen(l.id) }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-name" }, borrower(l.borrowerId).name), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-amt" }, K(Math.max(0, owing(l))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, item(l.itemId).desc), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-meta" }, tail), canForfeit(l) && /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-flag" }, "Past the ", SETTINGS.forfeitAfterDays, "-day grace period \u2014 item can be forfeited"));
-    const Section = ({ title, note, list, tail }) => /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react.default.createElement("h3", null, /* @__PURE__ */ import_react.default.createElement("span", null, title), /* @__PURE__ */ import_react.default.createElement("span", null, note)), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, list.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "Nothing here.") : list.map((l) => /* @__PURE__ */ import_react.default.createElement(Row, { key: l.id, l, tail: tail(l) }))));
-    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, fmtDate(iso(TODAY))), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-count" }, open.length, " open ", open.length === 1 ? "loan" : "loans")), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", onClick: onAddBorrower }, "Add borrower")), db.borrowers.length === 0 && /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card", style: { padding: 16, marginBottom: 18 } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-name" }, "An empty book."), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Add the first borrower, take in what they bring, then issue the loan.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-strip" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("b", null, K(outstanding)), /* @__PURE__ */ import_react.default.createElement("span", null, "Out on loan")), /* @__PURE__ */ import_react.default.createElement("div", { "data-alarm": overdue.length ? "1" : "0" }, /* @__PURE__ */ import_react.default.createElement("b", null, overdue.length), /* @__PURE__ */ import_react.default.createElement("span", null, "Overdue")), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("b", null, inStore), /* @__PURE__ */ import_react.default.createElement("span", null, "Items in store"))), /* @__PURE__ */ import_react.default.createElement(
+    const Row = ({ l, tail }) => /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => onOpen(l.id) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, borrower(l.borrowerId).name), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-amt" }, K(Math.max(0, owing(l))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, item(l.itemId).desc), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, tail), canForfeit(l) && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-flag" }, "Past the ", SETTINGS.forfeitAfterDays, "-day grace period \uFFFD item can be forfeited"));
+    const Section = ({ title, note, list, tail }) => /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, title), /* @__PURE__ */ import_react2.default.createElement("span", null, note)), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, list.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing here.") : list.map((l) => /* @__PURE__ */ import_react2.default.createElement(Row, { key: l.id, l, tail: tail(l) }))));
+    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, fmtDate(iso(TODAY))), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-count" }, open.length, " open ", open.length === 1 ? "loan" : "loans")), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: onAddBorrower }, "Add borrower")), db.borrowers.length === 0 && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 16, marginBottom: 18 } }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-name" }, "An empty book."), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Add the first borrower, take in what they bring, then issue the loan.")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-strip" }, /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", null, K(outstanding)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Out on loan")), /* @__PURE__ */ import_react2.default.createElement("div", { "data-alarm": overdue.length ? "1" : "0" }, /* @__PURE__ */ import_react2.default.createElement("b", null, overdue.length), /* @__PURE__ */ import_react2.default.createElement("span", null, "Overdue")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", null, inStore), /* @__PURE__ */ import_react2.default.createElement("span", null, "Items in store"))), /* @__PURE__ */ import_react2.default.createElement(
       Section,
       {
         title: "Overdue",
         note: readyToForfeit ? readyToForfeit + " past grace" : "",
         list: overdue,
-        tail: (l) => daysLate(l) + " days late \xB7 was due " + fmtDate(l.dueOn)
+        tail: (l) => daysLate(l) + " days late \uFFFD was due " + fmtDate(l.dueOn)
       }
-    ), /* @__PURE__ */ import_react.default.createElement(Section, { title: "Due today", note: "", list: today, tail: () => "Due today" }), /* @__PURE__ */ import_react.default.createElement(
+    ), /* @__PURE__ */ import_react2.default.createElement(Section, { title: "Due today", note: "", list: today, tail: () => "Due today" }), /* @__PURE__ */ import_react2.default.createElement(
       Section,
       {
         title: "Due within seven days",
         note: "",
         list: week,
-        tail: (l) => "Due " + fmtDate(l.dueOn) + " \xB7 in " + daysBetween(iso(TODAY), l.dueOn) + " days"
+        tail: (l) => "Due " + fmtDate(l.dueOn) + " \uFFFD in " + daysBetween(iso(TODAY), l.dueOn) + " days"
       }
-    ), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Grace period is set to ", SETTINGS.forfeitAfterDays, " days past the due date. One line in the settings changes it."), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-sec", style: { marginTop: 26 } }, /* @__PURE__ */ import_react.default.createElement("h3", null, /* @__PURE__ */ import_react.default.createElement("span", null, "The book itself")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card", style: { padding: 14 } }, /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note", style: { marginTop: 0 } }, "Everything is saved on this device. Clear the sample records before you start entering real ones."), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn warn", onClick: onClear }, "Start with an empty book"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost", onClick: onRestore }, "Put the samples back")))));
+    ), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Grace period is set to ", SETTINGS.forfeitAfterDays, " days past the due date. One line in the settings changes it."), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec", style: { marginTop: 26 } }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, "The book itself")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 14 } }, /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note", style: { marginTop: 0 } }, "Everything is saved on this device. Clear the sample records before you start entering real ones."), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn warn", onClick: onClear }, "Start with an empty book"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: onRestore }, "Put the samples back")))));
   }
   function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew, onForfeit, onDropRepayment, onDropLoan }) {
-    const [amount, setAmount] = (0, import_react.useState)("");
-    const [method, setMethod] = (0, import_react.useState)("Cash");
+    const [amount, setAmount] = (0, import_react2.useState)("");
+    const [method, setMethod] = (0, import_react2.useState)("Cash");
     const s = statusOf(l);
     const closed = s === "cleared" || s === "forfeited";
-    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-back", onClick: onBack }, "\u2190 ", b.name), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1" }, b.name), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Principal"), /* @__PURE__ */ import_react.default.createElement("span", null, K(l.principal))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Interest charged"), /* @__PURE__ */ import_react.default.createElement("span", null, K(chargesTotal(l)))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Repaid"), /* @__PURE__ */ import_react.default.createElement("span", null, "\u2212", K(paidTotal(l)))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv total" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Balance"), /* @__PURE__ */ import_react.default.createElement("span", null, K(Math.max(0, owing(l))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Due"), /* @__PURE__ */ import_react.default.createElement("span", { className: s === "overdue" ? "pb-late" : "" }, fmtDate(l.dueOn))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react.default.createElement("span", null, "Terms"), /* @__PURE__ */ import_react.default.createElement("span", null, terms(l)))), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Every charge is shown as its own line below. Renewals never change the principal or the agreed rate.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("h3", null, "Collateral held"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-line" }, /* @__PURE__ */ import_react.default.createElement("div", null, it.desc, /* @__PURE__ */ import_react.default.createElement("em", null, it.condition), /* @__PURE__ */ import_react.default.createElement("em", null, it.location)), /* @__PURE__ */ import_react.default.createElement("span", { className: "pb-chip", "data-s": it.status === "forfeited" ? "forfeited" : it.status }, it.status === "held" ? "In store" : it.status[0].toUpperCase() + it.status.slice(1))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("h3", null, "Charges"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, l.charges.map((c) => /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-line", key: c.id }, /* @__PURE__ */ import_react.default.createElement("div", null, fmtDate(c.on), /* @__PURE__ */ import_react.default.createElement("em", null, c.note)), /* @__PURE__ */ import_react.default.createElement("strong", null, K(c.amount)))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("h3", null, "Repayments"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, l.repayments.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-empty" }, "Nothing repaid yet.") : l.repayments.map((r) => /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-line", key: r.id }, /* @__PURE__ */ import_react.default.createElement("div", null, fmtDate(r.on), /* @__PURE__ */ import_react.default.createElement("em", null, r.method)), /* @__PURE__ */ import_react.default.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ import_react.default.createElement("strong", null, K(r.amount)), /* @__PURE__ */ import_react.default.createElement(
+    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-back", onClick: onBack }, "? ", b.name), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, b.name), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Principal"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(l.principal))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(chargesTotal(l)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Repaid"), /* @__PURE__ */ import_react2.default.createElement("span", null, "-", K(paidTotal(l)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv total" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Balance"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(Math.max(0, owing(l))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Due"), /* @__PURE__ */ import_react2.default.createElement("span", { className: s === "overdue" ? "pb-late" : "" }, fmtDate(l.dueOn))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Terms"), /* @__PURE__ */ import_react2.default.createElement("span", null, terms(l)))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Every charge is shown as its own line below. Renewals never change the principal or the agreed rate.")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Collateral held"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-line" }, /* @__PURE__ */ import_react2.default.createElement("div", null, it.desc, /* @__PURE__ */ import_react2.default.createElement("em", null, it.condition), /* @__PURE__ */ import_react2.default.createElement("em", null, it.location)), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": it.status === "forfeited" ? "forfeited" : it.status }, it.status === "held" ? "In store" : it.status[0].toUpperCase() + it.status.slice(1))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Charges"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, l.charges.map((c) => /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-line", key: c.id }, /* @__PURE__ */ import_react2.default.createElement("div", null, fmtDate(c.on), /* @__PURE__ */ import_react2.default.createElement("em", null, c.note)), /* @__PURE__ */ import_react2.default.createElement("strong", null, K(c.amount)))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Repayments"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, l.repayments.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing repaid yet.") : l.repayments.map((r) => /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-line", key: r.id }, /* @__PURE__ */ import_react2.default.createElement("div", null, fmtDate(r.on), /* @__PURE__ */ import_react2.default.createElement("em", null, r.method)), /* @__PURE__ */ import_react2.default.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ import_react2.default.createElement("strong", null, K(r.amount)), /* @__PURE__ */ import_react2.default.createElement(
       "button",
       {
         className: "pb-x",
         title: "Remove this repayment",
         onClick: () => onDropRepayment(l, r)
       },
-      "\xD7"
-    )))))), !closed && (form === "repay" ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card", style: { padding: 14 } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: "amt" }, "Amount received"), /* @__PURE__ */ import_react.default.createElement(
+      "\uFFFD"
+    )))))), !closed && (form === "repay" ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 14 } }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "amt" }, "Amount received"), /* @__PURE__ */ import_react2.default.createElement(
       "input",
       {
         id: "amt",
@@ -24062,7 +24090,7 @@
         onChange: (e) => setAmount(e.target.value),
         placeholder: String(Math.max(0, owing(l)))
       }
-    )), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: "mth" }, "Paid by"), /* @__PURE__ */ import_react.default.createElement("select", { id: "mth", value: method, onChange: (e) => setMethod(e.target.value) }, /* @__PURE__ */ import_react.default.createElement("option", null, "Cash"), /* @__PURE__ */ import_react.default.createElement("option", null, "Mobile money"), /* @__PURE__ */ import_react.default.createElement("option", null, "Bank transfer")))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react.default.createElement(
+    )), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "mth" }, "Paid by"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "mth", value: method, onChange: (e) => setMethod(e.target.value) }, /* @__PURE__ */ import_react2.default.createElement("option", null, "Cash"), /* @__PURE__ */ import_react2.default.createElement("option", null, "Mobile money"), /* @__PURE__ */ import_react2.default.createElement("option", null, "Bank transfer")))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement(
       "button",
       {
         className: "pb-btn",
@@ -24070,24 +24098,24 @@
         onClick: () => onRepay(l, Number(amount), method)
       },
       "Record repayment"
-    ), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost", onClick: () => setForm(null) }, "Cancel")))) : /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", onClick: () => {
+    ), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: () => setForm(null) }, "Cancel")))) : /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => {
       setAmount("");
       setForm("repay");
-    } }, "Record repayment"), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost", onClick: () => onRenew(l) }, "Renew ", l.interest.periodDays, " days \xB7 ", K(nextCharge(l))), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn warn", disabled: !canForfeit(l), onClick: () => onForfeit(l) }, canForfeit(l) ? "Forfeit collateral" : s === "overdue" ? "Forfeit in " + graceLeft(l) + " days" : "Forfeit collateral"))), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-block", style: { marginTop: 22 } }, /* @__PURE__ */ import_react.default.createElement("h3", null, "History"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card" }, events.map((e) => /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-line", key: e.id }, /* @__PURE__ */ import_react.default.createElement("div", null, e.text, /* @__PURE__ */ import_react.default.createElement("em", null, e.at))))), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Removing a repayment leaves a line here saying so, so a corrected mistake never looks like a missing record.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions", style: { marginBottom: 20 } }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn warn", onClick: () => onDropLoan(l) }, "Delete this loan")));
+    } }, "Record repayment"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: () => onRenew(l) }, "Renew ", l.interest.periodDays, " days \uFFFD ", K(nextCharge(l))), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn warn", disabled: !canForfeit(l), onClick: () => onForfeit(l) }, canForfeit(l) ? "Forfeit collateral" : s === "overdue" ? "Forfeit in " + graceLeft(l) + " days" : "Forfeit collateral"))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-block", style: { marginTop: 22 } }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "History"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, events.map((e) => /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-line", key: e.id }, /* @__PURE__ */ import_react2.default.createElement("div", null, e.text, /* @__PURE__ */ import_react2.default.createElement("em", null, e.at))))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Removing a repayment leaves a line here saying so, so a corrected mistake never looks like a missing record.")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions", style: { marginBottom: 20 } }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn warn", onClick: () => onDropLoan(l) }, "Delete this loan")));
   }
   function Shell({ title, children, onCancel, onSave, saveLabel, ok }) {
-    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-back", onClick: onCancel }, "\u2190 Back"), /* @__PURE__ */ import_react.default.createElement("h2", { className: "pb-h1", style: { marginBottom: 12 } }, title), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card", style: { padding: 14 } }, children, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn", disabled: !ok, onClick: onSave }, saveLabel), /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn ghost", onClick: onCancel }, "Cancel"))));
+    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-back", onClick: onCancel }, "? Back"), /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1", style: { marginBottom: 12 } }, title), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 14 } }, children, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", disabled: !ok, onClick: onSave }, saveLabel), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: onCancel }, "Cancel"))));
   }
   function Field({ label, id, ...rest }) {
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: id }, label), /* @__PURE__ */ import_react.default.createElement("input", { id, ...rest }));
+    return /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: id }, label), /* @__PURE__ */ import_react2.default.createElement("input", { id, ...rest }));
   }
   function NewBorrower({ db, onCancel, onSave }) {
-    const [v, setV] = (0, import_react.useState)({ name: "", phone: "", area: "", nrc: "" });
+    const [v, setV] = (0, import_react2.useState)({ name: "", phone: "", area: "", nrc: "" });
     const set = (k) => (e) => setV({ ...v, [k]: e.target.value });
     const digits = normNrc(v.nrc).length;
     const clash = db.borrowers.find((b) => sameNrc(b.nrc, v.nrc));
     const ok = v.name.trim() && v.phone.trim() && digits === 9 && !clash;
-    return /* @__PURE__ */ import_react.default.createElement(
+    return /* @__PURE__ */ import_react2.default.createElement(
       Shell,
       {
         title: "Add borrower",
@@ -24096,9 +24124,9 @@
         ok,
         onSave: () => onSave({ ...v, nrc: fmtNrc(v.nrc) })
       },
-      /* @__PURE__ */ import_react.default.createElement(Field, { label: "Full name", id: "bn", value: v.name, onChange: set("name") }),
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react.default.createElement(Field, { label: "Phone", id: "bp", value: v.phone, onChange: set("phone"), inputMode: "tel" }), /* @__PURE__ */ import_react.default.createElement(Field, { label: "Area", id: "ba", value: v.area, onChange: set("area") })),
-      /* @__PURE__ */ import_react.default.createElement(
+      /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Full name", id: "bn", value: v.name, onChange: set("name") }),
+      /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Phone", id: "bp", value: v.phone, onChange: set("phone"), inputMode: "tel" }), /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Area", id: "ba", value: v.area, onChange: set("area") })),
+      /* @__PURE__ */ import_react2.default.createElement(
         Field,
         {
           label: "NRC number",
@@ -24109,13 +24137,13 @@
           placeholder: "284119/61/1"
         }
       ),
-      clash ? /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note pb-late" }, clash.name, " is already on the register with this NRC.") : digits > 0 && digits !== 9 ? /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "An NRC has nine digits \u2014 ", digits, " entered so far.") : /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Checked against everyone already on the register, so the same person can't be entered twice."),
-      /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Saving takes you to their page, where you take in the item before the loan is issued.")
+      clash ? /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note pb-late" }, clash.name, " is already on the register with this NRC.") : digits > 0 && digits !== 9 ? /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "An NRC has nine digits \uFFFD ", digits, " entered so far.") : /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Checked against everyone already on the register, so the same person can't be entered twice."),
+      /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Saving takes you to their page, where you take in the item before the loan is issued.")
     );
   }
   function NewItem({ db, prefill, onCancel, onSave }) {
     const fixed = prefill && prefill.borrowerId;
-    const [v, setV] = (0, import_react.useState)({
+    const [v, setV] = (0, import_react2.useState)({
       borrowerId: fixed || db.borrowers[0]?.id || "",
       desc: "",
       condition: "",
@@ -24125,9 +24153,9 @@
     const set = (k) => (e) => setV({ ...v, [k]: e.target.value });
     const who = db.borrowers.find((b) => b.id === v.borrowerId);
     if (db.borrowers.length === 0) {
-      return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-back", onClick: onCancel }, "\u2190 Back"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card", style: { padding: 16 } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-name" }, "No borrowers yet."), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Add the borrower first \u2014 the item and the loan both hang off a person.")));
+      return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-back", onClick: onCancel }, "? Back"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 16 } }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-name" }, "No borrowers yet."), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Add the borrower first \uFFFD the item and the loan both hang off a person.")));
     }
-    return /* @__PURE__ */ import_react.default.createElement(
+    return /* @__PURE__ */ import_react2.default.createElement(
       Shell,
       {
         title: "Take in an item",
@@ -24136,17 +24164,17 @@
         ok: v.desc.trim() && Number(v.value) > 0 && v.borrowerId,
         onSave: () => onSave({ ...v, value: Number(v.value) })
       },
-      fixed ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", null, "Brought in by"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-fixed" }, who ? who.name : "\u2014")) : /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: "ib" }, "Brought in by"), /* @__PURE__ */ import_react.default.createElement("select", { id: "ib", value: v.borrowerId, onChange: set("borrowerId") }, db.borrowers.map((b) => /* @__PURE__ */ import_react.default.createElement("option", { key: b.id, value: b.id }, b.name)))),
-      /* @__PURE__ */ import_react.default.createElement(Field, { label: "What it is", id: "id1", value: v.desc, onChange: set("desc"), placeholder: "Make, model, distinguishing marks" }),
-      /* @__PURE__ */ import_react.default.createElement(Field, { label: "Condition on arrival", id: "id2", value: v.condition, onChange: set("condition") }),
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react.default.createElement(Field, { label: "Value (K)", id: "id3", value: v.value, onChange: set("value"), inputMode: "decimal" }), /* @__PURE__ */ import_react.default.createElement(Field, { label: "Where it is kept", id: "id4", value: v.location, onChange: set("location"), placeholder: "Safe A, shelf 2" }))
+      fixed ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", null, "Brought in by"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-fixed" }, who ? who.name : "\uFFFD")) : /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "ib" }, "Brought in by"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "ib", value: v.borrowerId, onChange: set("borrowerId") }, db.borrowers.map((b) => /* @__PURE__ */ import_react2.default.createElement("option", { key: b.id, value: b.id }, b.name)))),
+      /* @__PURE__ */ import_react2.default.createElement(Field, { label: "What it is", id: "id1", value: v.desc, onChange: set("desc"), placeholder: "Make, model, distinguishing marks" }),
+      /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Condition on arrival", id: "id2", value: v.condition, onChange: set("condition") }),
+      /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Value (K)", id: "id3", value: v.value, onChange: set("value"), inputMode: "decimal" }), /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Where it is kept", id: "id4", value: v.location, onChange: set("location"), placeholder: "Safe A, shelf 2" }))
     );
   }
   function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     const pledged = db.loans.filter((l) => ["active", "overdue"].includes(statusOf(l))).map((l) => l.itemId);
     const freeFor = (bid) => db.items.filter((c) => c.borrowerId === bid && c.status !== "forfeited" && !pledged.includes(c.id));
     const firstB = prefill && prefill.borrowerId || db.borrowers.find((b) => freeFor(b.id).length > 0)?.id || db.borrowers[0]?.id || "";
-    const [v, setV] = (0, import_react.useState)({
+    const [v, setV] = (0, import_react2.useState)({
       borrowerId: firstB,
       itemId: prefill && prefill.itemId || freeFor(firstB)[0]?.id || "",
       principal: "",
@@ -24163,9 +24191,9 @@
     const preview = Number(v.principal) > 0 ? v.mode === "percent" ? Math.round(Number(v.principal) * Number(v.value)) / 100 : Number(v.value) : 0;
     const chosen = db.items.find((c) => c.id === v.itemId);
     if (db.borrowers.length === 0) {
-      return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-back", onClick: onCancel }, "\u2190 Back"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-card", style: { padding: 16 } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-name" }, "No borrowers yet."), /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Add the borrower first \u2014 the item and the loan both hang off a person.")));
+      return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-back", onClick: onCancel }, "? Back"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 16 } }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-name" }, "No borrowers yet."), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Add the borrower first \uFFFD the item and the loan both hang off a person.")));
     }
-    return /* @__PURE__ */ import_react.default.createElement(
+    return /* @__PURE__ */ import_react2.default.createElement(
       Shell,
       {
         title: "Issue a loan",
@@ -24174,11 +24202,11 @@
         ok: Number(v.principal) > 0 && Number(v.value) > 0 && v.itemId && v.borrowerId,
         onSave: () => onSave(v)
       },
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: "lb" }, "Borrower"), /* @__PURE__ */ import_react.default.createElement("select", { id: "lb", value: v.borrowerId, onChange: pickBorrower }, db.borrowers.map((b) => /* @__PURE__ */ import_react.default.createElement("option", { key: b.id, value: b.id }, b.name, freeFor(b.id).length === 0 ? " \u2014 no free item" : "")))),
-      mine.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", null, "Held against"), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-fixed" }, "Nothing of theirs is free to lend against."), /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "pb-btn sm", onClick: () => onNeedItem(v.borrowerId) }, "Take in an item first"))) : /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: "li" }, "Held against"), /* @__PURE__ */ import_react.default.createElement("select", { id: "li", value: v.itemId, onChange: set("itemId") }, mine.map((c) => /* @__PURE__ */ import_react.default.createElement("option", { key: c.id, value: c.id }, c.desc, " \u2014 ", K(c.value))))),
-      /* @__PURE__ */ import_react.default.createElement(Field, { label: "Amount lent (K)", id: "lp", value: v.principal, onChange: set("principal"), inputMode: "decimal" }),
-      chosen && Number(v.principal) > chosen.value && /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note pb-late" }, "More than the item is valued at (", K(chosen.value), "). Check before issuing."),
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react.default.createElement("label", { htmlFor: "lm" }, "Interest charged as"), /* @__PURE__ */ import_react.default.createElement("select", { id: "lm", value: v.mode, onChange: set("mode") }, /* @__PURE__ */ import_react.default.createElement("option", { value: "percent" }, "Percentage of the amount lent"), /* @__PURE__ */ import_react.default.createElement("option", { value: "fixed" }, "Flat kwacha amount"))), /* @__PURE__ */ import_react.default.createElement(
+      /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "lb" }, "Borrower"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "lb", value: v.borrowerId, onChange: pickBorrower }, db.borrowers.map((b) => /* @__PURE__ */ import_react2.default.createElement("option", { key: b.id, value: b.id }, b.name, freeFor(b.id).length === 0 ? " \uFFFD no free item" : "")))),
+      mine.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", null, "Held against"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-fixed" }, "Nothing of theirs is free to lend against."), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn sm", onClick: () => onNeedItem(v.borrowerId) }, "Take in an item first"))) : /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "li" }, "Held against"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "li", value: v.itemId, onChange: set("itemId") }, mine.map((c) => /* @__PURE__ */ import_react2.default.createElement("option", { key: c.id, value: c.id }, c.desc, " \uFFFD ", K(c.value))))),
+      /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Amount lent (K)", id: "lp", value: v.principal, onChange: set("principal"), inputMode: "decimal" }),
+      chosen && Number(v.principal) > chosen.value && /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note pb-late" }, "More than the item is valued at (", K(chosen.value), "). Check before issuing."),
+      /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "lm" }, "Interest charged as"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "lm", value: v.mode, onChange: set("mode") }, /* @__PURE__ */ import_react2.default.createElement("option", { value: "percent" }, "Percentage of the amount lent"), /* @__PURE__ */ import_react2.default.createElement("option", { value: "fixed" }, "Flat kwacha amount"))), /* @__PURE__ */ import_react2.default.createElement(
         Field,
         {
           label: v.mode === "percent" ? "Rate (%)" : "Charge (K)",
@@ -24188,7 +24216,7 @@
           inputMode: "decimal"
         }
       )),
-      /* @__PURE__ */ import_react.default.createElement(
+      /* @__PURE__ */ import_react2.default.createElement(
         Field,
         {
           label: "Length of one period (days)",
@@ -24198,13 +24226,14 @@
           inputMode: "numeric"
         }
       ),
-      /* @__PURE__ */ import_react.default.createElement("p", { className: "pb-note" }, "Borrower pays ", K(preview), " in interest for the first ", v.periodDays || 30, " days, on top of the", " ", K(Number(v.principal) || 0), " lent. Each renewal adds the same charge again as its own line.")
+      /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Borrower pays ", K(preview), " in interest for the first ", v.periodDays || 30, " days, on top of the", " ", K(Number(v.principal) || 0), " lent. Each renewal adds the same charge again as its own line.")
     );
   }
-  var import_react, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY, monthKey, monthName, sum;
+  var import_react2, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY, monthKey, monthName, sum;
   var init_App = __esm({
     "src/App.jsx"() {
-      import_react = __toESM(require_react());
+      import_react2 = __toESM(require_react());
+      init_Layout();
       init_theme();
       K = (n) => "K" + Number(n || 0).toLocaleString("en-ZM", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       TODAY = /* @__PURE__ */ new Date();
@@ -24270,7 +24299,7 @@
             renewals: 1,
             charges: [
               { id: "ch2", kind: "initial", amount: 750, on: "2026-07-10", note: "15% of K5,000.00, 30 days" },
-              { id: "ch3", kind: "renewal", amount: 750, on: "2026-08-09", note: "Renewal 1 \u2014 15% of K5,000.00, 30 days" }
+              { id: "ch3", kind: "renewal", amount: 750, on: "2026-08-09", note: "Renewal 1 \uFFFD 15% of K5,000.00, 30 days" }
             ],
             repayments: []
           },
@@ -24302,13 +24331,13 @@
           }
         ],
         events: [
-          { id: "e1", loanId: "l3", at: "2026-06-15 09:12", text: 'Loan issued \u2014 K800.00 against Hisense 43" TV' },
-          { id: "e8", loanId: "l4", at: "2026-08-16 11:20", text: "Loan issued \u2014 K2,000.00 against Honda GX160 water pump" },
+          { id: "e1", loanId: "l3", at: "2026-06-15 09:12", text: 'Loan issued \uFFFD K800.00 against Hisense 43" TV' },
+          { id: "e8", loanId: "l4", at: "2026-08-16 11:20", text: "Loan issued \uFFFD K2,000.00 against Honda GX160 water pump" },
           { id: "e2", loanId: "l3", at: "2026-07-12 14:40", text: "Repayment K1,000.00 (Mobile money)" },
           { id: "e3", loanId: "l3", at: "2026-07-12 14:41", text: "Loan cleared. Collateral released to borrower" },
-          { id: "e4", loanId: "l1", at: "2026-08-20 10:05", text: "Loan issued \u2014 K1,500.00 against Samsung Galaxy A34" },
+          { id: "e4", loanId: "l1", at: "2026-08-20 10:05", text: "Loan issued \uFFFD K1,500.00 against Samsung Galaxy A34" },
           { id: "e5", loanId: "l1", at: "2026-09-05 11:30", text: "Repayment K500.00 (Cash)" },
-          { id: "e6", loanId: "l2", at: "2026-07-10 08:50", text: "Loan issued \u2014 K5,000.00 against gold chain, 18ct" },
+          { id: "e6", loanId: "l2", at: "2026-07-10 08:50", text: "Loan issued \uFFFD K5,000.00 against gold chain, 18ct" },
           { id: "e7", loanId: "l2", at: "2026-08-09 16:02", text: "Renewed 30 days. Interest charge K750.00 added. Principal unchanged" }
         ]
       };
@@ -24316,7 +24345,7 @@
       paidTotal = (l) => l.repayments.reduce((s, r) => s + r.amount, 0);
       owing = (l) => l.principal + chargesTotal(l) - paidTotal(l);
       nextCharge = (l) => l.interest.mode === "percent" ? Math.round(l.principal * l.interest.value) / 100 : l.interest.value;
-      chargeNote = (l, kind, n) => (l.interest.mode === "percent" ? l.interest.value + "% of " + K(l.principal) : "Flat " + K(l.interest.value)) + ", " + l.interest.periodDays + " days" + (kind === "renewal" ? " \u2014 renewal " + n : "");
+      chargeNote = (l, kind, n) => (l.interest.mode === "percent" ? l.interest.value + "% of " + K(l.principal) : "Flat " + K(l.interest.value)) + ", " + l.interest.periodDays + " days" + (kind === "renewal" ? " \uFFFD renewal " + n : "");
       terms = (l) => (l.interest.mode === "percent" ? l.interest.value + "% per " : K(l.interest.value) + " per ") + l.interest.periodDays + " days";
       daysLate = (l) => Math.max(0, daysBetween(l.dueOn, iso(TODAY)));
       canForfeit = (l) => daysLate(l) >= SETTINGS.forfeitAfterDays;
@@ -24332,10 +24361,11 @@
   // main.jsx
   var require_main = __commonJS({
     "main.jsx"() {
-      var import_react2 = __toESM(require_react());
+      var import_react3 = __toESM(require_react());
+      init_theme();
       var import_client = __toESM(require_client());
       init_App();
-      (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ import_react2.default.createElement(FirstLinkRegister, null));
+      (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ import_react3.default.createElement(FirstLinkRegister, null));
     }
   });
   require_main();

@@ -1,7 +1,8 @@
-Ôªøimport React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
+import Layout from './components/Layout';
 
 /* ------------------------------------------------------------------
-   FIRSTLINK ‚Äî collateral loan register (prototype, slice 1)
+   FIRSTLINK ó collateral loan register (prototype, slice 1)
 
    STORAGE ADAPTER
    All reads/writes go through the `db` object below. Right now it is
@@ -84,7 +85,7 @@ const SEED = {
       issuedOn: "2026-07-10", dueOn: "2026-09-08", status: "active", renewals: 1,
       charges: [
         { id: "ch2", kind: "initial", amount: 750, on: "2026-07-10", note: "15% of K5,000.00, 30 days" },
-        { id: "ch3", kind: "renewal", amount: 750, on: "2026-08-09", note: "Renewal 1 ‚Äî 15% of K5,000.00, 30 days" },
+        { id: "ch3", kind: "renewal", amount: 750, on: "2026-08-09", note: "Renewal 1 ó 15% of K5,000.00, 30 days" },
       ],
       repayments: [],
     },
@@ -104,13 +105,13 @@ const SEED = {
     },
   ],
   events: [
-    { id: "e1", loanId: "l3", at: "2026-06-15 09:12", text: "Loan issued ‚Äî K800.00 against Hisense 43\" TV" },
-    { id: "e8", loanId: "l4", at: "2026-08-16 11:20", text: "Loan issued ‚Äî K2,000.00 against Honda GX160 water pump" },
+    { id: "e1", loanId: "l3", at: "2026-06-15 09:12", text: "Loan issued ó K800.00 against Hisense 43\" TV" },
+    { id: "e8", loanId: "l4", at: "2026-08-16 11:20", text: "Loan issued ó K2,000.00 against Honda GX160 water pump" },
     { id: "e2", loanId: "l3", at: "2026-07-12 14:40", text: "Repayment K1,000.00 (Mobile money)" },
     { id: "e3", loanId: "l3", at: "2026-07-12 14:41", text: "Loan cleared. Collateral released to borrower" },
-    { id: "e4", loanId: "l1", at: "2026-08-20 10:05", text: "Loan issued ‚Äî K1,500.00 against Samsung Galaxy A34" },
+    { id: "e4", loanId: "l1", at: "2026-08-20 10:05", text: "Loan issued ó K1,500.00 against Samsung Galaxy A34" },
     { id: "e5", loanId: "l1", at: "2026-09-05 11:30", text: "Repayment K500.00 (Cash)" },
-    { id: "e6", loanId: "l2", at: "2026-07-10 08:50", text: "Loan issued ‚Äî K5,000.00 against gold chain, 18ct" },
+    { id: "e6", loanId: "l2", at: "2026-07-10 08:50", text: "Loan issued ó K5,000.00 against gold chain, 18ct" },
     { id: "e7", loanId: "l2", at: "2026-08-09 16:02", text: "Renewed 30 days. Interest charge K750.00 added. Principal unchanged" },
   ],
 };
@@ -129,7 +130,7 @@ const chargeNote = (l, kind, n) =>
     ? l.interest.value + "% of " + K(l.principal)
     : "Flat " + K(l.interest.value)) +
   ", " + l.interest.periodDays + " days" +
-  (kind === "renewal" ? " ‚Äî renewal " + n : "");
+  (kind === "renewal" ? " ó renewal " + n : "");
 
 const terms = (l) =>
   (l.interest.mode === "percent" ? l.interest.value + "% per " : K(l.interest.value) + " per ") +
@@ -260,7 +261,7 @@ export default function FirstLinkRegister() {
         next = patchLoan(next, l.id, (x) => ({ ...x, status: "active" }));
         next = patchItem(next, l.itemId, "held");
       }
-      return log(next, l.id, "Repayment " + K(r.amount) + " of " + fmtDate(r.on) + " removed ‚Äî entered in error");
+      return log(next, l.id, "Repayment " + K(r.amount) + " of " + fmtDate(r.on) + " removed ó entered in error");
     }));
   }
 
@@ -323,7 +324,7 @@ export default function FirstLinkRegister() {
     write((s) => {
       let next = { ...s, loans: [...s.loans, l] };
       next = patchItem(next, v.itemId, "held");
-      return log(next, id, "Loan issued ‚Äî " + K(l.principal) + " against " + item(v.itemId).desc);
+      return log(next, id, "Loan issued ó " + K(l.principal) + " against " + item(v.itemId).desc);
     });
     setForm(null);
     setScreen({ kind: "loan", id });
@@ -341,20 +342,8 @@ export default function FirstLinkRegister() {
   }, [db.loans]);
 
   return (
-    <div className="pb">
-      
-      <div className="pb-top">
-        <img src="./logo.jpeg" alt="FirstLink Financial Solutions ‚Äî Lending Made Easy" className="pb-logo" />
-      </div>
-
-      <nav className="pb-nav">
-        {["today", "loans", "borrowers", "collateral", "cashbook"].map((t) => (
-          <button key={t} data-on={tab === t && !screen ? "1" : "0"}
-            onClick={() => { setTab(t); home(); }}>
-            {t[0].toUpperCase() + t.slice(1)}
-          </button>
-        ))}
-      </nav>
+    <Layout activeTab={tab} setTab={(t) => { setTab(t); home(); }}>
+ 
 
       {ask && (
         <div className="pb-modal" onClick={() => setAsk(null)}>
@@ -426,7 +415,7 @@ export default function FirstLinkRegister() {
                       </span>
                     </div>
                     <div className="pb-meta">
-                      Due {fmtDate(l.dueOn)}{l.renewals > 0 ? " ¬∑ renewed " + l.renewals + "√ó" : ""}
+                      Due {fmtDate(l.dueOn)}{l.renewals > 0 ? " ∑ renewed " + l.renewals + "◊" : ""}
                     </div>
                   </button>
                 );
@@ -450,8 +439,8 @@ export default function FirstLinkRegister() {
                       <span className="pb-name">{b.name}</span>
                       <span className="pb-meta">{open.length ? open.length + " open" : "no open loans"}</span>
                     </div>
-                    <div className="pb-meta">{b.phone} ¬∑ {b.area}</div>
-                    <div className="pb-meta">NRC {fmtNrc(b.nrc)} ¬∑ {held} item{held === 1 ? "" : "s"} in store</div>
+                    <div className="pb-meta">{b.phone} ∑ {b.area}</div>
+                    <div className="pb-meta">NRC {fmtNrc(b.nrc)} ∑ {held} item{held === 1 ? "" : "s"} in store</div>
                   </button>
                 );
               })}
@@ -481,10 +470,10 @@ export default function FirstLinkRegister() {
                         {c.status === "held" ? (ol ? "On loan" : "In store") : c.status[0].toUpperCase() + c.status.slice(1)}
                       </span>
                     </div>
-                    <div className="pb-meta">{borrower(c.borrowerId).name} ¬∑ valued {K(c.value)}</div>
-                    <div className="pb-meta">{c.condition} ¬∑ {c.location}</div>
+                    <div className="pb-meta">{borrower(c.borrowerId).name} ∑ valued {K(c.value)}</div>
+                    <div className="pb-meta">{c.condition} ∑ {c.location}</div>
                     <div className="pb-meta">
-                      {ol ? "Open the loan" : c.status === "forfeited" ? "Forfeited" : "Free ‚Äî tap to lend against it"}
+                      {ol ? "Open the loan" : c.status === "forfeited" ? "Forfeited" : "Free ó tap to lend against it"}
                     </div>
                   </button>
                 );
@@ -496,7 +485,7 @@ export default function FirstLinkRegister() {
           </>
         )}
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -509,7 +498,7 @@ function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, on
 
   return (
     <>
-      <button className="pb-back" onClick={onBack}>‚Üê All borrowers</button>
+      <button className="pb-back" onClick={onBack}>? All borrowers</button>
       <div className="pb-head">
         <h2 className="pb-h1">{b.name}</h2>
         <button className="pb-btn" onClick={onTakeItem}>Take in an item</button>
@@ -518,7 +507,7 @@ function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, on
       <div className="pb-block">
         <div className="pb-card">
           <div className="pb-kv"><span>Phone</span><span>{b.phone}</span></div>
-          <div className="pb-kv"><span>Area</span><span>{b.area || "‚Äî"}</span></div>
+          <div className="pb-kv"><span>Area</span><span>{b.area || "ó"}</span></div>
           <div className="pb-kv"><span>NRC</span><span>{fmtNrc(b.nrc)}</span></div>
         </div>
       </div>
@@ -535,7 +524,7 @@ function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, on
                 <div className="pb-line" key={c.id}>
                   <div>
                     {c.desc}
-                    <em>{K(c.value)} ¬∑ {c.location}</em>
+                    <em>{K(c.value)} ∑ {c.location}</em>
                   </div>
                   {ol ? (
                     <button className="pb-btn ghost sm" onClick={() => onOpenLoan(ol.id)}>Open loan</button>
@@ -544,7 +533,7 @@ function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, on
                   ) : (
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <button className="pb-btn sm" onClick={() => onIssue(c.id)}>Issue a loan</button>
-                      <button className="pb-x" title="Remove this item" onClick={() => onDropItem(c)}>√ó</button>
+                      <button className="pb-x" title="Remove this item" onClick={() => onDropItem(c)}>◊</button>
                     </div>
                   )}
                 </div>
@@ -573,7 +562,7 @@ function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, on
                       {s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1)}
                     </span>
                   </div>
-                  <div className="pb-meta">Balance {K(Math.max(0, owing(l)))} ¬∑ due {fmtDate(l.dueOn)}</div>
+                  <div className="pb-meta">Balance {K(Math.max(0, owing(l)))} ∑ due {fmtDate(l.dueOn)}</div>
                 </button>
               );
             })
@@ -587,7 +576,7 @@ function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, on
 /* ---------- cashbook ----------
    Every row below is derived from the loans themselves, so the book can
    never drift from the records. Repayments are applied to interest owed
-   first, then to the principal ‚Äî the split is shown on each row.      */
+   first, then to the principal ó the split is shown on each row.      */
 
 function allocate(l) {
   const paid = [...l.repayments].sort((a, b) => d(a.on) - d(b.on));
@@ -603,8 +592,8 @@ function allocate(l) {
 
 function ledger(db) {
   const rows = [];
-  const who = (id) => (db.borrowers.find((b) => b.id === id) || {}).name || "‚Äî";
-  const what = (id) => (db.items.find((c) => c.id === id) || {}).desc || "‚Äî";
+  const who = (id) => (db.borrowers.find((b) => b.id === id) || {}).name || "ó";
+  const what = (id) => (db.items.find((c) => c.id === id) || {}).desc || "ó";
 
   db.loans.forEach((l) => {
     rows.push({ on: l.issuedOn, kind: "Loan out", who: who(l.borrowerId), note: what(l.itemId),
@@ -614,7 +603,7 @@ function ledger(db) {
                   who: who(l.borrowerId), note: c.note, out: 0, cash: 0, interest: 0, charged: c.amount, loanId: l.id }));
     allocate(l).forEach((r) =>
       rows.push({ on: r.on, kind: "Repayment", who: who(l.borrowerId),
-                  note: r.method + " ‚Äî " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
+                  note: r.method + " ó " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
                   out: 0, cash: r.amount, interest: r.interest, charged: 0, loanId: l.id }));
   });
 
@@ -623,7 +612,7 @@ function ledger(db) {
       const l = db.loans.find((x) => x.id === e.loanId);
       if (!l) return;
       rows.push({ on: e.at.slice(0, 10), kind: "Collateral taken", who: who(l.borrowerId),
-                  note: what(l.itemId) + " ‚Äî no cash until it is sold",
+                  note: what(l.itemId) + " ó no cash until it is sold",
                   out: 0, cash: 0, interest: 0, charged: 0, loanId: l.id });
     });
 
@@ -709,8 +698,8 @@ function Cashbook({ db }) {
                 {inMonth.map((r, i) => (
                   <tr key={i}>
                     <td>
-                      {r.kind} ‚Äî {r.who}
-                      <em>{fmtDate(r.on)} ¬∑ {r.note}</em>
+                      {r.kind} ó {r.who}
+                      <em>{fmtDate(r.on)} ∑ {r.note}</em>
                     </td>
                     <td className="n pb-out">{r.out ? K(r.out) : r.charged ? "" : ""}</td>
                     <td className="n pb-in">{r.cash ? K(r.cash) : r.charged ? "+" + K(r.charged) + " owed" : ""}</td>
@@ -734,7 +723,7 @@ function Cashbook({ db }) {
         </div>
         <p className="pb-note">
           Interest earned counts only what has actually been paid. Interest charged includes what is still owed,
-          which is why the two differ ‚Äî the gap is the money on paper that has not arrived yet.
+          which is why the two differ ó the gap is the money on paper that has not arrived yet.
         </p>
       </div>
     </>
@@ -764,7 +753,7 @@ function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onResto
       <div className="pb-meta">{tail}</div>
       {canForfeit(l) && (
         <div className="pb-flag">
-          Past the {SETTINGS.forfeitAfterDays}-day grace period ‚Äî item can be forfeited
+          Past the {SETTINGS.forfeitAfterDays}-day grace period ó item can be forfeited
         </div>
       )}
     </button>
@@ -804,12 +793,12 @@ function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onResto
 
       <Section
         title="Overdue" note={readyToForfeit ? readyToForfeit + " past grace" : ""}
-        list={overdue} tail={(l) => daysLate(l) + " days late ¬∑ was due " + fmtDate(l.dueOn)}
+        list={overdue} tail={(l) => daysLate(l) + " days late ∑ was due " + fmtDate(l.dueOn)}
       />
       <Section title="Due today" note="" list={today} tail={() => "Due today"} />
       <Section
         title="Due within seven days" note="" list={week}
-        tail={(l) => "Due " + fmtDate(l.dueOn) + " ¬∑ in " + daysBetween(iso(TODAY), l.dueOn) + " days"}
+        tail={(l) => "Due " + fmtDate(l.dueOn) + " ∑ in " + daysBetween(iso(TODAY), l.dueOn) + " days"}
       />
 
       <p className="pb-note">
@@ -842,7 +831,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
 
   return (
     <>
-      <button className="pb-back" onClick={onBack}>‚Üê {b.name}</button>
+      <button className="pb-back" onClick={onBack}>? {b.name}</button>
 
       <div className="pb-head">
         <h2 className="pb-h1">{b.name}</h2>
@@ -855,7 +844,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
         <div className="pb-card">
           <div className="pb-kv"><span>Principal</span><span>{K(l.principal)}</span></div>
           <div className="pb-kv"><span>Interest charged</span><span>{K(chargesTotal(l))}</span></div>
-          <div className="pb-kv"><span>Repaid</span><span>‚àí{K(paidTotal(l))}</span></div>
+          <div className="pb-kv"><span>Repaid</span><span>-{K(paidTotal(l))}</span></div>
           <div className="pb-kv total"><span>Balance</span><span>{K(Math.max(0, owing(l)))}</span></div>
           <div className="pb-kv">
             <span>Due</span>
@@ -908,7 +897,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <strong>{K(r.amount)}</strong>
                   <button className="pb-x" title="Remove this repayment"
-                    onClick={() => onDropRepayment(l, r)}>√ó</button>
+                    onClick={() => onDropRepayment(l, r)}>◊</button>
                 </div>
               </div>
             ))
@@ -944,7 +933,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
           <div className="pb-actions">
             <button className="pb-btn" onClick={() => { setAmount(""); setForm("repay"); }}>Record repayment</button>
             <button className="pb-btn ghost" onClick={() => onRenew(l)}>
-              Renew {l.interest.periodDays} days ¬∑ {K(nextCharge(l))}
+              Renew {l.interest.periodDays} days ∑ {K(nextCharge(l))}
             </button>
             <button className="pb-btn warn" disabled={!canForfeit(l)} onClick={() => onForfeit(l)}>
               {canForfeit(l)
@@ -983,7 +972,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
 function Shell({ title, children, onCancel, onSave, saveLabel, ok }) {
   return (
     <>
-      <button className="pb-back" onClick={onCancel}>‚Üê Back</button>
+      <button className="pb-back" onClick={onCancel}>? Back</button>
       <h2 className="pb-h1" style={{ marginBottom: 12 }}>{title}</h2>
       <div className="pb-card" style={{ padding: 14 }}>
         {children}
@@ -1025,7 +1014,7 @@ function NewBorrower({ db, onCancel, onSave }) {
       {clash ? (
         <p className="pb-note pb-late">{clash.name} is already on the register with this NRC.</p>
       ) : digits > 0 && digits !== 9 ? (
-        <p className="pb-note">An NRC has nine digits ‚Äî {digits} entered so far.</p>
+        <p className="pb-note">An NRC has nine digits ó {digits} entered so far.</p>
       ) : (
         <p className="pb-note">
           Checked against everyone already on the register, so the same person can't be entered twice.
@@ -1050,10 +1039,10 @@ function NewItem({ db, prefill, onCancel, onSave }) {
   if (db.borrowers.length === 0) {
     return (
       <>
-        <button className="pb-back" onClick={onCancel}>‚Üê Back</button>
+        <button className="pb-back" onClick={onCancel}>? Back</button>
         <div className="pb-card" style={{ padding: 16 }}>
           <div className="pb-name">No borrowers yet.</div>
-          <p className="pb-note">Add the borrower first ‚Äî the item and the loan both hang off a person.</p>
+          <p className="pb-note">Add the borrower first ó the item and the loan both hang off a person.</p>
         </div>
       </>
     );
@@ -1066,7 +1055,7 @@ function NewItem({ db, prefill, onCancel, onSave }) {
       {fixed ? (
         <div className="pb-field">
           <label>Brought in by</label>
-          <div className="pb-fixed">{who ? who.name : "‚Äî"}</div>
+          <div className="pb-fixed">{who ? who.name : "ó"}</div>
         </div>
       ) : (
         <div className="pb-field">
@@ -1120,10 +1109,10 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
   if (db.borrowers.length === 0) {
     return (
       <>
-        <button className="pb-back" onClick={onCancel}>‚Üê Back</button>
+        <button className="pb-back" onClick={onCancel}>? Back</button>
         <div className="pb-card" style={{ padding: 16 }}>
           <div className="pb-name">No borrowers yet.</div>
-          <p className="pb-note">Add the borrower first ‚Äî the item and the loan both hang off a person.</p>
+          <p className="pb-note">Add the borrower first ó the item and the loan both hang off a person.</p>
         </div>
       </>
     );
@@ -1138,7 +1127,7 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
         <select id="lb" value={v.borrowerId} onChange={pickBorrower}>
           {db.borrowers.map((b) => (
             <option key={b.id} value={b.id}>
-              {b.name}{freeFor(b.id).length === 0 ? " ‚Äî no free item" : ""}
+              {b.name}{freeFor(b.id).length === 0 ? " ó no free item" : ""}
             </option>
           ))}
         </select>
@@ -1156,7 +1145,7 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
         <div className="pb-field">
           <label htmlFor="li">Held against</label>
           <select id="li" value={v.itemId} onChange={set("itemId")}>
-            {mine.map((c) => <option key={c.id} value={c.id}>{c.desc} ‚Äî {K(c.value)}</option>)}
+            {mine.map((c) => <option key={c.id} value={c.id}>{c.desc} ó {K(c.value)}</option>)}
           </select>
         </div>
       )}
@@ -1187,4 +1176,5 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
 

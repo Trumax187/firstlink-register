@@ -4,7 +4,7 @@
   "description": "FirstLink Financial Solutions - collateral loan register",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx",
+    "build": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx --loader:.css=css",
     "watch": "esbuild main.jsx --bundle --outfile=app.js --loader:.jsx=jsx --watch",
     "serve": "serve -l 3000"
   },

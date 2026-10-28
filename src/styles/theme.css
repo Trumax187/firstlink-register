@@ -16,18 +16,7 @@
   font-feature-settings:'tnum' 1;
   color:var(--ink); background:var(--paper); min-height:100vh;
 }
-.pb-top { background:#fff; padding:18px; text-align:center; border-bottom:1px solid var(--line); }
-.pb-logo { max-width:240px; width:100%; height:auto; display:block; margin:0 auto; }
-.pb-mark { font-family:'IBM Plex Serif', Georgia, serif; font-size:21px; letter-spacing:.005em; }
-.pb-mark span { color:var(--brass); font-weight:600; }
-.pb-sub { font-size:12px; color:#A9BDD9; margin-top:3px; letter-spacing:.02em; }
-.pb-nav { display:flex; gap:2px; background:var(--ink-2); padding:0 10px; overflow-x:auto; justify-content:center; }
-.pb-nav button { white-space:nowrap; }
-.pb-nav button {
-  background:none; border:0; color:#a9bbcd; padding:11px 14px; font:inherit;
-  font-size:14px; cursor:pointer; border-bottom:2px solid transparent;
-}
-.pb-nav button[data-on="1"] { color:#fff; border-bottom-color:var(--brass); }
+
 .pb-body { padding:16px; max-width:940px; margin:0 auto; }
 
 .pb-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px; gap:10px; }
@@ -121,4 +110,264 @@
 .pb-sec > h3 { font-size:13px; font-weight:600; color:var(--muted); margin:0 0 7px; display:flex; justify-content:space-between; }
 .pb-flag { font-size:11.5px; color:var(--late); margin-top:4px; }
 @media (max-width:520px){ .pb-two { display:block; } .pb-two > * { margin-bottom:12px; } }
+/* =========================================
+   LAYOUT & NAVIGATION
+   ========================================= */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
 
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: var(--ink);
+  color: #fff;
+  display: none; /* Hidden on mobile */
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-brand img {
+  max-width: 140px;
+  border-radius: 4px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: #a9bbcd;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+.nav-item.active {
+  background: var(--brass);
+  color: #fff;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70px; /* Space for mobile nav */
+}
+
+.top-header {
+  background: #fff;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.top-header h1 {
+  font-size: 18px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.user-profile {
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--brass-soft);
+  color: var(--brass);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.page-content {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Mobile Bottom Nav */
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px;
+  z-index: 100;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  gap: 4px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.mobile-nav-item.active {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.mobile-nav-item .nav-icon {
+  font-size: 20px;
+}
+
+/* Desktop Media Query */
+@media (min-width: 768px) {
+  .sidebar {
+    display: flex;
+  }
+  .mobile-nav {
+    display: none;
+  }
+  .main-content {
+    padding-bottom: 0;
+  }
+}
+
+
+/* =========================================
+   NEW PROFESSIONAL LAYOUT OVERRIDES
+   ========================================= */
+.app-layout {
+  display: flex !important;
+  min-height: 100vh;
+  background: #f1f5f9;
+}
+
+.sidebar {
+  width: 260px;
+  background: #1B3A6B !important;
+  color: #fff !important;
+  display: flex !important;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar-brand {
+  padding: 24px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-brand img {
+  max-width: 160px;
+  border-radius: 6px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px;
+  gap: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: #94a3b8 !important;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff !important;
+}
+
+.nav-item.active {
+  background: #B8860B !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-header {
+  background: #fff;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.top-header h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #1B3A6B;
+  font-weight: 600;
+}
+
+.user-profile {
+  font-size: 14px;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: #1B3A6B;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.page-content {
+  padding: 32px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Force old .pb wrappers to not break the layout */
+.pb {
+  background: transparent !important;
+  min-height: auto !important;
+  padding: 0 !important;
+}
