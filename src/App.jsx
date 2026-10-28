@@ -744,26 +744,27 @@ function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onResto
   const readyToForfeit = overdue.filter(canForfeit).length;
 
   const Row = ({ l, tail }) => (
-    <button className="pb-row" key={l.id} onClick={() => onOpen(l.id)}>
-      <div className="pb-row-top">
-        <span className="pb-name">{borrower(l.borrowerId).name}</span>
-        <span className="pb-amt">{K(Math.max(0, owing(l)))}</span>
+    <button className="pb-row" key={l.id} onClick={() => onOpen(l.id)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', borderBottom: '1px solid #e2e8f0', padding: '16px', background: 'none', border: 'none', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: '#e2e8f0', textAlign: 'left', cursor: 'pointer' }}>
+      <div>
+        <div style={{ fontWeight: 600, color: '#1B3A6B', marginBottom: '4px' }}>{borrower(l.borrowerId).name}</div>
+        <div style={{ fontSize: '13px', color: '#64748b' }}>{item(l.itemId).desc} · {tail}</div>
       </div>
-      <div className="pb-meta">{item(l.itemId).desc}</div>
-      <div className="pb-meta">{tail}</div>
-      {canForfeit(l) && (
-        <div className="pb-flag">
-          Past the {SETTINGS.forfeitAfterDays}-day grace period — item can be forfeited
-        </div>
-      )}
+      <div style={{ fontWeight: 700, color: '#1B3A6B' }}>{K(Math.max(0, owing(l)))}</div>
     </button>
   );
 
   const Section = ({ title, note, list, tail }) => (
-    <div className="pb-sec">
-      <h3><span>{title}</span><span>{note}</span></h3>
-      <div className="pb-card">
-        {list.length === 0 ? <div className="pb-empty">Nothing here.</div> : list.map((l) => <Row key={l.id} l={l} tail={tail(l)} />)}
+    <div className="pb-sec" style={{ marginBottom: '24px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '12px' }}>
+        <h3 style={{ margin: 0, fontSize: '16px', color: '#1B3A6B', fontWeight: 600 }}>{title}</h3>
+        {note && <span style={{ fontSize: '12px', color: '#C0392B', fontWeight: 600 }}>{note}</span>}
+      </div>
+      <div className="pb-card" style={{ padding: 0, overflow: 'hidden' }}>
+        {list.length === 0 ? (
+          <div style={{ padding: '32px', textAlign: 'center', color: '#94a3b8', fontSize: '14px' }}>Nothing here.</div>
+        ) : (
+          list.map((l) => <Row key={l.id} l={l} tail={tail(l)} />)
+        )}
       </div>
     </div>
   );
@@ -1188,6 +1189,7 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
 
 
 
