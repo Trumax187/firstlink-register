@@ -1,5 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import FirstLinkRegister from "./firstlink-register.jsx";
+import App from "./src/App.jsx";
 
-createRoot(document.getElementById("root")).render(<FirstLinkRegister />);
+createRoot(document.getElementById("root")).render(<App />);

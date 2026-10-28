@@ -14,130 +14,7 @@
    receipts, PIN lock, notifications.
 ------------------------------------------------------------------ */
 
-const STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600&display=swap');
-
-.pb * { box-sizing: border-box; }
-.pb {
-  /* BRAND COLOURS — change these and the whole app follows. */
-  --ink:#1B3A6B;        /* navy: header, nav, primary buttons */
-  --ink-2:#2A4E85;      /* lighter navy: tab bar */
-  --paper:#FFFFFF;      /* white background */
-  --surface:#fff;
-  --line:#D9E0EC; --muted:#6B7280;
-  --brass:#B8860B;      /* FirstLink gold accent */
-  --brass-soft:#F5EBD0;
-  --ok:#2E7D6B; --late:#C0392B; --done:#6B7280;
-  font-family:'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
-  font-feature-settings:'tnum' 1;
-  color:var(--ink); background:var(--paper); min-height:100vh;
-}
-.pb-top { background:#fff; padding:18px; text-align:center; border-bottom:1px solid var(--line); }
-.pb-logo { max-width:240px; width:100%; height:auto; display:block; margin:0 auto; }
-.pb-mark { font-family:'IBM Plex Serif', Georgia, serif; font-size:21px; letter-spacing:.005em; }
-.pb-mark span { color:var(--brass); font-weight:600; }
-.pb-sub { font-size:12px; color:#A9BDD9; margin-top:3px; letter-spacing:.02em; }
-.pb-nav { display:flex; gap:2px; background:var(--ink-2); padding:0 10px; overflow-x:auto; justify-content:center; }
-.pb-nav button { white-space:nowrap; }
-.pb-nav button {
-  background:none; border:0; color:#a9bbcd; padding:11px 14px; font:inherit;
-  font-size:14px; cursor:pointer; border-bottom:2px solid transparent;
-}
-.pb-nav button[data-on="1"] { color:#fff; border-bottom-color:var(--brass); }
-.pb-body { padding:16px; max-width:940px; margin:0 auto; }
-
-.pb-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px; gap:10px; }
-.pb-h1 { font-size:17px; font-weight:600; margin:0; }
-.pb-count { font-size:13px; color:var(--muted); }
-
-.pb-btn {
-  font:inherit; font-size:14px; padding:9px 14px; border-radius:3px; cursor:pointer;
-  border:1px solid var(--ink); background:var(--ink); color:#fff;
-}
-.pb-btn.ghost { background:none; color:var(--ink); }
-.pb-btn.warn { background:none; border-color:var(--late); color:var(--late); }
-.pb-btn:disabled { opacity:.4; cursor:not-allowed; }
-.pb-btn.sm { padding:6px 10px; font-size:13px; }
-
-.pb-card { background:var(--surface); border:1px solid var(--line); border-radius:3px; }
-.pb-row {
-  display:block; width:100%; text-align:left; background:var(--surface);
-  border:0; border-bottom:1px solid var(--line); padding:13px 14px; font:inherit;
-  cursor:pointer;
-}
-.pb-row:last-child { border-bottom:0; }
-.pb-row:hover { background:#F8FAFC; }
-.pb-row-top { display:flex; justify-content:space-between; gap:10px; align-items:center; }
-.pb-name { font-weight:500; font-size:15px; }
-.pb-meta { font-size:13px; color:var(--muted); margin-top:3px; }
-.pb-amt { font-weight:600; font-size:15px; white-space:nowrap; }
-
-.pb-chip { font-size:11.5px; padding:3px 8px; border-radius:2px; white-space:nowrap; }
-.pb-chip[data-s="active"] { background:#E3F0EC; color:var(--ok); }
-.pb-chip[data-s="overdue"] { background:#FBE4E1; color:var(--late); }
-.pb-chip[data-s="cleared"] { background:#F0E7EE; color:var(--done); }
-.pb-chip[data-s="forfeited"] { background:var(--ink); color:#fff; }
-.pb-chip[data-s="held"] { background:var(--brass-soft); color:var(--brass); }
-.pb-chip[data-s="released"] { background:#F0E7EE; color:var(--done); }
-
-.pb-block { margin-bottom:18px; }
-.pb-block > h3 {
-  font-size:13px; font-weight:600; color:var(--muted); margin:0 0 7px;
-}
-.pb-kv { display:flex; justify-content:space-between; padding:9px 14px; border-bottom:1px solid var(--line); font-size:14px; }
-.pb-kv:last-child { border-bottom:0; }
-.pb-kv span:first-child { color:var(--muted); }
-.pb-kv.total { background:#F8FAFC; font-weight:600; }
-.pb-kv.total span:first-child { color:var(--ink); }
-
-.pb-line { padding:10px 14px; border-bottom:1px solid var(--line); font-size:13.5px; display:flex; justify-content:space-between; gap:10px; }
-.pb-line:last-child { border-bottom:0; }
-.pb-line em { font-style:normal; color:var(--muted); display:block; font-size:12.5px; margin-top:2px; }
-
-.pb-field { margin-bottom:12px; }
-.pb-field label { display:block; font-size:13px; color:var(--muted); margin-bottom:4px; }
-.pb-field input, .pb-field select {
-  width:100%; font:inherit; font-size:15px; padding:9px 10px;
-  border:1px solid var(--line); border-radius:3px; background:#fff; color:var(--ink);
-}
-.pb-field input:focus, .pb-field select:focus { outline:2px solid var(--brass); outline-offset:-1px; }
-.pb-two { display:flex; gap:10px; }
-.pb-two > * { flex:1; }
-.pb-modal { position:fixed; inset:0; background:rgba(58,30,63,.55); display:flex;
-  align-items:center; justify-content:center; padding:20px; z-index:50; }
-.pb-modal-card { background:#fff; border-radius:4px; padding:18px; max-width:380px; width:100%; }
-.pb-modal-msg { margin:0 0 14px; font-size:15px; line-height:1.5; }
-.pb-fixed { font-size:15px; padding:9px 0; }
-.pb-x { border:1px solid var(--line); background:#fff; color:var(--muted); font:inherit; font-size:15px;
-  line-height:1; width:26px; height:26px; border-radius:3px; cursor:pointer; }
-.pb-x:hover { border-color:var(--late); color:var(--late); }
-.pb-note { font-size:12.5px; color:var(--muted); line-height:1.5; margin:8px 0 0; }
-
-.pb-back { background:none; border:0; font:inherit; font-size:13.5px; color:var(--muted); cursor:pointer; padding:0 0 10px; }
-.pb-empty { padding:26px 16px; text-align:center; color:var(--muted); font-size:14px; }
-.pb-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-.pb-late { color:var(--late); }
-.pb-strip { display:flex; gap:10px; margin-bottom:18px; }
-.pb-strip > div { flex:1; background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:11px 13px; }
-.pb-strip b { display:block; font-size:19px; font-weight:600; margin-bottom:2px; }
-.pb-strip span { font-size:12.5px; color:var(--muted); }
-.pb-strip > div[data-alarm="1"] b { color:var(--late); }
-.pb-ledger { width:100%; border-collapse:collapse; font-size:13.5px; }
-.pb-ledger th { text-align:left; font-weight:600; color:var(--muted); font-size:12.5px; padding:9px 12px; border-bottom:1px solid var(--line); }
-.pb-ledger td { padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
-.pb-ledger tr:last-child td { border-bottom:0; }
-.pb-ledger td.n, .pb-ledger th.n { text-align:right; white-space:nowrap; }
-.pb-ledger em { font-style:normal; color:var(--muted); display:block; font-size:12.5px; margin-top:2px; }
-.pb-out { color:var(--late); }
-.pb-in { color:var(--ok); }
-.pb-months { display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; padding-bottom:2px; }
-.pb-months button { font:inherit; font-size:13px; white-space:nowrap; padding:7px 11px; border:1px solid var(--line); background:#fff; color:var(--muted); border-radius:3px; cursor:pointer; }
-.pb-months button[data-on="1"] { background:var(--ink); border-color:var(--ink); color:#fff; }
-.pb-sec { margin-bottom:18px; }
-.pb-sec > h3 { font-size:13px; font-weight:600; color:var(--muted); margin:0 0 7px; display:flex; justify-content:space-between; }
-.pb-flag { font-size:11.5px; color:var(--late); margin-top:4px; }
-@media (max-width:520px){ .pb-two { display:block; } .pb-two > * { margin-bottom:12px; } }
-`;
+import './styles/theme.css';
 
 /* ---------- helpers ---------- */
 
@@ -465,7 +342,7 @@ export default function FirstLinkRegister() {
 
   return (
     <div className="pb">
-      <style>{STYLES}</style>
+      
       <div className="pb-top">
         <img src="./logo.jpeg" alt="FirstLink Financial Solutions — Lending Made Easy" className="pb-logo" />
       </div>
@@ -1310,3 +1187,4 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
