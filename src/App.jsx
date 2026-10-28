@@ -425,27 +425,50 @@ export default function FirstLinkRegister() {
         ) : tab === "borrowers" ? (
           <>
             <div className="pb-head">
-              <h2 className="pb-h1">Borrowers</h2>
-              <button className="pb-btn" onClick={() => setForm({ kind: "borrower" })}>Add borrower</button>
+                            <h2 className="pb-h1">Customers Directory</h2>
+              <button className="pb-btn" onClick={() => setForm({ kind: "borrower" })} style={{ background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" }}>+ Add Customer</button>
             </div>
-            <div className="pb-card">
-              {db.borrowers.length === 0 && <div className="pb-empty">No borrowers yet.</div>}
-              {db.borrowers.map((b) => {
-                const open = db.loans.filter((l) => l.borrowerId === b.id && ["active", "overdue"].includes(statusOf(l)));
-                const held = db.items.filter((c) => c.borrowerId === b.id && c.status === "held").length;
-                return (
-                  <button className="pb-row" key={b.id} onClick={() => openBorrower(b.id)}>
-                    <div className="pb-row-top">
-                      <span className="pb-name">{b.name}</span>
-                      <span className="pb-meta">{open.length ? open.length + " open" : "no open loans"}</span>
-                    </div>
-                    <div className="pb-meta">{b.phone} · {b.area}</div>
-                    <div className="pb-meta">NRC {fmtNrc(b.nrc)} · {held} item{held === 1 ? "" : "s"} in store</div>
-                  </button>
-                );
-              })}
+            
+            <div className="pb-card" style={{ padding: 0, overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ padding: '16px' }}>Customer Name</th>
+                    <th style={{ padding: '16px' }}>Contact</th>
+                    <th style={{ padding: '16px' }}>Location</th>
+                    <th style={{ padding: '16px' }}>Items Held</th>
+                    <th style={{ padding: '16px', textAlign: 'right' }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {db.borrowers.length === 0 && (
+                    <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No customers yet. Click "+ Add Customer" to register one.</td></tr>
+                  )}
+                  {db.borrowers.map((b) => {
+                    const held = db.items.filter((c) => c.borrowerId === b.id && c.status === "held").length;
+                    return (
+                      <tr key={b.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                        <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>
+                          {b.name}
+                          <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 400 }}>NRC: {fmtNrc(b.nrc)}</div>
+                        </td>
+                        <td style={{ padding: '16px', color: '#334155' }}>{b.phone}</td>
+                        <td style={{ padding: '16px', color: '#334155' }}>{b.area}</td>
+                        <td style={{ padding: '16px' }}>
+                          <span style={{ background: held > 0 ? '#F5EBD0' : '#f1f5f9', color: held > 0 ? '#B8860B' : '#64748b', padding: '4px 8px', borderRadius: '12px', fontSize: '12px', fontWeight: 600 }}>
+                            {held} {held === 1 ? 'item' : 'items'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '16px', textAlign: 'right' }}>
+                          <button onClick={() => openBorrower(b.id)} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, color: '#1B3A6B' }}>View</button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <p className="pb-note">Open a borrower to take in an item or issue them a loan.</p>
+            
           </>
         ) : (
           <>
@@ -1189,6 +1212,7 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
 
 
 
