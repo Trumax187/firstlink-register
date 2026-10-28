@@ -391,7 +391,68 @@ export default function FirstLinkRegister() {
             onRestore={() => resetTo(SEED,
               "Replace everything currently in the book with the sample records?", "Restore samples")} />
         ) : tab === "cashbook" ? (
-          <Cashbook db={db} />
+          <>
+            <div className="pb-head">
+              <h2 className="pb-h1">Cashbook & Reports</h2>
+              <button className="pb-btn" style={{ background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" }}>Export CSV</button>
+            </div>
+
+            {/* KPI CARDS FOR CASHBOOK */}
+            <div className="kpi-grid" style={{ marginBottom: '24px' }}>
+              <div className="kpi-card">
+                <div className="kpi-label">Cash In (Repayments)</div>
+                <div className="kpi-value" style={{ color: '#2E7D6B' }}>{K(db.loans.reduce((sum, l) => sum + l.repayments.reduce((s, r) => s + r.amount, 0), 0))}</div>
+              </div>
+              <div className="kpi-card">
+                <div className="kpi-label">Cash Out (Loans Issued)</div>
+                <div className="kpi-value">{K(db.loans.reduce((sum, l) => sum + l.principal, 0))}</div>
+              </div>
+              <div className="kpi-card">
+                <div className="kpi-label">Total Interest Charged</div>
+                <div className="kpi-value" style={{ color: '#B8860B' }}>{K(db.loans.reduce((sum, l) => sum + l.charges.reduce((s, c) => s + c.amount, 0), 0))}</div>
+              </div>
+            </div>
+
+            <div className="pb-card" style={{ padding: 0, overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ padding: '16px' }}>Date</th>
+                    <th style={{ padding: '16px' }}>Customer</th>
+                    <th style={{ padding: '16px' }}>Transaction Type</th>
+                    <th style={{ padding: '16px' }}>Method</th>
+                    <th style={{ padding: '16px', textAlign: 'right' }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Map through all loan events to build a ledger */}
+                  {db.events.length === 0 && (
+                    <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No transactions recorded yet.</td></tr>
+                  )}
+                  {db.events.map((e) => {
+                    // Extract amount from the event text if possible, or just show the event description
+                    const isRepayment = e.text.includes("Repayment");
+                    const isLoan = e.text.includes("Loan issued");
+                    if (!isRepayment && !isLoan) return null; // Only show financial events in cashbook
+
+                    return (
+                      <tr key={e.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                        <td style={{ padding: '16px', color: '#64748b', fontSize: '13px' }}>{e.at.split(" ")[0]}</td>
+                        <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>{borrower(db.loans.find(l => l.id === e.loanId)?.borrowerId)?.name || "Unknown"}</td>
+                        <td style={{ padding: '16px', color: isRepayment ? '#2E7D6B' : '#C0392B', fontWeight: 600 }}>
+                          {isRepayment ? "Repayment In" : "Loan Issued"}
+                        </td>
+                        <td style={{ padding: '16px', color: '#334155', fontSize: '13px' }}>—</td>
+                        <td style={{ padding: '16px', textAlign: 'right', fontWeight: 600, color: isRepayment ? '#2E7D6B' : '#1B3A6B' }}>
+                          {isRepayment ? "+" : "-"} {e.text.match(/K[\d,]+\.\d{2}/) ? e.text.match(/K[\d,]+\.\d{2}/)[0] : ""}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : tab === "loans" ? (
           <>
             <div className="pb-head">
@@ -1250,6 +1311,7 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
 
 
 

@@ -23887,7 +23887,12 @@
           "Restore samples"
         )
       }
-    ) : tab === "cashbook" ? /* @__PURE__ */ import_react2.default.createElement(Cashbook, { db }) : tab === "loans" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Loans Directory"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "loan", prefill: {} }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Issue New Loan")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Collateral Item"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Principal"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Balance"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Due Date"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Status"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, sortedLoans.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "7", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, 'No loans on the book yet. Click "+ Issue New Loan" to start.')), sortedLoans.map((l) => {
+    ) : tab === "cashbook" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Cashbook & Reports"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "Export CSV")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-grid", style: { marginBottom: "24px" } }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-label" }, "Cash In (Repayments)"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-value", style: { color: "#2E7D6B" } }, K(db.loans.reduce((sum, l) => sum + l.repayments.reduce((s, r) => s + r.amount, 0), 0)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-label" }, "Cash Out (Loans Issued)"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-value" }, K(db.loans.reduce((sum, l) => sum + l.principal, 0)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-label" }, "Total Interest Charged"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-value", style: { color: "#B8860B" } }, K(db.loans.reduce((sum, l) => sum + l.charges.reduce((s, c) => s + c.amount, 0), 0))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Date"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Transaction Type"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Method"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Amount"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, db.events.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "5", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, "No transactions recorded yet.")), db.events.map((e) => {
+      const isRepayment = e.text.includes("Repayment");
+      const isLoan = e.text.includes("Loan issued");
+      if (!isRepayment && !isLoan) return null;
+      return /* @__PURE__ */ import_react2.default.createElement("tr", { key: e.id, style: { borderBottom: "1px solid #e2e8f0" } }, /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#64748b", fontSize: "13px" } }, e.at.split(" ")[0]), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, borrower(db.loans.find((l) => l.id === e.loanId)?.borrowerId)?.name || "Unknown"), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: isRepayment ? "#2E7D6B" : "#C0392B", fontWeight: 600 } }, isRepayment ? "Repayment In" : "Loan Issued"), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155", fontSize: "13px" } }, "\u2014"), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", textAlign: "right", fontWeight: 600, color: isRepayment ? "#2E7D6B" : "#1B3A6B" } }, isRepayment ? "+" : "-", " ", e.text.match(/K[\d,]+\.\d{2}/) ? e.text.match(/K[\d,]+\.\d{2}/)[0] : ""));
+    }))))) : tab === "loans" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Loans Directory"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "loan", prefill: {} }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Issue New Loan")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Collateral Item"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Principal"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Balance"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Due Date"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Status"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, sortedLoans.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "7", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, 'No loans on the book yet. Click "+ Issue New Loan" to start.')), sortedLoans.map((l) => {
       const s = statusOf(l);
       const statusBg = s === "overdue" ? "#FBE4E1" : s === "cleared" ? "#E3F0EC" : "#F5EBD0";
       const statusColor = s === "overdue" ? "#C0392B" : s === "cleared" ? "#2E7D6B" : "#B8860B";
@@ -23914,121 +23919,6 @@
       const s = statusOf(l);
       return /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => onOpenLoan(l.id) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, K(l.principal), " on ", fmtDate(l.issuedOn)), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, "Balance ", K(Math.max(0, owing(l))), " \xB7 due ", fmtDate(l.dueOn)));
     }))));
-  }
-  function allocate(l) {
-    const paid = [...l.repayments].sort((a, b) => d(a.on) - d(b.on));
-    const chargedBy = (on) => l.charges.filter((c) => d(c.on) <= d(on)).reduce((t, c) => t + c.amount, 0);
-    let interestPaid = 0;
-    return paid.map((r) => {
-      const owed = Math.max(0, chargedBy(r.on) - interestPaid);
-      const toInterest = Math.min(r.amount, owed);
-      interestPaid += toInterest;
-      return { ...r, interest: toInterest, principal: r.amount - toInterest };
-    });
-  }
-  function ledger(db) {
-    const rows = [];
-    const who = (id) => (db.borrowers.find((b) => b.id === id) || {}).name || "\u2014";
-    const what = (id) => (db.items.find((c) => c.id === id) || {}).desc || "\u2014";
-    db.loans.forEach((l) => {
-      rows.push({
-        on: l.issuedOn,
-        kind: "Loan out",
-        who: who(l.borrowerId),
-        note: what(l.itemId),
-        out: l.principal,
-        cash: 0,
-        interest: 0,
-        charged: 0,
-        loanId: l.id
-      });
-      l.charges.forEach((c) => rows.push({
-        on: c.on,
-        kind: c.kind === "renewal" ? "Interest on renewal" : "Interest charged",
-        who: who(l.borrowerId),
-        note: c.note,
-        out: 0,
-        cash: 0,
-        interest: 0,
-        charged: c.amount,
-        loanId: l.id
-      }));
-      allocate(l).forEach((r) => rows.push({
-        on: r.on,
-        kind: "Repayment",
-        who: who(l.borrowerId),
-        note: r.method + " \u2014 " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
-        out: 0,
-        cash: r.amount,
-        interest: r.interest,
-        charged: 0,
-        loanId: l.id
-      }));
-    });
-    db.events.filter((e) => e.text.indexOf("forfeited") === 0 || e.text.indexOf("Collateral forfeited") === 0).forEach((e) => {
-      const l = db.loans.find((x) => x.id === e.loanId);
-      if (!l) return;
-      rows.push({
-        on: e.at.slice(0, 10),
-        kind: "Collateral taken",
-        who: who(l.borrowerId),
-        note: what(l.itemId) + " \u2014 no cash until it is sold",
-        out: 0,
-        cash: 0,
-        interest: 0,
-        charged: 0,
-        loanId: l.id
-      });
-    });
-    return rows.sort((a, b) => d(b.on) - d(a.on) || a.kind.localeCompare(b.kind));
-  }
-  function Cashbook({ db }) {
-    const rows = (0, import_react2.useMemo)(() => ledger(db), [db]);
-    const months = (0, import_react2.useMemo)(() => {
-      const seen = [];
-      rows.forEach((r) => {
-        const k = monthKey(r.on);
-        if (seen.indexOf(k) < 0) seen.push(k);
-      });
-      return seen;
-    }, [rows]);
-    const [month, setMonth] = (0, import_react2.useState)(months[0] || monthKey(iso(TODAY)));
-    const inMonth = rows.filter((r) => monthKey(r.on) === month);
-    const year = month.slice(0, 4);
-    const inYear = rows.filter((r) => r.on.slice(0, 4) === year);
-    const fig = (set) => ({
-      lent: sum(set, (r) => r.out),
-      received: sum(set, (r) => r.cash),
-      interest: sum(set, (r) => r.interest),
-      charged: sum(set, (r) => r.charged)
-    });
-    const m = fig(inMonth), y = fig(inYear);
-    const openLoans = db.loans.filter((l) => ["active", "overdue"].includes(statusOf(l)));
-    const onTheStreet = openLoans.reduce((t, l) => t + Math.max(0, owing(l)), 0);
-    const stillOwedInterest = openLoans.reduce(
-      (t, l) => t + Math.max(0, chargesTotal(l) - allocate(l).reduce((x, r) => x + r.interest, 0)),
-      0
-    );
-    function download() {
-      const head = "Date,Entry,Borrower,Detail,Cash out,Cash in,Of which interest,Interest charged\n";
-      const body = inYear.slice().sort((a2, b) => d(a2.on) - d(b.on)).map((r) => [
-        r.on,
-        r.kind,
-        r.who,
-        '"' + r.note.replace(/"/g, "'") + '"',
-        r.out || "",
-        r.cash || "",
-        r.interest || "",
-        r.charged || ""
-      ].join(",")).join("\n");
-      const url = URL.createObjectURL(new Blob([head + body], { type: "text/csv" }));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "cashbook-" + year + ".csv";
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Cashbook"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: download }, "Download ", year)), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-months" }, months.map((k) => /* @__PURE__ */ import_react2.default.createElement("button", { key: k, "data-on": k === month ? "1" : "0", onClick: () => setMonth(k) }, d(k + "-01").toLocaleDateString("en-GB", { month: "short", year: "2-digit" })))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-strip" }, /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", { className: "pb-out" }, K(m.lent)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Lent out")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", { className: "pb-in" }, K(m.received)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Taken in")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", null, K(m.interest)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest earned"))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, monthName(month)), /* @__PURE__ */ import_react2.default.createElement("span", null, inMonth.length, " entries")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, inMonth.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing recorded this month.") : /* @__PURE__ */ import_react2.default.createElement("table", { className: "pb-ledger" }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("th", null, "Entry"), /* @__PURE__ */ import_react2.default.createElement("th", { className: "n" }, "Out"), /* @__PURE__ */ import_react2.default.createElement("th", { className: "n" }, "In"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, inMonth.map((r, i) => /* @__PURE__ */ import_react2.default.createElement("tr", { key: i }, /* @__PURE__ */ import_react2.default.createElement("td", null, r.kind, " \u2014 ", r.who, /* @__PURE__ */ import_react2.default.createElement("em", null, fmtDate(r.on), " \xB7 ", r.note)), /* @__PURE__ */ import_react2.default.createElement("td", { className: "n pb-out" }, r.out ? K(r.out) : r.charged ? "" : ""), /* @__PURE__ */ import_react2.default.createElement("td", { className: "n pb-in" }, r.cash ? K(r.cash) : r.charged ? "+" + K(r.charged) + " owed" : ""))))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, year, " so far")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Lent out"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.lent))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Taken in"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.received))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.charged))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv total" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest actually earned"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.interest))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Still out with borrowers"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(onTheStreet))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged but unpaid"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(stillOwedInterest)))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Interest earned counts only what has actually been paid. Interest charged includes what is still owed, which is why the two differ \u2014 the gap is the money on paper that has not arrived yet.")));
   }
   function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onRestore }) {
     const open = db.loans.filter((l) => ["active", "overdue"].includes(statusOf(l)));
@@ -24222,7 +24112,7 @@
       /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Borrower pays ", K(preview), " in interest for the first ", v.periodDays || 30, " days, on top of the", " ", K(Number(v.principal) || 0), " lent. Each renewal adds the same charge again as its own line.")
     );
   }
-  var import_react2, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY, monthKey, monthName, sum;
+  var import_react2, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY;
   var init_App = __esm({
     "src/App.jsx"() {
       import_react2 = __toESM(require_react());
@@ -24345,9 +24235,6 @@
       graceLeft = (l) => SETTINGS.forfeitAfterDays - daysLate(l);
       EMPTY = { borrowers: [], items: [], loans: [], events: [] };
       STORE_KEY = "pledgebook.v1";
-      monthKey = (s) => s.slice(0, 7);
-      monthName = (k) => d(k + "-01").toLocaleDateString("en-GB", { month: "long", year: "numeric" });
-      sum = (rows, f) => rows.reduce((t, r) => t + f(r), 0);
     }
   });
 
