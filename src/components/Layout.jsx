@@ -1,6 +1,6 @@
 ﻿import React from "react";
 
-export default function Layout({ activeTab, setTab, children }) {
+export default function Layout({ activeTab, setTab, children, searchQuery, setSearchQuery }) {
   const tabs = [
     { id: "today", label: "Dashboard", icon: "🏠" },
     { id: "loans", label: "Loans", icon: "💰" },
@@ -37,7 +37,7 @@ export default function Layout({ activeTab, setTab, children }) {
         <header className="top-header">
           <div className="search-bar">
             <span style={{ color: "#94a3b8" }}>🔍</span>
-            <input type="text" placeholder="Search loans, customers..." />
+            <input type="text" placeholder="Search loans, customers..." value={searchQuery || ""} onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
           
           <div className="header-actions">

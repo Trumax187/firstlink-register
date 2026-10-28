@@ -175,6 +175,7 @@ function useStore() {
 export default function FirstLinkRegister() {
   const [db, write] = useStore();
   const [tab, setTab] = useState("today");
+  const [searchQuery, setSearchQuery] = useState("");
   const [screen, setScreen] = useState(null);   // {kind:"loan"|"borrower", id}
   const [form, setForm] = useState(null);       // {kind:"borrower"|"item"|"loan", prefill}
   const [ask, setAsk] = useState(null);         // {msg, yes, run}
@@ -342,7 +343,7 @@ export default function FirstLinkRegister() {
   }, [db.loans]);
 
   return (
-    <Layout activeTab={tab} setTab={(t) => { setTab(t); home(); }}>
+       <Layout activeTab={tab} setTab={(t) => { setTab(t); home(); }} searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
  
 
       {ask && (
@@ -525,7 +526,7 @@ export default function FirstLinkRegister() {
                   {db.borrowers.length === 0 && (
                     <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No customers yet. Click "+ Add Customer" to register one.</td></tr>
                   )}
-                  {db.borrowers.map((b) => {
+                  {db.borrowers.filter(b => b.name.toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => {
                     const held = db.items.filter((c) => c.borrowerId === b.id && c.status === "held").length;
                     return (
                       <tr key={b.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
@@ -573,7 +574,7 @@ export default function FirstLinkRegister() {
       {db.items.length === 0 && (
         <tr><td colSpan="6" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No collateral in the register yet.</td></tr>
       )}
-      {db.items.map((c) => {
+      {db.items.filter((c) => (c.desc || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((c) => {
         const ol = openLoanFor(c.id);
         const s = c.status === "held" ? (ol ? "On Loan" : "In Store") : c.status;
         const statusBg = s === "In Store" ? "#E3F0EC" : s === "On Loan" ? "#F5EBD0" : "#F1F5F9";
@@ -1200,7 +1201,9 @@ function NewItem({ db, prefill, onCancel, onSave }) {
         <div className="pb-field">
           <label htmlFor="ib">Brought in by</label>
           <select id="ib" value={v.borrowerId} onChange={set("borrowerId")}>
-            {db.borrowers.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+           {db.borrowers.filter((b) => (b.name || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => {
+              return <option key={b.id} value={b.id}>{b.name}</option>;
+            })}
           </select>
         </div>
       )}
@@ -1264,7 +1267,7 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
       <div className="pb-field">
         <label htmlFor="lb">Borrower</label>
         <select id="lb" value={v.borrowerId} onChange={pickBorrower}>
-          {db.borrowers.map((b) => (
+          {db.borrowers.filter((b) => (b.name || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => (
             <option key={b.id} value={b.id}>
               {b.name}{freeFor(b.id).length === 0 ? " — no free item" : ""}
             </option>
