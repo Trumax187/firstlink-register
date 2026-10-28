@@ -770,27 +770,39 @@ function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onResto
 
   return (
     <>
-      <div className="pb-head">
+            {/* WELCOME BANNER */}
+      <div style={{ background: '#1B3A6B', color: '#fff', padding: '24px', borderRadius: '12px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 className="pb-h1">{fmtDate(iso(TODAY))}</h2>
-          <span className="pb-count">{open.length} open {open.length === 1 ? "loan" : "loans"}</span>
+          <h2 style={{ margin: '0 0 8px 0', fontSize: '20px' }}>Welcome back, Edina!</h2>
+          <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Here is what is happening with your loan portfolio today.</p>
         </div>
-        <button className="pb-btn" onClick={onAddBorrower}>Add borrower</button>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: '16px', fontWeight: 600, marginBottom: '8px' }}>{fmtDate(iso(TODAY))}</div>
+          <button className="pb-btn" onClick={onAddBorrower} style={{ background: '#B8860B', color: '#fff', border: 'none' }}>+ Add Customer</button>
+        </div>
       </div>
 
-      {db.borrowers.length === 0 && (
-        <div className="pb-card" style={{ padding: 16, marginBottom: 18 }}>
-          <div className="pb-name">An empty book.</div>
-          <p className="pb-note">Add the first borrower, take in what they bring, then issue the loan.</p>
+      {/* KPI CARDS */}
+      <div className="kpi-grid">
+        <div className="kpi-card">
+          <div className="kpi-label">Total Customers</div>
+          <div className="kpi-value">{db.borrowers.length}</div>
         </div>
-      )}
-
-      <div className="pb-strip">
-        <div><b>{K(outstanding)}</b><span>Out on loan</span></div>
-        <div data-alarm={overdue.length ? "1" : "0"}><b>{overdue.length}</b><span>Overdue</span></div>
-        <div><b>{inStore}</b><span>Items in store</span></div>
+        <div className="kpi-card">
+          <div className="kpi-label">Active Loans</div>
+          <div className="kpi-value">{open.length}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-label">Outstanding Principal</div>
+          <div className="kpi-value">{K(outstanding)}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-label">Overdue Loans</div>
+          <div className="kpi-value" style={{ color: overdue.length > 0 ? '#C0392B' : '#1B3A6B' }}>{overdue.length}</div>
+        </div>
       </div>
 
+      <h2 className="pb-h1" style={{ marginTop: '32px', marginBottom: '16px' }}>Recent Activity</h2>
       <Section
         title="Overdue" note={readyToForfeit ? readyToForfeit + " past grace" : ""}
         list={overdue} tail={(l) => daysLate(l) + " days late · was due " + fmtDate(l.dueOn)}
