@@ -493,35 +493,53 @@ export default function FirstLinkRegister() {
         ) : (
           <>
             <div className="pb-head">
-              <h2 className="pb-h1">Collateral</h2>
-              <button className="pb-btn" onClick={() => setForm({ kind: "item", prefill: {} })}>Take in an item</button>
+              <h2 className="pb-h1">Collateral Register</h2>
+              <button className="pb-btn" onClick={() => setForm({ kind: "item", prefill: {} })} style={{ background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" }}>+ Take In Item</button>
             </div>
-            <div className="pb-card">
-              {db.items.length === 0 && <div className="pb-empty">Nothing on the register yet.</div>}
-              {db.items.map((c) => {
-                const ol = openLoanFor(c.id);
-                return (
-                  <button className="pb-row" key={c.id}
-                    onClick={() => ol
-                      ? openLoan(ol.id)
-                      : c.status === "forfeited"
-                      ? openBorrower(c.borrowerId)
-                      : setForm({ kind: "loan", prefill: { borrowerId: c.borrowerId, itemId: c.id } })}>
-                    <div className="pb-row-top">
-                      <span className="pb-name">{c.desc}</span>
-                      <span className="pb-chip" data-s={c.status === "forfeited" ? "forfeited" : c.status}>
-                        {c.status === "held" ? (ol ? "On loan" : "In store") : c.status[0].toUpperCase() + c.status.slice(1)}
-                      </span>
-                    </div>
-                    <div className="pb-meta">{borrower(c.borrowerId).name} · valued {K(c.value)}</div>
-                    <div className="pb-meta">{c.condition} · {c.location}</div>
-                    <div className="pb-meta">
-                      {ol ? "Open the loan" : c.status === "forfeited" ? "Forfeited" : "Free — tap to lend against it"}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <div className="pb-card" style={{ padding: 0, overflowX: 'auto' }}>
+  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+    <thead>
+      <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <th style={{ padding: '16px' }}>Item Description</th>
+        <th style={{ padding: '16px' }}>Customer</th>
+        <th style={{ padding: '16px' }}>Value</th>
+        <th style={{ padding: '16px' }}>Location</th>
+        <th style={{ padding: '16px' }}>Status</th>
+        <th style={{ padding: '16px', textAlign: 'right' }}>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {db.items.length === 0 && (
+        <tr><td colSpan="6" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No collateral in the register yet.</td></tr>
+      )}
+      {db.items.map((c) => {
+        const ol = openLoanFor(c.id);
+        const s = c.status === "held" ? (ol ? "On Loan" : "In Store") : c.status;
+        const statusBg = s === "In Store" ? "#E3F0EC" : s === "On Loan" ? "#F5EBD0" : "#F1F5F9";
+        const statusColor = s === "In Store" ? "#2E7D6B" : s === "On Loan" ? "#B8860B" : "#64748b";
+        
+        return (
+          <tr key={c.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+            <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>{c.desc}</td>
+            <td style={{ padding: '16px', color: '#334155' }}>{borrower(c.borrowerId).name}</td>
+            <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>{K(c.value)}</td>
+            <td style={{ padding: '16px', color: '#334155', fontSize: '13px' }}>{c.location}</td>
+            <td style={{ padding: '16px' }}>
+              <span style={{ background: statusBg, color: statusColor, padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: 600, textTransform: 'capitalize' }}>
+                {s}
+              </span>
+            </td>
+            <td style={{ padding: '16px', textAlign: 'right' }}>
+              <button onClick={() => ol ? openLoan(ol.id) : setForm({ kind: "loan", prefill: { borrowerId: c.borrowerId, itemId: c.id } })} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, color: '#1B3A6B' }}>
+                {ol ? "View Loan" : "Lend"}
+              </button>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
             <p className="pb-note">
               An item stays on the register after a loan closes, so the same TV pledged three times keeps one history.
             </p>
@@ -1232,6 +1250,8 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
+
 
 
 
