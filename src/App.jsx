@@ -1106,25 +1106,29 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
 
 function Shell({ title, children, onCancel, onSave, saveLabel, ok }) {
   return (
-    <>
-      <button className="pb-back" onClick={onCancel}>? Back</button>
-      <h2 className="pb-h1" style={{ marginBottom: 12 }}>{title}</h2>
-      <div className="pb-card" style={{ padding: 14 }}>
-        {children}
-        <div className="pb-actions">
-          <button className="pb-btn" disabled={!ok} onClick={onSave}>{saveLabel}</button>
-          <button className="pb-btn ghost" onClick={onCancel}>Cancel</button>
+    <div className="modal-backdrop">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h2 className="pb-h1" style={{ margin: 0 }}>{title}</h2>
+          <button onClick={onCancel} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#64748b' }}>&times;</button>
+        </div>
+        <div className="modal-body">
+          {children}
+        </div>
+        <div className="modal-footer">
+          <button className="pb-btn ghost" onClick={onCancel} style={{ border: '1px solid #e2e8f0', background: '#fff', padding: '10px 16px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+          <button className="pb-btn" disabled={!ok} onClick={onSave} style={{ background: ok ? '#1B3A6B' : '#94a3b8', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 600, cursor: ok ? 'pointer' : 'not-allowed' }}>{saveLabel}</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
 function Field({ label, id, ...rest }) {
   return (
-    <div className="pb-field">
-      <label htmlFor={id}>{label}</label>
-      <input id={id} {...rest} />
+    <div style={{ marginBottom: '16px' }}>
+      <label htmlFor={id} style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#1B3A6B', marginBottom: '6px' }}>{label}</label>
+      <input id={id} {...rest} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none', transition: 'border 0.2s' }} />
     </div>
   );
 }
@@ -1137,7 +1141,7 @@ function NewBorrower({ db, onCancel, onSave }) {
   const ok = v.name.trim() && v.phone.trim() && digits === 9 && !clash;
 
   return (
-    <Shell title="Add borrower" onCancel={onCancel} saveLabel="Save and continue"
+    <Shell title="Register New Customer" onCancel={onCancel} saveLabel="Save and continue"
       ok={ok} onSave={() => onSave({ ...v, nrc: fmtNrc(v.nrc) })}>
       <Field label="Full name" id="bn" value={v.name} onChange={set("name")} />
       <div className="pb-two">
@@ -1311,6 +1315,8 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
     </Shell>
   );
 }
+
+
 
 
 
