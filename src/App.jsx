@@ -395,31 +395,51 @@ export default function FirstLinkRegister() {
         ) : tab === "loans" ? (
           <>
             <div className="pb-head">
-              <h2 className="pb-h1">Loans</h2>
-              <button className="pb-btn" onClick={() => setForm({ kind: "loan", prefill: {} })}>Issue a loan</button>
+                            <h2 className="pb-h1">Loans Directory</h2>
+              <button className="pb-btn" onClick={() => setForm({ kind: "loan", prefill: {} })} style={{ background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" }}>+ Issue New Loan</button>
             </div>
-            <div className="pb-card">
-              {sortedLoans.length === 0 && <div className="pb-empty">No loans on the book yet.</div>}
-              {sortedLoans.map((l) => {
-                const s = statusOf(l);
-                return (
-                  <button className="pb-row" key={l.id} onClick={() => openLoan(l.id)}>
-                    <div className="pb-row-top">
-                      <span className="pb-name">{borrower(l.borrowerId).name}</span>
-                      <span className="pb-amt">{K(owing(l) > 0 ? owing(l) : 0)}</span>
-                    </div>
-                    <div className="pb-row-top" style={{ marginTop: 5 }}>
-                      <span className="pb-meta">{item(l.itemId).desc}</span>
-                      <span className="pb-chip" data-s={s}>
-                        {s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1)}
-                      </span>
-                    </div>
-                    <div className="pb-meta">
-                      Due {fmtDate(l.dueOn)}{l.renewals > 0 ? " · renewed " + l.renewals + "×" : ""}
-                    </div>
-                  </button>
-                );
-              })}
+            
+            <div className="pb-card" style={{ padding: 0, overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ padding: '16px' }}>Customer</th>
+                    <th style={{ padding: '16px' }}>Collateral Item</th>
+                    <th style={{ padding: '16px' }}>Principal</th>
+                    <th style={{ padding: '16px' }}>Balance</th>
+                    <th style={{ padding: '16px' }}>Due Date</th>
+                    <th style={{ padding: '16px' }}>Status</th>
+                    <th style={{ padding: '16px', textAlign: 'right' }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedLoans.length === 0 && (
+                    <tr><td colSpan="7" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No loans on the book yet. Click "+ Issue New Loan" to start.</td></tr>
+                  )}
+                  {sortedLoans.map((l) => {
+                    const s = statusOf(l);
+                    const statusBg = s === "overdue" ? "#FBE4E1" : s === "cleared" ? "#E3F0EC" : "#F5EBD0";
+                    const statusColor = s === "overdue" ? "#C0392B" : s === "cleared" ? "#2E7D6B" : "#B8860B";
+                    return (
+                      <tr key={l.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                        <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>{borrower(l.borrowerId).name}</td>
+                        <td style={{ padding: '16px', color: '#334155', fontSize: '13px' }}>{item(l.itemId).desc}</td>
+                        <td style={{ padding: '16px', color: '#334155' }}>{K(l.principal)}</td>
+                        <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>{K(owing(l))}</td>
+                        <td style={{ padding: '16px', color: '#334155', fontSize: '13px' }}>{fmtDate(l.dueOn)}</td>
+                        <td style={{ padding: '16px' }}>
+                          <span style={{ background: statusBg, color: statusColor, padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: 600, textTransform: 'capitalize' }}>
+                            {s}
+                          </span>
+                        </td>
+                        <td style={{ padding: '16px', textAlign: 'right' }}>
+                          <button onClick={() => openLoan(l.id)} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, color: '#1B3A6B' }}>View</button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </>
         ) : tab === "borrowers" ? (
