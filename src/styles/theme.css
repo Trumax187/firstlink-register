@@ -636,3 +636,21 @@
 .modal-content {
   overflow: hidden !important;
 }
+/* =========================================
+   PRINT STYLES (Hides app UI for printing)
+   ========================================= */
+@media print {
+  body * {
+    visibility: hidden; /* Hides everything */
+  }
+  .pb-modal-card, .pb-sec, .print-area, .pb-card {
+    visibility: visible; /* Shows only the main content */
+  }
+  .sidebar, .top-header, .mobile-nav, .pb-btn {
+    display: none !important; /* Hides navigation and buttons */
+  }
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

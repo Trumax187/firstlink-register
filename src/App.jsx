@@ -147,26 +147,69 @@ const graceLeft = (l) => SETTINGS.forfeitAfterDays - daysLate(l);
 
 /* ---------- store ---------- */
 
+
 const EMPTY = { borrowers: [], items: [], loans: [], events: [] };
 const STORE_KEY = "pledgebook.v1";
 
-// Saves to the browser so nothing is lost on refresh. When the Flask
-// backend arrives, these two functions become fetch() calls.
+function isValidStore(data) {
+  return (
+    data &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    ["borrowers", "items", "loans", "events"].every(
+      (key) => Array.isArray(data[key])
+    )
+  );
+}
+
 function loadStore() {
   try {
     const raw = window.localStorage.getItem(STORE_KEY);
-    return raw ? JSON.parse(raw) : EMPTY;
-  } catch (e) {
+
+    if (!raw) return EMPTY;
+
+    const parsed = JSON.parse(raw);
+
+    if (!isValidStore(parsed)) {
+      console.error("FirstLink: Invalid saved data structure.");
+      return EMPTY;
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error("FirstLink: Could not load saved data.", error);
     return EMPTY;
   }
 }
-function saveStore(s) {
-  try { window.localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {}
+
+function saveStore(data) {
+  if (!isValidStore(data)) {
+    throw new Error("Invalid FirstLink database structure.");
+  }
+
+  window.localStorage.setItem(STORE_KEY, JSON.stringify(data));
 }
 
 function useStore() {
   const [state, setState] = useState(loadStore);
-  const write = (updater) => setState((s) => { const next = updater(s); saveStore(next); return next; });
+
+  const write = (updater) => {
+    const next =
+      typeof updater === "function" ? updater(state) : updater;
+
+    try {
+      saveStore(next);
+      setState(next);
+      return true;
+    } catch (error) {
+      console.error("FirstLink: Could not save data.", error);
+      window.alert(
+        "Your changes could not be saved. Please check browser storage space and permissions."
+      );
+      return false;
+    }
+  };
+
   return [state, write];
 }
 
@@ -174,6 +217,90 @@ function useStore() {
 
 export default function FirstLinkRegister() {
   const [db, write] = useStore();
+  const [lastBackupAt, setLastBackupAt] = useState(null);
+  const [restoreMessage, setRestoreMessage] = useState("");
+
+function exportBackup() {
+  const backup = {
+    app: "FirstLink",
+    schemaVersion: 1,
+    exportedAt: new Date().toISOString(),
+    data: db,
+  };
+
+  try {
+    const blob = new Blob(
+      [JSON.stringify(backup, null, 2)],
+      { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `firstlink-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    setLastBackupAt(new Date());
+    setRestoreMessage("Backup exported successfully.");
+  } catch (error) {
+    console.error("FirstLink backup export failed:", error);
+    setRestoreMessage("Backup export failed. Please try again.");
+  }
+}
+
+function restoreBackup(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const backup = JSON.parse(reader.result);
+
+      if (
+        backup?.app !== "FirstLink" ||
+        backup?.schemaVersion !== 1 ||
+        !isValidStore(backup.data)
+      ) {
+        throw new Error("This is not a valid FirstLink backup.");
+      }
+
+      const confirmed = window.confirm(
+        "Restore this backup? All current FirstLink records will be replaced."
+      );
+
+      if (!confirmed) return;
+
+      const saved = write(backup.data);
+
+      if (saved) {
+        setRestoreMessage("Backup restored successfully.");
+        setLastBackupAt(null);
+        setForm(null);
+        setScreen(null);
+        setTab("today");
+      }
+    } catch (error) {
+      console.error("FirstLink backup restore failed:", error);
+      setRestoreMessage(
+        "Restore failed. The backup file is invalid or could not be read."
+      );
+    }
+  };
+
+  reader.onerror = () => {
+    setRestoreMessage("Could not read the selected backup file.");
+  };
+
+  reader.readAsText(file);
+}
+
   const [tab, setTab] = useState("today");
   const [searchQuery, setSearchQuery] = useState("");
   const [screen, setScreen] = useState(null);   // {kind:"loan"|"borrower", id}
@@ -206,22 +333,61 @@ export default function FirstLinkRegister() {
   /* actions */
 
   function recordRepayment(l, amount, method) {
-    write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({
-        ...x,
-        repayments: [...x.repayments, { id: uid("r"), amount, on: iso(TODAY), method }],
-      }));
-      next = log(next, l.id, "Repayment " + K(amount) + " (" + method + ")");
-      const after = owing({ ...l, repayments: [...l.repayments, { amount }] });
-      if (after <= 0) {
-        next = patchLoan(next, l.id, (x) => ({ ...x, status: "cleared" }));
-        next = patchItem(next, l.itemId, "released");
-        next = log(next, l.id, "Loan cleared. Collateral released to borrower");
-      }
-      return next;
-    });
-    setForm(null);
+  const currentLoan = db.loans.find((x) => x.id === l.id);
+
+  if (!currentLoan) {
+    window.alert("Loan not found.");
+    return;
   }
+
+  const balance = owing(currentLoan);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    window.alert("Enter a valid repayment amount.");
+    return;
+  }
+
+  if (amount > balance) {
+    window.alert(
+      "Repayment cannot exceed the outstanding balance of " + K(balance)
+    );
+    return;
+  }
+
+  write((s) => {
+    const savedLoan = s.loans.find((x) => x.id === l.id);
+    if (!savedLoan || amount > owing(savedLoan)) return s;
+
+    const repayment = {
+      id: uid("r"),
+      amount,
+      on: iso(TODAY),
+      method,
+    };
+
+    let next = patchLoan(s, l.id, (x) => ({
+      ...x,
+      repayments: [...x.repayments, repayment],
+    }));
+
+    next = log(next, l.id, "Repayment " + K(amount) + " (" + method + ")");
+
+    const after = owing({
+      ...savedLoan,
+      repayments: [...savedLoan.repayments, repayment],
+    });
+
+    if (after <= 0) {
+      next = patchLoan(next, l.id, (x) => ({ ...x, status: "cleared" }));
+      next = patchItem(next, l.itemId, "released");
+      next = log(next, l.id, "Loan cleared. Collateral released to borrower");
+    }
+
+    return next;
+  });
+
+  setForm(null);
+}
 
   function renew(l) {
     const amt = nextCharge(l);
@@ -295,12 +461,12 @@ export default function FirstLinkRegister() {
     confirmThen(msg, yes, () => { write(() => data); setTab("today"); home(); });
   }
 
-  function addBorrower(v) {
-    const id = uid("b");
-    write((s) => ({ ...s, borrowers: [...s.borrowers, { id, ...v }] }));
-    setForm(null);
-    setScreen({ kind: "borrower", id });   // straight to their page
-  }
+ function addBorrower(v) {
+  const id = uid("b");
+  write((s) => ({ ...s, borrowers: [...s.borrowers, { id, ...v }] }));
+  setScreen(null);
+  setForm({ kind: "item", prefill: { borrowerId: id } });
+}
 
   function addItem(v) {
     const id = uid("c");
@@ -359,23 +525,45 @@ export default function FirstLinkRegister() {
       )}
 
       <div className="pb-body">
-        {form && form.kind === "borrower" ? (
-          <NewBorrower db={db} onCancel={() => setForm(null)} onSave={addBorrower} />
-        ) : form && form.kind === "item" ? (
-          <NewItem db={db} prefill={form.prefill} onCancel={() => setForm(null)} onSave={addItem} />
-        ) : form && form.kind === "loan" ? (
-          <NewLoan db={db} prefill={form.prefill} onCancel={() => setForm(null)} onSave={addLoan}
-            onNeedItem={(bid) => setForm({ kind: "item", prefill: { borrowerId: bid } })} />
-        ) : loan ? (
-          <LoanDetail
-            l={loan} b={borrower(loan.borrowerId)} it={item(loan.itemId)}
-            events={db.events.filter((e) => e.loanId === loan.id)}
-            form={form} setForm={setForm}
-            onBack={() => openBorrower(loan.borrowerId)}
-            onRepay={recordRepayment} onRenew={renew} onForfeit={forfeit}
-            onDropRepayment={removeRepayment} onDropLoan={removeLoan}
-          />
-        ) : person ? (
+{form && form.kind === "borrower" ? (
+  <NewBorrower
+    db={db}
+    onCancel={() => setForm(null)}
+    onSave={addBorrower}
+  />
+) : form && form.kind === "item" ? (
+  <NewItem
+    db={db}
+    prefill={form.prefill}
+    onCancel={() => setForm(null)}
+    onSave={addItem}
+  />
+) : form && form.kind === "loan" ? (
+  <NewLoan
+    db={db}
+    prefill={form.prefill}
+    onCancel={() => setForm(null)}
+    onSave={addLoan}
+    onNeedItem={(borrowerId) =>
+      setForm({ kind: "item", prefill: { borrowerId } })
+    }
+  />
+) : loan ? (
+  <LoanDetail
+    l={loan}
+    b={borrower(loan.borrowerId)}
+    it={item(loan.itemId)}
+    events={db.events.filter((e) => e.loanId === loan.id)}
+    form={form}
+    setForm={setForm}
+    onBack={home}
+    onRepay={recordRepayment}
+    onRenew={renew}
+    onForfeit={forfeit}
+    onDropRepayment={removeRepayment}
+    onDropLoan={removeLoan}
+  />
+) : person ? (
           <BorrowerDetail
             b={person} db={db} openLoanFor={openLoanFor}
             onBack={() => { setTab("borrowers"); home(); }}
@@ -392,68 +580,7 @@ export default function FirstLinkRegister() {
             onRestore={() => resetTo(SEED,
               "Replace everything currently in the book with the sample records?", "Restore samples")} />
         ) : tab === "cashbook" ? (
-          <>
-            <div className="pb-head">
-              <h2 className="pb-h1">Cashbook & Reports</h2>
-              <button className="pb-btn" style={{ background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" }}>Export CSV</button>
-            </div>
-
-            {/* KPI CARDS FOR CASHBOOK */}
-            <div className="kpi-grid" style={{ marginBottom: '24px' }}>
-              <div className="kpi-card">
-                <div className="kpi-label">Cash In (Repayments)</div>
-                <div className="kpi-value" style={{ color: '#2E7D6B' }}>{K(db.loans.reduce((sum, l) => sum + l.repayments.reduce((s, r) => s + r.amount, 0), 0))}</div>
-              </div>
-              <div className="kpi-card">
-                <div className="kpi-label">Cash Out (Loans Issued)</div>
-                <div className="kpi-value">{K(db.loans.reduce((sum, l) => sum + l.principal, 0))}</div>
-              </div>
-              <div className="kpi-card">
-                <div className="kpi-label">Total Interest Charged</div>
-                <div className="kpi-value" style={{ color: '#B8860B' }}>{K(db.loans.reduce((sum, l) => sum + l.charges.reduce((s, c) => s + c.amount, 0), 0))}</div>
-              </div>
-            </div>
-
-            <div className="pb-card" style={{ padding: 0, overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                <thead>
-                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    <th style={{ padding: '16px' }}>Date</th>
-                    <th style={{ padding: '16px' }}>Customer</th>
-                    <th style={{ padding: '16px' }}>Transaction Type</th>
-                    <th style={{ padding: '16px' }}>Method</th>
-                    <th style={{ padding: '16px', textAlign: 'right' }}>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Map through all loan events to build a ledger */}
-                  {db.events.length === 0 && (
-                    <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#94a3b8' }}>No transactions recorded yet.</td></tr>
-                  )}
-                  {db.events.map((e) => {
-                    // Extract amount from the event text if possible, or just show the event description
-                    const isRepayment = e.text.includes("Repayment");
-                    const isLoan = e.text.includes("Loan issued");
-                    if (!isRepayment && !isLoan) return null; // Only show financial events in cashbook
-
-                    return (
-                      <tr key={e.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
-                        <td style={{ padding: '16px', color: '#64748b', fontSize: '13px' }}>{e.at.split(" ")[0]}</td>
-                        <td style={{ padding: '16px', fontWeight: 600, color: '#1B3A6B' }}>{borrower(db.loans.find(l => l.id === e.loanId)?.borrowerId)?.name || "Unknown"}</td>
-                        <td style={{ padding: '16px', color: isRepayment ? '#2E7D6B' : '#C0392B', fontWeight: 600 }}>
-                          {isRepayment ? "Repayment In" : "Loan Issued"}
-                        </td>
-                        <td style={{ padding: '16px', color: '#334155', fontSize: '13px' }}>—</td>
-                        <td style={{ padding: '16px', textAlign: 'right', fontWeight: 600, color: isRepayment ? '#2E7D6B' : '#1B3A6B' }}>
-                          {isRepayment ? "+" : "-"} {e.text.match(/K[\d,]+\.\d{2}/) ? e.text.match(/K[\d,]+\.\d{2}/)[0] : ""}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </>
+          <Cashbook db={db} />
         ) : tab === "loans" ? (
           <>
             <div className="pb-head">
@@ -552,7 +679,7 @@ export default function FirstLinkRegister() {
             </div>
             
           </>
-        ) : (
+        ) : tab === "collateral" ? (
           <>
             <div className="pb-head">
               <h2 className="pb-h1">Collateral Register</h2>
@@ -606,7 +733,43 @@ export default function FirstLinkRegister() {
               An item stays on the register after a loan closes, so the same TV pledged three times keeps one history.
             </p>
           </>
-        )}
+        ) : tab === "settings" ? (
+          <>
+            <div className="pb-head">
+              <h2 className="pb-h1">Settings & Data</h2>
+            </div>
+
+            <div className="pb-card">
+              <h3>Backup your records</h3>
+              <p>Export your customers, collateral, loans and transaction history to a JSON file.</p>
+
+              <button className="pb-btn" onClick={exportBackup}>
+                Download Backup
+              </button>
+
+              <p className="pb-note">
+                {lastBackupAt
+                  ? `Last backup created this session: ${lastBackupAt.toLocaleString()}`
+                  : "No backup exported in this session yet."}
+              </p>
+            </div>
+
+            <div className="pb-card">
+              <h3>Restore records</h3>
+              <p>Choose a FirstLink JSON backup. Current records will only be replaced after validation and confirmation.</p>
+
+              <input
+                type="file"
+                accept=".json,application/json"
+                onChange={restoreBackup}
+              />
+
+              {restoreMessage && (
+                <p className="pb-note">{restoreMessage}</p>
+              )}
+            </div>
+          </>
+        ) : null}
       </div>
     </Layout>
   );
@@ -1201,9 +1364,9 @@ function NewItem({ db, prefill, onCancel, onSave }) {
         <div className="pb-field">
           <label htmlFor="ib">Brought in by</label>
           <select id="ib" value={v.borrowerId} onChange={set("borrowerId")}>
-           {db.borrowers.filter((b) => (b.name || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => {
-              return <option key={b.id} value={b.id}>{b.name}</option>;
-            })}
+            {db.borrowers.map((b) => (
+              <option key={b.id} value={b.id}>{b.name}</option>
+            ))}
           </select>
         </div>
       )}
@@ -1267,11 +1430,11 @@ function NewLoan({ db, prefill, onCancel, onSave, onNeedItem }) {
       <div className="pb-field">
         <label htmlFor="lb">Borrower</label>
         <select id="lb" value={v.borrowerId} onChange={pickBorrower}>
-          {db.borrowers.filter((b) => (b.name || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => (
+          {db.borrowers.map((b) => (
             <option key={b.id} value={b.id}>
               {b.name}{freeFor(b.id).length === 0 ? " — no free item" : ""}
-            </option>
-          ))}
+          </option>
+        ))}
         </select>
       </div>
 

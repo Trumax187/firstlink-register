@@ -7,6 +7,7 @@ export default function Layout({ activeTab, setTab, children, searchQuery, setSe
     { id: "borrowers", label: "Customers", icon: "👥" },
     { id: "collateral", label: "Collateral", icon: "📦" },
     { id: "cashbook", label: "Cashbook", icon: "📒" },
+    { id: "settings", label: "Settings & Data", icon: "⚙️" },
   ];
 
   return (

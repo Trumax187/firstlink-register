@@ -23600,13 +23600,14 @@
   });
 
   // src/components/Layout.jsx
-  function Layout({ activeTab, setTab, children, searchQuery: searchQuery2, setSearchQuery }) {
+  function Layout({ activeTab, setTab, children, searchQuery, setSearchQuery }) {
     const tabs = [
       { id: "today", label: "Dashboard", icon: "\u{1F3E0}" },
       { id: "loans", label: "Loans", icon: "\u{1F4B0}" },
       { id: "borrowers", label: "Customers", icon: "\u{1F465}" },
       { id: "collateral", label: "Collateral", icon: "\u{1F4E6}" },
-      { id: "cashbook", label: "Cashbook", icon: "\u{1F4D2}" }
+      { id: "cashbook", label: "Cashbook", icon: "\u{1F4D2}" },
+      { id: "settings", label: "Settings & Data", icon: "\u2699\uFE0F" }
     ];
     return /* @__PURE__ */ import_react.default.createElement("div", { className: "app-layout" }, /* @__PURE__ */ import_react.default.createElement("aside", { className: "sidebar" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-brand" }, /* @__PURE__ */ import_react.default.createElement("img", { src: "/logo.jpeg", alt: "FirstLink", style: { maxWidth: "160px", borderRadius: "6px" } })), /* @__PURE__ */ import_react.default.createElement("nav", { className: "sidebar-nav" }, tabs.map((t) => /* @__PURE__ */ import_react.default.createElement(
       "button",
@@ -23617,7 +23618,7 @@
       },
       /* @__PURE__ */ import_react.default.createElement("span", { className: "nav-icon" }, t.icon),
       t.label
-    ))), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-footer" }, /* @__PURE__ */ import_react.default.createElement("div", { style: { fontWeight: 600, color: "#fff" } }, "FirstLink"), /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "11px", color: "#94a3b8" } }, "Collateral Loan Register", /* @__PURE__ */ import_react.default.createElement("br", null), "v2.0.0"))), /* @__PURE__ */ import_react.default.createElement("main", { className: "main-content" }, /* @__PURE__ */ import_react.default.createElement("header", { className: "top-header" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "search-bar" }, /* @__PURE__ */ import_react.default.createElement("span", { style: { color: "#94a3b8" } }, "\u{1F50D}"), /* @__PURE__ */ import_react.default.createElement("input", { type: "text", placeholder: "Search loans, customers...", value: searchQuery2 || "", onChange: (e) => setSearchQuery(e.target.value) })), /* @__PURE__ */ import_react.default.createElement("div", { className: "header-actions" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "header-date" }, /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "12px", fontWeight: 600 } }, "Today"), /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "11px", color: "#64748b" } }, "Live")), /* @__PURE__ */ import_react.default.createElement("button", { className: "icon-btn" }, "\u{1F514} ", /* @__PURE__ */ import_react.default.createElement("span", { className: "badge" }, "2")), /* @__PURE__ */ import_react.default.createElement("div", { className: "user-profile" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "avatar" }, "E"), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "13px", fontWeight: 600 } }, "Edina"), /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "11px", color: "#64748b" } }, "Admin"))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "page-content" }, children)), /* @__PURE__ */ import_react.default.createElement("nav", { className: "mobile-nav" }, tabs.map((t) => /* @__PURE__ */ import_react.default.createElement(
+    ))), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-footer" }, /* @__PURE__ */ import_react.default.createElement("div", { style: { fontWeight: 600, color: "#fff" } }, "FirstLink"), /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "11px", color: "#94a3b8" } }, "Collateral Loan Register", /* @__PURE__ */ import_react.default.createElement("br", null), "v2.0.0"))), /* @__PURE__ */ import_react.default.createElement("main", { className: "main-content" }, /* @__PURE__ */ import_react.default.createElement("header", { className: "top-header" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "search-bar" }, /* @__PURE__ */ import_react.default.createElement("span", { style: { color: "#94a3b8" } }, "\u{1F50D}"), /* @__PURE__ */ import_react.default.createElement("input", { type: "text", placeholder: "Search loans, customers...", value: searchQuery || "", onChange: (e) => setSearchQuery(e.target.value) })), /* @__PURE__ */ import_react.default.createElement("div", { className: "header-actions" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "header-date" }, /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "12px", fontWeight: 600 } }, "Today"), /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "11px", color: "#64748b" } }, "Live")), /* @__PURE__ */ import_react.default.createElement("button", { className: "icon-btn" }, "\u{1F514} ", /* @__PURE__ */ import_react.default.createElement("span", { className: "badge" }, "2")), /* @__PURE__ */ import_react.default.createElement("div", { className: "user-profile" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "avatar" }, "E"), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "13px", fontWeight: 600 } }, "Edina"), /* @__PURE__ */ import_react.default.createElement("div", { style: { fontSize: "11px", color: "#64748b" } }, "Admin"))))), /* @__PURE__ */ import_react.default.createElement("div", { className: "page-content" }, children)), /* @__PURE__ */ import_react.default.createElement("nav", { className: "mobile-nav" }, tabs.map((t) => /* @__PURE__ */ import_react.default.createElement(
       "button",
       {
         key: t.id,
@@ -23641,33 +23642,118 @@
     if (owing(l) <= 0) return "cleared";
     return daysBetween(l.dueOn, iso(TODAY)) > 0 ? "overdue" : "active";
   }
+  function isValidStore(data) {
+    return data && typeof data === "object" && !Array.isArray(data) && ["borrowers", "items", "loans", "events"].every(
+      (key) => Array.isArray(data[key])
+    );
+  }
   function loadStore() {
     try {
       const raw = window.localStorage.getItem(STORE_KEY);
-      return raw ? JSON.parse(raw) : EMPTY;
-    } catch (e) {
+      if (!raw) return EMPTY;
+      const parsed = JSON.parse(raw);
+      if (!isValidStore(parsed)) {
+        console.error("FirstLink: Invalid saved data structure.");
+        return EMPTY;
+      }
+      return parsed;
+    } catch (error) {
+      console.error("FirstLink: Could not load saved data.", error);
       return EMPTY;
     }
   }
-  function saveStore(s) {
-    try {
-      window.localStorage.setItem(STORE_KEY, JSON.stringify(s));
-    } catch (e) {
+  function saveStore(data) {
+    if (!isValidStore(data)) {
+      throw new Error("Invalid FirstLink database structure.");
     }
+    window.localStorage.setItem(STORE_KEY, JSON.stringify(data));
   }
   function useStore() {
     const [state, setState] = (0, import_react2.useState)(loadStore);
-    const write = (updater) => setState((s) => {
-      const next = updater(s);
-      saveStore(next);
-      return next;
-    });
+    const write = (updater) => {
+      const next = typeof updater === "function" ? updater(state) : updater;
+      try {
+        saveStore(next);
+        setState(next);
+        return true;
+      } catch (error) {
+        console.error("FirstLink: Could not save data.", error);
+        window.alert(
+          "Your changes could not be saved. Please check browser storage space and permissions."
+        );
+        return false;
+      }
+    };
     return [state, write];
   }
   function FirstLinkRegister() {
     const [db, write] = useStore();
+    const [lastBackupAt, setLastBackupAt] = (0, import_react2.useState)(null);
+    const [restoreMessage, setRestoreMessage] = (0, import_react2.useState)("");
+    function exportBackup() {
+      const backup = {
+        app: "FirstLink",
+        schemaVersion: 1,
+        exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        data: db
+      };
+      try {
+        const blob = new Blob(
+          [JSON.stringify(backup, null, 2)],
+          { type: "application/json" }
+        );
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `firstlink-backup-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        setLastBackupAt(/* @__PURE__ */ new Date());
+        setRestoreMessage("Backup exported successfully.");
+      } catch (error) {
+        console.error("FirstLink backup export failed:", error);
+        setRestoreMessage("Backup export failed. Please try again.");
+      }
+    }
+    function restoreBackup(event) {
+      const file = event.target.files?.[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const backup = JSON.parse(reader.result);
+          if (backup?.app !== "FirstLink" || backup?.schemaVersion !== 1 || !isValidStore(backup.data)) {
+            throw new Error("This is not a valid FirstLink backup.");
+          }
+          const confirmed = window.confirm(
+            "Restore this backup? All current FirstLink records will be replaced."
+          );
+          if (!confirmed) return;
+          const saved = write(backup.data);
+          if (saved) {
+            setRestoreMessage("Backup restored successfully.");
+            setLastBackupAt(null);
+            setForm(null);
+            setScreen(null);
+            setTab("today");
+          }
+        } catch (error) {
+          console.error("FirstLink backup restore failed:", error);
+          setRestoreMessage(
+            "Restore failed. The backup file is invalid or could not be read."
+          );
+        }
+      };
+      reader.onerror = () => {
+        setRestoreMessage("Could not read the selected backup file.");
+      };
+      reader.readAsText(file);
+    }
     const [tab, setTab] = (0, import_react2.useState)("today");
-    const [searchQuery2, setSearchQuery] = (0, import_react2.useState)("");
+    const [searchQuery, setSearchQuery] = (0, import_react2.useState)("");
     const [screen, setScreen] = (0, import_react2.useState)(null);
     const [form, setForm] = (0, import_react2.useState)(null);
     const [ask, setAsk] = (0, import_react2.useState)(null);
@@ -23696,13 +23782,40 @@
     const patchLoan = (s, id, fn) => ({ ...s, loans: s.loans.map((l) => l.id === id ? fn(l) : l) });
     const patchItem = (s, id, status) => ({ ...s, items: s.items.map((c) => c.id === id ? { ...c, status } : c) });
     function recordRepayment(l, amount, method) {
+      const currentLoan = db.loans.find((x) => x.id === l.id);
+      if (!currentLoan) {
+        window.alert("Loan not found.");
+        return;
+      }
+      const balance = owing(currentLoan);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        window.alert("Enter a valid repayment amount.");
+        return;
+      }
+      if (amount > balance) {
+        window.alert(
+          "Repayment cannot exceed the outstanding balance of " + K(balance)
+        );
+        return;
+      }
       write((s) => {
+        const savedLoan = s.loans.find((x) => x.id === l.id);
+        if (!savedLoan || amount > owing(savedLoan)) return s;
+        const repayment = {
+          id: uid("r"),
+          amount,
+          on: iso(TODAY),
+          method
+        };
         let next = patchLoan(s, l.id, (x) => ({
           ...x,
-          repayments: [...x.repayments, { id: uid("r"), amount, on: iso(TODAY), method }]
+          repayments: [...x.repayments, repayment]
         }));
         next = log(next, l.id, "Repayment " + K(amount) + " (" + method + ")");
-        const after = owing({ ...l, repayments: [...l.repayments, { amount }] });
+        const after = owing({
+          ...savedLoan,
+          repayments: [...savedLoan.repayments, repayment]
+        });
         if (after <= 0) {
           next = patchLoan(next, l.id, (x) => ({ ...x, status: "cleared" }));
           next = patchItem(next, l.itemId, "released");
@@ -23784,8 +23897,8 @@
     function addBorrower(v) {
       const id = uid("b");
       write((s) => ({ ...s, borrowers: [...s.borrowers, { id, ...v }] }));
-      setForm(null);
-      setScreen({ kind: "borrower", id });
+      setScreen(null);
+      setForm({ kind: "item", prefill: { borrowerId: id } });
     }
     function addItem(v) {
       const id = uid("c");
@@ -23825,17 +23938,32 @@
     return /* @__PURE__ */ import_react2.default.createElement(Layout, { activeTab: tab, setTab: (t) => {
       setTab(t);
       home();
-    }, searchQuery: searchQuery2, setSearchQuery }, ask && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-modal", onClick: () => setAsk(null) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-modal-card", onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-modal-msg" }, ask.msg), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn warn", onClick: () => {
+    }, searchQuery, setSearchQuery }, ask && /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-modal", onClick: () => setAsk(null) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-modal-card", onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-modal-msg" }, ask.msg), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn warn", onClick: () => {
       ask.run();
       setAsk(null);
-    } }, ask.yes), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: () => setAsk(null) }, "Cancel")))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-body" }, form && form.kind === "borrower" ? /* @__PURE__ */ import_react2.default.createElement(NewBorrower, { db, onCancel: () => setForm(null), onSave: addBorrower }) : form && form.kind === "item" ? /* @__PURE__ */ import_react2.default.createElement(NewItem, { db, prefill: form.prefill, onCancel: () => setForm(null), onSave: addItem }) : form && form.kind === "loan" ? /* @__PURE__ */ import_react2.default.createElement(
+    } }, ask.yes), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: () => setAsk(null) }, "Cancel")))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-body" }, form && form.kind === "borrower" ? /* @__PURE__ */ import_react2.default.createElement(
+      NewBorrower,
+      {
+        db,
+        onCancel: () => setForm(null),
+        onSave: addBorrower
+      }
+    ) : form && form.kind === "item" ? /* @__PURE__ */ import_react2.default.createElement(
+      NewItem,
+      {
+        db,
+        prefill: form.prefill,
+        onCancel: () => setForm(null),
+        onSave: addItem
+      }
+    ) : form && form.kind === "loan" ? /* @__PURE__ */ import_react2.default.createElement(
       NewLoan,
       {
         db,
         prefill: form.prefill,
         onCancel: () => setForm(null),
         onSave: addLoan,
-        onNeedItem: (bid) => setForm({ kind: "item", prefill: { borrowerId: bid } })
+        onNeedItem: (borrowerId) => setForm({ kind: "item", prefill: { borrowerId } })
       }
     ) : loan ? /* @__PURE__ */ import_react2.default.createElement(
       LoanDetail,
@@ -23846,7 +23974,7 @@
         events: db.events.filter((e) => e.loanId === loan.id),
         form,
         setForm,
-        onBack: () => openBorrower(loan.borrowerId),
+        onBack: home,
         onRepay: recordRepayment,
         onRenew: renew,
         onForfeit: forfeit,
@@ -23888,26 +24016,28 @@
           "Restore samples"
         )
       }
-    ) : tab === "cashbook" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Cashbook & Reports"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "Export CSV")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-grid", style: { marginBottom: "24px" } }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-label" }, "Cash In (Repayments)"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-value", style: { color: "#2E7D6B" } }, K(db.loans.reduce((sum, l) => sum + l.repayments.reduce((s, r) => s + r.amount, 0), 0)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-label" }, "Cash Out (Loans Issued)"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-value" }, K(db.loans.reduce((sum, l) => sum + l.principal, 0)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-label" }, "Total Interest Charged"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "kpi-value", style: { color: "#B8860B" } }, K(db.loans.reduce((sum, l) => sum + l.charges.reduce((s, c) => s + c.amount, 0), 0))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Date"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Transaction Type"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Method"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Amount"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, db.events.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "5", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, "No transactions recorded yet.")), db.events.map((e) => {
-      const isRepayment = e.text.includes("Repayment");
-      const isLoan = e.text.includes("Loan issued");
-      if (!isRepayment && !isLoan) return null;
-      return /* @__PURE__ */ import_react2.default.createElement("tr", { key: e.id, style: { borderBottom: "1px solid #e2e8f0" } }, /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#64748b", fontSize: "13px" } }, e.at.split(" ")[0]), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, borrower(db.loans.find((l) => l.id === e.loanId)?.borrowerId)?.name || "Unknown"), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: isRepayment ? "#2E7D6B" : "#C0392B", fontWeight: 600 } }, isRepayment ? "Repayment In" : "Loan Issued"), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155", fontSize: "13px" } }, "\u2014"), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", textAlign: "right", fontWeight: 600, color: isRepayment ? "#2E7D6B" : "#1B3A6B" } }, isRepayment ? "+" : "-", " ", e.text.match(/K[\d,]+\.\d{2}/) ? e.text.match(/K[\d,]+\.\d{2}/)[0] : ""));
-    }))))) : tab === "loans" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Loans Directory"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "loan", prefill: {} }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Issue New Loan")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Collateral Item"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Principal"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Balance"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Due Date"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Status"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, sortedLoans.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "7", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, 'No loans on the book yet. Click "+ Issue New Loan" to start.')), sortedLoans.map((l) => {
+    ) : tab === "cashbook" ? /* @__PURE__ */ import_react2.default.createElement(Cashbook, { db }) : tab === "loans" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Loans Directory"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "loan", prefill: {} }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Issue New Loan")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Collateral Item"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Principal"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Balance"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Due Date"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Status"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, sortedLoans.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "7", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, 'No loans on the book yet. Click "+ Issue New Loan" to start.')), sortedLoans.map((l) => {
       const s = statusOf(l);
       const statusBg = s === "overdue" ? "#FBE4E1" : s === "cleared" ? "#E3F0EC" : "#F5EBD0";
       const statusColor = s === "overdue" ? "#C0392B" : s === "cleared" ? "#2E7D6B" : "#B8860B";
       return /* @__PURE__ */ import_react2.default.createElement("tr", { key: l.id, style: { borderBottom: "1px solid #e2e8f0" } }, /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, borrower(l.borrowerId).name), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155", fontSize: "13px" } }, item(l.itemId).desc), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155" } }, K(l.principal)), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, K(owing(l))), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155", fontSize: "13px" } }, fmtDate(l.dueOn)), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px" } }, /* @__PURE__ */ import_react2.default.createElement("span", { style: { background: statusBg, color: statusColor, padding: "4px 10px", borderRadius: "12px", fontSize: "12px", fontWeight: 600, textTransform: "capitalize" } }, s)), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", textAlign: "right" } }, /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => openLoan(l.id), style: { background: "#f1f5f9", border: "none", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontWeight: 600, color: "#1B3A6B" } }, "View")));
-    }))))) : tab === "borrowers" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Customers Directory"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "borrower" }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Add Customer")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer Name"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Contact"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Location"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Items Held"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, db.borrowers.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "5", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, 'No customers yet. Click "+ Add Customer" to register one.')), db.borrowers.filter((b) => b.name.toLowerCase().includes((searchQuery2 || "").toLowerCase())).map((b) => {
+    }))))) : tab === "borrowers" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Customers Directory"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "borrower" }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Add Customer")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer Name"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Contact"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Location"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Items Held"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, db.borrowers.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "5", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, 'No customers yet. Click "+ Add Customer" to register one.')), db.borrowers.filter((b) => b.name.toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => {
       const held = db.items.filter((c) => c.borrowerId === b.id && c.status === "held").length;
       return /* @__PURE__ */ import_react2.default.createElement("tr", { key: b.id, style: { borderBottom: "1px solid #e2e8f0" } }, /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, b.name, /* @__PURE__ */ import_react2.default.createElement("div", { style: { fontSize: "12px", color: "#64748b", fontWeight: 400 } }, "NRC: ", fmtNrc(b.nrc))), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155" } }, b.phone), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155" } }, b.area), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px" } }, /* @__PURE__ */ import_react2.default.createElement("span", { style: { background: held > 0 ? "#F5EBD0" : "#f1f5f9", color: held > 0 ? "#B8860B" : "#64748b", padding: "4px 8px", borderRadius: "12px", fontSize: "12px", fontWeight: 600 } }, held, " ", held === 1 ? "item" : "items")), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", textAlign: "right" } }, /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => openBorrower(b.id), style: { background: "#f1f5f9", border: "none", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontWeight: 600, color: "#1B3A6B" } }, "View")));
-    }))))) : /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Collateral Register"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "item", prefill: {} }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Take In Item")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Item Description"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Value"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Location"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Status"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, db.items.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "6", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, "No collateral in the register yet.")), db.items.filter((c) => (c.desc || "").toLowerCase().includes((searchQuery2 || "").toLowerCase())).map((c) => {
+    }))))) : tab === "collateral" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Collateral Register"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: () => setForm({ kind: "item", prefill: {} }), style: { background: "#1B3A6B", color: "#fff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" } }, "+ Take In Item")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card", style: { padding: 0, overflowX: "auto" } }, /* @__PURE__ */ import_react2.default.createElement("table", { style: { width: "100%", borderCollapse: "collapse", textAlign: "left" } }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", { style: { background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" } }, /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Item Description"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Customer"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Value"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Location"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px" } }, "Status"), /* @__PURE__ */ import_react2.default.createElement("th", { style: { padding: "16px", textAlign: "right" } }, "Action"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, db.items.length === 0 && /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("td", { colSpan: "6", style: { padding: "32px", textAlign: "center", color: "#94a3b8" } }, "No collateral in the register yet.")), db.items.filter((c) => (c.desc || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((c) => {
       const ol = openLoanFor(c.id);
       const s = c.status === "held" ? ol ? "On Loan" : "In Store" : c.status;
       const statusBg = s === "In Store" ? "#E3F0EC" : s === "On Loan" ? "#F5EBD0" : "#F1F5F9";
       const statusColor = s === "In Store" ? "#2E7D6B" : s === "On Loan" ? "#B8860B" : "#64748b";
       return /* @__PURE__ */ import_react2.default.createElement("tr", { key: c.id, style: { borderBottom: "1px solid #e2e8f0" } }, /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, c.desc), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155" } }, borrower(c.borrowerId).name), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", fontWeight: 600, color: "#1B3A6B" } }, K(c.value)), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", color: "#334155", fontSize: "13px" } }, c.location), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px" } }, /* @__PURE__ */ import_react2.default.createElement("span", { style: { background: statusBg, color: statusColor, padding: "4px 10px", borderRadius: "12px", fontSize: "12px", fontWeight: 600, textTransform: "capitalize" } }, s)), /* @__PURE__ */ import_react2.default.createElement("td", { style: { padding: "16px", textAlign: "right" } }, /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => ol ? openLoan(ol.id) : setForm({ kind: "loan", prefill: { borrowerId: c.borrowerId, itemId: c.id } }), style: { background: "#f1f5f9", border: "none", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontWeight: 600, color: "#1B3A6B" } }, ol ? "View Loan" : "Lend")));
-    })))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "An item stays on the register after a loan closes, so the same TV pledged three times keeps one history."))));
+    })))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "An item stays on the register after a loan closes, so the same TV pledged three times keeps one history.")) : tab === "settings" ? /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Settings & Data")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Backup your records"), /* @__PURE__ */ import_react2.default.createElement("p", null, "Export your customers, collateral, loans and transaction history to a JSON file."), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn", onClick: exportBackup }, "Download Backup"), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, lastBackupAt ? `Last backup created this session: ${lastBackupAt.toLocaleString()}` : "No backup exported in this session yet.")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, "Restore records"), /* @__PURE__ */ import_react2.default.createElement("p", null, "Choose a FirstLink JSON backup. Current records will only be replaced after validation and confirmation."), /* @__PURE__ */ import_react2.default.createElement(
+      "input",
+      {
+        type: "file",
+        accept: ".json,application/json",
+        onChange: restoreBackup
+      }
+    ), restoreMessage && /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, restoreMessage))) : null));
   }
   function BorrowerDetail({ b, db, openLoanFor, onBack, onOpenLoan, onTakeItem, onIssue, onDropItem, onDropBorrower }) {
     const items = db.items.filter((c) => c.borrowerId === b.id);
@@ -23920,6 +24050,121 @@
       const s = statusOf(l);
       return /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-row", key: l.id, onClick: () => onOpenLoan(l.id) }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-row-top" }, /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-name" }, K(l.principal), " on ", fmtDate(l.issuedOn)), /* @__PURE__ */ import_react2.default.createElement("span", { className: "pb-chip", "data-s": s }, s === "overdue" ? daysLate(l) + " days late" : s[0].toUpperCase() + s.slice(1))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-meta" }, "Balance ", K(Math.max(0, owing(l))), " \xB7 due ", fmtDate(l.dueOn)));
     }))));
+  }
+  function allocate(l) {
+    const paid = [...l.repayments].sort((a, b) => d(a.on) - d(b.on));
+    const chargedBy = (on) => l.charges.filter((c) => d(c.on) <= d(on)).reduce((t, c) => t + c.amount, 0);
+    let interestPaid = 0;
+    return paid.map((r) => {
+      const owed = Math.max(0, chargedBy(r.on) - interestPaid);
+      const toInterest = Math.min(r.amount, owed);
+      interestPaid += toInterest;
+      return { ...r, interest: toInterest, principal: r.amount - toInterest };
+    });
+  }
+  function ledger(db) {
+    const rows = [];
+    const who = (id) => (db.borrowers.find((b) => b.id === id) || {}).name || "\u2014";
+    const what = (id) => (db.items.find((c) => c.id === id) || {}).desc || "\u2014";
+    db.loans.forEach((l) => {
+      rows.push({
+        on: l.issuedOn,
+        kind: "Loan out",
+        who: who(l.borrowerId),
+        note: what(l.itemId),
+        out: l.principal,
+        cash: 0,
+        interest: 0,
+        charged: 0,
+        loanId: l.id
+      });
+      l.charges.forEach((c) => rows.push({
+        on: c.on,
+        kind: c.kind === "renewal" ? "Interest on renewal" : "Interest charged",
+        who: who(l.borrowerId),
+        note: c.note,
+        out: 0,
+        cash: 0,
+        interest: 0,
+        charged: c.amount,
+        loanId: l.id
+      }));
+      allocate(l).forEach((r) => rows.push({
+        on: r.on,
+        kind: "Repayment",
+        who: who(l.borrowerId),
+        note: r.method + " \u2014 " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
+        out: 0,
+        cash: r.amount,
+        interest: r.interest,
+        charged: 0,
+        loanId: l.id
+      }));
+    });
+    db.events.filter((e) => e.text.indexOf("forfeited") === 0 || e.text.indexOf("Collateral forfeited") === 0).forEach((e) => {
+      const l = db.loans.find((x) => x.id === e.loanId);
+      if (!l) return;
+      rows.push({
+        on: e.at.slice(0, 10),
+        kind: "Collateral taken",
+        who: who(l.borrowerId),
+        note: what(l.itemId) + " \u2014 no cash until it is sold",
+        out: 0,
+        cash: 0,
+        interest: 0,
+        charged: 0,
+        loanId: l.id
+      });
+    });
+    return rows.sort((a, b) => d(b.on) - d(a.on) || a.kind.localeCompare(b.kind));
+  }
+  function Cashbook({ db }) {
+    const rows = (0, import_react2.useMemo)(() => ledger(db), [db]);
+    const months = (0, import_react2.useMemo)(() => {
+      const seen = [];
+      rows.forEach((r) => {
+        const k = monthKey(r.on);
+        if (seen.indexOf(k) < 0) seen.push(k);
+      });
+      return seen;
+    }, [rows]);
+    const [month, setMonth] = (0, import_react2.useState)(months[0] || monthKey(iso(TODAY)));
+    const inMonth = rows.filter((r) => monthKey(r.on) === month);
+    const year = month.slice(0, 4);
+    const inYear = rows.filter((r) => r.on.slice(0, 4) === year);
+    const fig = (set) => ({
+      lent: sum(set, (r) => r.out),
+      received: sum(set, (r) => r.cash),
+      interest: sum(set, (r) => r.interest),
+      charged: sum(set, (r) => r.charged)
+    });
+    const m = fig(inMonth), y = fig(inYear);
+    const openLoans = db.loans.filter((l) => ["active", "overdue"].includes(statusOf(l)));
+    const onTheStreet = openLoans.reduce((t, l) => t + Math.max(0, owing(l)), 0);
+    const stillOwedInterest = openLoans.reduce(
+      (t, l) => t + Math.max(0, chargesTotal(l) - allocate(l).reduce((x, r) => x + r.interest, 0)),
+      0
+    );
+    function download() {
+      const head = "Date,Entry,Borrower,Detail,Cash out,Cash in,Of which interest,Interest charged\n";
+      const body = inYear.slice().sort((a2, b) => d(a2.on) - d(b.on)).map((r) => [
+        r.on,
+        r.kind,
+        r.who,
+        '"' + r.note.replace(/"/g, "'") + '"',
+        r.out || "",
+        r.cash || "",
+        r.interest || "",
+        r.charged || ""
+      ].join(",")).join("\n");
+      const url = URL.createObjectURL(new Blob([head + body], { type: "text/csv" }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cashbook-" + year + ".csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    return /* @__PURE__ */ import_react2.default.createElement(import_react2.default.Fragment, null, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-head" }, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "pb-h1" }, "Cashbook"), /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn ghost", onClick: download }, "Download ", year)), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-months" }, months.map((k) => /* @__PURE__ */ import_react2.default.createElement("button", { key: k, "data-on": k === month ? "1" : "0", onClick: () => setMonth(k) }, d(k + "-01").toLocaleDateString("en-GB", { month: "short", year: "2-digit" })))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-strip" }, /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", { className: "pb-out" }, K(m.lent)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Lent out")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", { className: "pb-in" }, K(m.received)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Taken in")), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("b", null, K(m.interest)), /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest earned"))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, monthName(month)), /* @__PURE__ */ import_react2.default.createElement("span", null, inMonth.length, " entries")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, inMonth.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-empty" }, "Nothing recorded this month.") : /* @__PURE__ */ import_react2.default.createElement("table", { className: "pb-ledger" }, /* @__PURE__ */ import_react2.default.createElement("thead", null, /* @__PURE__ */ import_react2.default.createElement("tr", null, /* @__PURE__ */ import_react2.default.createElement("th", null, "Entry"), /* @__PURE__ */ import_react2.default.createElement("th", { className: "n" }, "Out"), /* @__PURE__ */ import_react2.default.createElement("th", { className: "n" }, "In"))), /* @__PURE__ */ import_react2.default.createElement("tbody", null, inMonth.map((r, i) => /* @__PURE__ */ import_react2.default.createElement("tr", { key: i }, /* @__PURE__ */ import_react2.default.createElement("td", null, r.kind, " \u2014 ", r.who, /* @__PURE__ */ import_react2.default.createElement("em", null, fmtDate(r.on), " \xB7 ", r.note)), /* @__PURE__ */ import_react2.default.createElement("td", { className: "n pb-out" }, r.out ? K(r.out) : r.charged ? "" : ""), /* @__PURE__ */ import_react2.default.createElement("td", { className: "n pb-in" }, r.cash ? K(r.cash) : r.charged ? "+" + K(r.charged) + " owed" : ""))))))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-sec" }, /* @__PURE__ */ import_react2.default.createElement("h3", null, /* @__PURE__ */ import_react2.default.createElement("span", null, year, " so far")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-card" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Lent out"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.lent))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Taken in"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.received))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.charged))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv total" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest actually earned"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(y.interest))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Still out with borrowers"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(onTheStreet))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-kv" }, /* @__PURE__ */ import_react2.default.createElement("span", null, "Interest charged but unpaid"), /* @__PURE__ */ import_react2.default.createElement("span", null, K(stillOwedInterest)))), /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Interest earned counts only what has actually been paid. Interest charged includes what is still owed, which is why the two differ \u2014 the gap is the money on paper that has not arrived yet.")));
   }
   function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onRestore }) {
     const open = db.loans.filter((l) => ["active", "overdue"].includes(statusOf(l)));
@@ -24048,9 +24293,7 @@
         ok: v.desc.trim() && Number(v.value) > 0 && v.borrowerId,
         onSave: () => onSave({ ...v, value: Number(v.value) })
       },
-      fixed ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", null, "Brought in by"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-fixed" }, who ? who.name : "\u2014")) : /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "ib" }, "Brought in by"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "ib", value: v.borrowerId, onChange: set("borrowerId") }, db.borrowers.filter((b) => (b.name || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => {
-        return /* @__PURE__ */ import_react2.default.createElement("option", { key: b.id, value: b.id }, b.name);
-      }))),
+      fixed ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", null, "Brought in by"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-fixed" }, who ? who.name : "\u2014")) : /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "ib" }, "Brought in by"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "ib", value: v.borrowerId, onChange: set("borrowerId") }, db.borrowers.map((b) => /* @__PURE__ */ import_react2.default.createElement("option", { key: b.id, value: b.id }, b.name)))),
       /* @__PURE__ */ import_react2.default.createElement(Field, { label: "What it is", id: "id1", value: v.desc, onChange: set("desc"), placeholder: "Make, model, distinguishing marks" }),
       /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Condition on arrival", id: "id2", value: v.condition, onChange: set("condition") }),
       /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-two" }, /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Value (K)", id: "id3", value: v.value, onChange: set("value"), inputMode: "decimal" }), /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Where it is kept", id: "id4", value: v.location, onChange: set("location"), placeholder: "Safe A, shelf 2" }))
@@ -24088,7 +24331,7 @@
         ok: Number(v.principal) > 0 && Number(v.value) > 0 && v.itemId && v.borrowerId,
         onSave: () => onSave(v)
       },
-      /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "lb" }, "Borrower"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "lb", value: v.borrowerId, onChange: pickBorrower }, db.borrowers.filter((b) => (b.name || "").toLowerCase().includes((searchQuery || "").toLowerCase())).map((b) => /* @__PURE__ */ import_react2.default.createElement("option", { key: b.id, value: b.id }, b.name, freeFor(b.id).length === 0 ? " \u2014 no free item" : "")))),
+      /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "lb" }, "Borrower"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "lb", value: v.borrowerId, onChange: pickBorrower }, db.borrowers.map((b) => /* @__PURE__ */ import_react2.default.createElement("option", { key: b.id, value: b.id }, b.name, freeFor(b.id).length === 0 ? " \u2014 no free item" : "")))),
       mine.length === 0 ? /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", null, "Held against"), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-fixed" }, "Nothing of theirs is free to lend against."), /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-actions" }, /* @__PURE__ */ import_react2.default.createElement("button", { className: "pb-btn sm", onClick: () => onNeedItem(v.borrowerId) }, "Take in an item first"))) : /* @__PURE__ */ import_react2.default.createElement("div", { className: "pb-field" }, /* @__PURE__ */ import_react2.default.createElement("label", { htmlFor: "li" }, "Held against"), /* @__PURE__ */ import_react2.default.createElement("select", { id: "li", value: v.itemId, onChange: set("itemId") }, mine.map((c) => /* @__PURE__ */ import_react2.default.createElement("option", { key: c.id, value: c.id }, c.desc, " \u2014 ", K(c.value))))),
       /* @__PURE__ */ import_react2.default.createElement(Field, { label: "Amount lent (K)", id: "lp", value: v.principal, onChange: set("principal"), inputMode: "decimal" }),
       chosen && Number(v.principal) > chosen.value && /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note pb-late" }, "More than the item is valued at (", K(chosen.value), "). Check before issuing."),
@@ -24115,7 +24358,7 @@
       /* @__PURE__ */ import_react2.default.createElement("p", { className: "pb-note" }, "Borrower pays ", K(preview), " in interest for the first ", v.periodDays || 30, " days, on top of the", " ", K(Number(v.principal) || 0), " lent. Each renewal adds the same charge again as its own line.")
     );
   }
-  var import_react2, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY;
+  var import_react2, K, TODAY, d, iso, fmtDate, addDays, daysBetween, normNrc, fmtNrc, sameNrc, uid, SETTINGS, SEED, chargesTotal, paidTotal, owing, nextCharge, chargeNote, terms, daysLate, canForfeit, graceLeft, EMPTY, STORE_KEY, monthKey, monthName, sum;
   var init_App = __esm({
     "src/App.jsx"() {
       import_react2 = __toESM(require_react());
@@ -24238,6 +24481,9 @@
       graceLeft = (l) => SETTINGS.forfeitAfterDays - daysLate(l);
       EMPTY = { borrowers: [], items: [], loans: [], events: [] };
       STORE_KEY = "pledgebook.v1";
+      monthKey = (s) => s.slice(0, 7);
+      monthName = (k) => d(k + "-01").toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+      sum = (rows, f) => rows.reduce((t, r) => t + f(r), 0);
     }
   });
 

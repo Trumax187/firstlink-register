@@ -842,3 +842,24 @@
 .modal-content {
   overflow: hidden !important;
 }
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .pb-modal-card,
+  .pb-sec,
+  .print-area,
+  .pb-card {
+    visibility: visible;
+  }
+  .sidebar,
+  .top-header,
+  .mobile-nav,
+  .pb-btn {
+    display: none !important;
+  }
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
