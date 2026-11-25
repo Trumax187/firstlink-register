@@ -413,17 +413,38 @@ function restoreBackup(event) {
 
   function removeRepayment(l, r) {
     confirmThen(
-      "Remove the repayment of " + K(r.amount) + " made on " + fmtDate(r.on) +
-      "? The removal stays in the loan history.",
-      "Remove it",
+      "Reverse the repayment of " + K(r.amount) + " made on " + fmtDate(r.on) +
+      "? The original receipt will remain in the Cashbook with a separate reversal entry.",
+      "Reverse repayment",
       () => write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({ ...x, repayments: x.repayments.filter((y) => y.id !== r.id) }));
-      if (l.status === "cleared") {
-        next = patchLoan(next, l.id, (x) => ({ ...x, status: "active" }));
-        next = patchItem(next, l.itemId, "held");
-      }
-      return log(next, l.id, "Repayment " + K(r.amount) + " of " + fmtDate(r.on) + " removed — entered in error");
-    }));
+        const current = s.loans.find((x) => x.id === l.id);
+        const original = current?.repayments.find((x) => x.id === r.id);
+        if (!current || !original) return s;
+
+        let next = patchLoan(s, current.id, (x) => ({
+          ...x,
+          repayments: x.repayments.filter((y) => y.id !== original.id),
+          ...(x.status === "cleared" ? { status: "active" } : {}),
+        }));
+        if (current.status === "cleared") next = patchItem(next, current.itemId, "held");
+
+        next = {
+          ...next,
+          events: [...next.events, {
+            id: uid("e"),
+            loanId: current.id,
+            at: iso(TODAY) + " " + "09:00",
+            type: "repayment_reversal",
+            repaymentId: original.id,
+            amount: original.amount,
+            repaymentOn: original.on,
+            method: original.method,
+            text: "Repayment " + K(original.amount) + " of " + fmtDate(original.on) + " reversed — entered in error",
+          }],
+        };
+        return next;
+      })
+    );
   }
 
   function removeLoan(l) {
@@ -899,6 +920,22 @@ function ledger(db) {
       rows.push({ on: r.on, kind: "Repayment", who: who(l.borrowerId),
                   note: r.method + " — " + K(r.interest) + " interest, " + K(r.principal) + " off the principal",
                   out: 0, cash: r.amount, interest: r.interest, charged: 0, loanId: l.id }));
+  });
+
+  db.events.filter((e) => e.type === "repayment_reversal").forEach((e) => {
+    const l = db.loans.find((x) => x.id === e.loanId);
+    if (!l) return;
+    rows.push({
+      on: e.at.slice(0, 10),
+      kind: "Repayment reversal",
+      who: who(l.borrowerId),
+      note: (e.method || "Payment") + " — reversal of receipt dated " + (e.repaymentOn || "unknown date"),
+      out: e.amount || 0,
+      cash: 0,
+      interest: 0,
+      charged: 0,
+      loanId: l.id,
+    });
   });
 
   db.events.filter((e) => e.text.indexOf("forfeited") === 0 || e.text.indexOf("Collateral forfeited") === 0)
