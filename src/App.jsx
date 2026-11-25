@@ -150,6 +150,7 @@ const graceLeft = (l) => SETTINGS.forfeitAfterDays - daysLate(l);
 
 const EMPTY = { borrowers: [], items: [], loans: [], events: [] };
 const STORE_KEY = "pledgebook.v1";
+let STORE_LOAD_ERROR = "";
 
 function isValidStore(data) {
   return (
@@ -163,26 +164,24 @@ function isValidStore(data) {
 }
 
 function loadStore() {
+  STORE_LOAD_ERROR = "";
   try {
     const raw = window.localStorage.getItem(STORE_KEY);
-
     if (!raw) return EMPTY;
-
-    const parsed = JSON.parse(raw);
-
-    if (!isValidStore(parsed)) {
-      console.error("FirstLink: Invalid saved data structure.");
-      return EMPTY;
-    }
-
+    let parsed;
+    try { parsed = JSON.parse(raw); }
+    catch (error) { throw new Error("Saved FirstLink data is not valid JSON."); }
+    if (!isValidStore(parsed)) throw new Error("Saved FirstLink data has an invalid structure.");
     return parsed;
   } catch (error) {
-    console.error("FirstLink: Could not load saved data.", error);
+    STORE_LOAD_ERROR = error.message || "Saved data could not be read.";
+    console.error("FirstLink: Could not safely load saved data.", error);
     return EMPTY;
   }
 }
 
 function saveStore(data) {
+  if (STORE_LOAD_ERROR) throw new Error("Saving is blocked because existing data could not be read. Recover the original browser data before making changes.");
   if (!isValidStore(data)) {
     throw new Error("Invalid FirstLink database structure.");
   }
@@ -510,6 +509,7 @@ function restoreBackup(event) {
 
   return (
        <Layout activeTab={tab} setTab={(t) => { setTab(t); home(); }} searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
+          {STORE_LOAD_ERROR && <div role="alert" style={{ margin: 16, padding: 14, border: "1px solid #C0392B", background: "#FBE4E1", color: "#7F1D1D", borderRadius: 4 }}><strong>Data protection warning:</strong> FirstLink could not safely read the saved register ({STORE_LOAD_ERROR}). Existing browser data has not been overwritten. Editing and saving are blocked until the saved data is recovered.</div>}
  
 
       {ask && (
