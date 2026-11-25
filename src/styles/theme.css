@@ -29,7 +29,13 @@
 }
 .pb-btn.ghost { background:none; color:var(--ink); }
 .pb-btn.warn { background:none; border-color:var(--late); color:var(--late); }
-.pb-btn:disabled { opacity:.4; cursor:not-allowed; }
+.pb-btn:disabled {
+  opacity:1;
+  background:#E2E8F0;
+  border-color:#CBD5E1;
+  color:#475569;
+  cursor:not-allowed;
+}
 .pb-btn.sm { padding:6px 10px; font-size:13px; }
 
 .pb-card { background:var(--surface); border:1px solid var(--line); border-radius:3px; }
