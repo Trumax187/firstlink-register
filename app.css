@@ -67,7 +67,10 @@
   color: var(--late);
 }
 .pb-btn:disabled {
-  opacity: .4;
+  opacity: 1;
+  background: #E2E8F0;
+  border-color: #CBD5E1;
+  color: #475569;
   cursor: not-allowed;
 }
 .pb-btn.sm {
