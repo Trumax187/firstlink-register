@@ -420,6 +420,7 @@ function restoreBackup(event) {
         const current = s.loans.find((x) => x.id === l.id);
         const original = current?.repayments.find((x) => x.id === r.id);
         if (!current || !original) return s;
+        const originalAllocation = allocate(current).find((x) => x.id === original.id) || original;
 
         let next = patchLoan(s, current.id, (x) => ({
           ...x,
@@ -439,6 +440,8 @@ function restoreBackup(event) {
             amount: original.amount,
             repaymentOn: original.on,
             method: original.method,
+            interest: originalAllocation.interest || 0,
+            principal: originalAllocation.principal ?? original.amount,
             text: "Repayment " + K(original.amount) + " of " + fmtDate(original.on) + " reversed — entered in error",
           }],
         };
@@ -926,15 +929,18 @@ function ledger(db) {
     const l = db.loans.find((x) => x.id === e.loanId);
     if (!l) return;
     rows.push({
+      on: e.repaymentOn || e.at.slice(0, 10),
+      kind: "Repayment (reversed)",
+      who: who(l.borrowerId),
+      note: (e.method || "Payment") + " — original receipt, subsequently reversed",
+      out: 0, cash: e.amount || 0, interest: e.interest || 0, charged: 0, loanId: l.id,
+    });
+    rows.push({
       on: e.at.slice(0, 10),
       kind: "Repayment reversal",
       who: who(l.borrowerId),
       note: (e.method || "Payment") + " — reversal of receipt dated " + (e.repaymentOn || "unknown date"),
-      out: e.amount || 0,
-      cash: 0,
-      interest: 0,
-      charged: 0,
-      loanId: l.id,
+      out: 0, cash: -(e.amount || 0), interest: 0, charged: 0, loanId: l.id,
     });
   });
 
