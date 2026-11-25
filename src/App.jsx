@@ -180,24 +180,27 @@ function loadStore() {
   }
 }
 
-function saveStore(data) {
-  if (STORE_LOAD_ERROR) throw new Error("Saving is blocked because existing data could not be read. Recover the original browser data before making changes.");
+function saveStore(data, allowRecovery = false) {
+  if (STORE_LOAD_ERROR && !allowRecovery) {
+    throw new Error("Saving is blocked because existing data could not be read. Restore a valid FirstLink backup to recover the register.");
+  }
   if (!isValidStore(data)) {
     throw new Error("Invalid FirstLink database structure.");
   }
 
   window.localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  if (allowRecovery) STORE_LOAD_ERROR = "";
 }
 
 function useStore() {
   const [state, setState] = useState(loadStore);
 
-  const write = (updater) => {
+  const write = (updater, options = {}) => {
     const next =
       typeof updater === "function" ? updater(state) : updater;
 
     try {
-      saveStore(next);
+      saveStore(next, options.allowRecovery === true);
       setState(next);
       return true;
     } catch (error) {
@@ -276,7 +279,9 @@ function restoreBackup(event) {
 
       if (!confirmed) return;
 
-      const saved = write(backup.data);
+      // A valid, explicitly confirmed backup is the approved recovery path
+      // when the existing browser storage could not be read.
+      const saved = write(backup.data, { allowRecovery: true });
 
       if (saved) {
         setRestoreMessage("Backup restored successfully.");
