@@ -223,6 +223,11 @@ export default function FirstLinkRegister() {
   const [restoreMessage, setRestoreMessage] = useState("");
 
 function exportBackup() {
+  if (STORE_LOAD_ERROR) {
+    setRestoreMessage("Backup export is blocked because the saved register could not be read. Restore a valid backup first.");
+    return;
+  }
+
   const backup = {
     app: "FirstLink",
     schemaVersion: 1,
@@ -360,7 +365,7 @@ function restoreBackup(event) {
 
   write((s) => {
     const savedLoan = s.loans.find((x) => x.id === l.id);
-    if (!savedLoan || amount > owing(savedLoan)) return s;
+    if (!savedLoan || !["active", "overdue"].includes(statusOf(savedLoan)) || amount > owing(savedLoan)) return s;
 
     const repayment = {
       id: uid("r"),
@@ -945,7 +950,7 @@ function ledger(db) {
       kind: "Repayment reversal",
       who: who(l.borrowerId),
       note: (e.method || "Payment") + " — reversal of receipt dated " + (e.repaymentOn || "unknown date"),
-      out: 0, cash: -(e.amount || 0), interest: 0, charged: 0, loanId: l.id,
+      out: 0, cash: -(e.amount || 0), interest: -(e.interest || 0), charged: 0, loanId: l.id,
     });
   });
 
@@ -994,10 +999,10 @@ function Cashbook({ db }) {
 
   function download() {
     const head = "Date,Entry,Borrower,Detail,Cash out,Cash in,Of which interest,Interest charged\n";
+    const csvCell = (value) => '"' + String(value ?? "").replace(/"/g, '""') + '"';
     const body = inYear
       .slice().sort((a, b) => d(a.on) - d(b.on))
-      .map((r) => [r.on, r.kind, r.who, '"' + r.note.replace(/"/g, "'") + '"',
-                   r.out || "", r.cash || "", r.interest || "", r.charged || ""].join(","))
+      .map((r) => [r.on, r.kind, r.who, r.note, r.out ?? "", r.cash ?? "", r.interest ?? "", r.charged ?? ""].map(csvCell).join(","))
       .join("\n");
     const url = URL.createObjectURL(new Blob([head + body], { type: "text/csv" }));
     const a = document.createElement("a");
