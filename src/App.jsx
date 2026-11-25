@@ -150,6 +150,7 @@ const graceLeft = (l) => SETTINGS.forfeitAfterDays - daysLate(l);
 
 const EMPTY = { borrowers: [], items: [], loans: [], events: [] };
 const STORE_KEY = "pledgebook.v1";
+let STORE_LOAD_ERROR = "";
 
 function isValidStore(data) {
   return (
@@ -163,42 +164,43 @@ function isValidStore(data) {
 }
 
 function loadStore() {
+  STORE_LOAD_ERROR = "";
   try {
     const raw = window.localStorage.getItem(STORE_KEY);
-
     if (!raw) return EMPTY;
-
-    const parsed = JSON.parse(raw);
-
-    if (!isValidStore(parsed)) {
-      console.error("FirstLink: Invalid saved data structure.");
-      return EMPTY;
-    }
-
+    let parsed;
+    try { parsed = JSON.parse(raw); }
+    catch (error) { throw new Error("Saved FirstLink data is not valid JSON."); }
+    if (!isValidStore(parsed)) throw new Error("Saved FirstLink data has an invalid structure.");
     return parsed;
   } catch (error) {
-    console.error("FirstLink: Could not load saved data.", error);
+    STORE_LOAD_ERROR = error.message || "Saved data could not be read.";
+    console.error("FirstLink: Could not safely load saved data.", error);
     return EMPTY;
   }
 }
 
-function saveStore(data) {
+function saveStore(data, allowRecovery = false) {
+  if (STORE_LOAD_ERROR && !allowRecovery) {
+    throw new Error("Saving is blocked because existing data could not be read. Restore a valid FirstLink backup to recover the register.");
+  }
   if (!isValidStore(data)) {
     throw new Error("Invalid FirstLink database structure.");
   }
 
   window.localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  if (allowRecovery) STORE_LOAD_ERROR = "";
 }
 
 function useStore() {
   const [state, setState] = useState(loadStore);
 
-  const write = (updater) => {
+  const write = (updater, options = {}) => {
     const next =
       typeof updater === "function" ? updater(state) : updater;
 
     try {
-      saveStore(next);
+      saveStore(next, options.allowRecovery === true);
       setState(next);
       return true;
     } catch (error) {
@@ -221,6 +223,11 @@ export default function FirstLinkRegister() {
   const [restoreMessage, setRestoreMessage] = useState("");
 
 function exportBackup() {
+  if (STORE_LOAD_ERROR) {
+    setRestoreMessage("Backup export is blocked because the saved register could not be read. Restore a valid backup first.");
+    return;
+  }
+
   const backup = {
     app: "FirstLink",
     schemaVersion: 1,
@@ -277,7 +284,9 @@ function restoreBackup(event) {
 
       if (!confirmed) return;
 
-      const saved = write(backup.data);
+      // A valid, explicitly confirmed backup is the approved recovery path
+      // when the existing browser storage could not be read.
+      const saved = write(backup.data, { allowRecovery: true });
 
       if (saved) {
         setRestoreMessage("Backup restored successfully.");
@@ -356,7 +365,7 @@ function restoreBackup(event) {
 
   write((s) => {
     const savedLoan = s.loans.find((x) => x.id === l.id);
-    if (!savedLoan || amount > owing(savedLoan)) return s;
+    if (!savedLoan || !["active", "overdue"].includes(statusOf(savedLoan)) || amount > owing(savedLoan)) return s;
 
     const repayment = {
       id: uid("r"),
@@ -390,70 +399,102 @@ function restoreBackup(event) {
 }
 
   function renew(l) {
-    const amt = nextCharge(l);
-    const n = l.renewals + 1;
     write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({
-        ...x,
-        renewals: n,
-        dueOn: addDays(x.dueOn, x.interest.periodDays),
-        charges: [
-          ...x.charges,
-          { id: uid("ch"), kind: "renewal", amount: amt, on: iso(TODAY), note: chargeNote(x, "renewal", n) },
-        ],
+      const current = s.loans.find((x) => x.id === l.id);
+      if (!current || !["active", "overdue"].includes(statusOf(current))) return s;
+      const amt = nextCharge(current), n = current.renewals + 1;
+      let next = patchLoan(s, current.id, (x) => ({
+        ...x, renewals: n, dueOn: addDays(x.dueOn, x.interest.periodDays),
+        charges: [...x.charges, { id: uid("ch"), kind: "renewal", amount: amt, on: iso(TODAY), note: chargeNote(x, "renewal", n) }],
       }));
-      return log(
-        next, l.id,
-        "Renewed " + l.interest.periodDays + " days. Interest charge " + K(amt) + " added. Principal unchanged"
-      );
+      return log(next, current.id, "Renewed " + current.interest.periodDays + " days. Interest charge " + K(amt) + " added. Principal unchanged");
     });
   }
 
   function forfeit(l) {
     write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({ ...x, status: "forfeited" }));
-      next = patchItem(next, l.itemId, "forfeited");
-      return log(next, l.id, "Collateral forfeited after " + daysLate(l) + " days overdue. Balance " + K(owing(l)));
+      const current = s.loans.find((x) => x.id === l.id);
+      if (!current || !["active", "overdue"].includes(statusOf(current)) || !canForfeit(current)) return s;
+      let next = patchLoan(s, current.id, (x) => ({ ...x, status: "forfeited" }));
+      next = patchItem(next, current.itemId, "forfeited");
+      return log(next, current.id, "Collateral forfeited after " + daysLate(current) + " days overdue. Balance " + K(owing(current)));
     });
   }
 
   function removeRepayment(l, r) {
     confirmThen(
-      "Remove the repayment of " + K(r.amount) + " made on " + fmtDate(r.on) +
-      "? The removal stays in the loan history.",
-      "Remove it",
+      "Reverse the repayment of " + K(r.amount) + " made on " + fmtDate(r.on) +
+      "? The original receipt will remain in the Cashbook with a separate reversal entry.",
+      "Reverse repayment",
       () => write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({ ...x, repayments: x.repayments.filter((y) => y.id !== r.id) }));
-      if (l.status === "cleared") {
-        next = patchLoan(next, l.id, (x) => ({ ...x, status: "active" }));
-        next = patchItem(next, l.itemId, "held");
-      }
-      return log(next, l.id, "Repayment " + K(r.amount) + " of " + fmtDate(r.on) + " removed — entered in error");
-    }));
+        const current = s.loans.find((x) => x.id === l.id);
+        const original = current?.repayments.find((x) => x.id === r.id);
+        if (!current || !original) return s;
+        const originalAllocation = allocate(current).find((x) => x.id === original.id) || original;
+
+        let next = patchLoan(s, current.id, (x) => ({
+          ...x,
+          repayments: x.repayments.filter((y) => y.id !== original.id),
+          ...(x.status === "cleared" ? { status: "active" } : {}),
+        }));
+        if (current.status === "cleared") next = patchItem(next, current.itemId, "held");
+
+        next = {
+          ...next,
+          events: [...next.events, {
+            id: uid("e"),
+            loanId: current.id,
+            at: iso(TODAY) + " " + "09:00",
+            type: "repayment_reversal",
+            repaymentId: original.id,
+            amount: original.amount,
+            repaymentOn: original.on,
+            method: original.method,
+            interest: originalAllocation.interest || 0,
+            principal: originalAllocation.principal ?? original.amount,
+            text: "Repayment " + K(original.amount) + " of " + fmtDate(original.on) + " reversed — entered in error",
+          }],
+        };
+        return next;
+      })
+    );
   }
 
   function removeLoan(l) {
-    confirmThen("Delete this whole loan and everything in its history? This cannot be undone.", "Delete the loan", () => {
-      write((s) => ({
-        ...s,
-        loans: s.loans.filter((x) => x.id !== l.id),
-        events: s.events.filter((e) => e.loanId !== l.id),
-        items: s.items.map((c) => (c.id === l.itemId && c.status !== "released" ? { ...c, status: "held" } : c)),
-      }));
+    const hasFinancialHistory = (loan) => (Array.isArray(loan.repayments) && loan.repayments.length > 0) || (Array.isArray(loan.charges) && loan.charges.length > 0) || statusOf(loan) === "forfeited";
+    if (hasFinancialHistory(l)) { window.alert("This loan has repayment, interest-charge, or forfeiture history and cannot be deleted. Keep it in the register for record-keeping."); return; }
+    confirmThen("Delete this loan? This is only allowed when no repayments or interest charges have been recorded.", "Delete the loan", () => {
+      write((s) => {
+        const current = s.loans.find((x) => x.id === l.id);
+        if (!current || hasFinancialHistory(current)) return s;
+        return { ...s, loans: s.loans.filter((x) => x.id !== l.id), events: s.events.filter((e) => e.loanId !== l.id), items: s.items.map((c) => c.id === current.itemId && c.status !== "released" && c.status !== "forfeited" ? { ...c, status: "held" } : c) };
+      });
       setScreen({ kind: "borrower", id: l.borrowerId });
     });
   }
 
   function removeItem(c) {
-    confirmThen("Remove " + c.desc + " from the register?", "Remove it", () =>
-      write((s) => ({ ...s, items: s.items.filter((x) => x.id !== c.id) })));
+    if (db.loans.some((l) => l.itemId === c.id)) {
+      window.alert("This item is linked to loan history and cannot be removed. Keep it in the register for record-keeping.");
+      return;
+    }
+    confirmThen("Remove " + c.desc + " from the register?", "Remove it", () => write((s) => {
+      if (s.loans.some((l) => l.itemId === c.id)) return s;
+      return { ...s, items: s.items.filter((x) => x.id !== c.id) };
+    }));
   }
 
   function removeBorrower(b) {
+    if (db.loans.some((l) => l.borrowerId === b.id) || db.items.some((c) => c.borrowerId === b.id)) {
+      window.alert("This customer has collateral or loan records and cannot be removed. Keep the customer record for record-keeping.");
+      return;
+    }
     confirmThen("Remove " + b.name + " from the register?", "Remove them", () => {
-      write((s) => ({ ...s, borrowers: s.borrowers.filter((x) => x.id !== b.id) }));
-      setTab("borrowers");
-      home();
+      write((s) => {
+        if (s.loans.some((l) => l.borrowerId === b.id) || s.items.some((c) => c.borrowerId === b.id)) return s;
+        return { ...s, borrowers: s.borrowers.filter((x) => x.id !== b.id) };
+      });
+      setTab("borrowers"); home();
     });
   }
 
@@ -510,6 +551,7 @@ function restoreBackup(event) {
 
   return (
        <Layout activeTab={tab} setTab={(t) => { setTab(t); home(); }} searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
+          {STORE_LOAD_ERROR && <div role="alert" style={{ margin: 16, padding: 14, border: "1px solid #C0392B", background: "#FBE4E1", color: "#7F1D1D", borderRadius: 4 }}><strong>Data protection warning:</strong> FirstLink could not safely read the saved register ({STORE_LOAD_ERROR}). Existing browser data has not been overwritten. Editing and saving are blocked until the saved data is recovered.</div>}
  
 
       {ask && (
@@ -893,6 +935,25 @@ function ledger(db) {
                   out: 0, cash: r.amount, interest: r.interest, charged: 0, loanId: l.id }));
   });
 
+  db.events.filter((e) => e.type === "repayment_reversal").forEach((e) => {
+    const l = db.loans.find((x) => x.id === e.loanId);
+    if (!l) return;
+    rows.push({
+      on: e.repaymentOn || e.at.slice(0, 10),
+      kind: "Repayment (reversed)",
+      who: who(l.borrowerId),
+      note: (e.method || "Payment") + " — original receipt, subsequently reversed",
+      out: 0, cash: e.amount || 0, interest: e.interest || 0, charged: 0, loanId: l.id,
+    });
+    rows.push({
+      on: e.at.slice(0, 10),
+      kind: "Repayment reversal",
+      who: who(l.borrowerId),
+      note: (e.method || "Payment") + " — reversal of receipt dated " + (e.repaymentOn || "unknown date"),
+      out: 0, cash: -(e.amount || 0), interest: -(e.interest || 0), charged: 0, loanId: l.id,
+    });
+  });
+
   db.events.filter((e) => e.text.indexOf("forfeited") === 0 || e.text.indexOf("Collateral forfeited") === 0)
     .forEach((e) => {
       const l = db.loans.find((x) => x.id === e.loanId);
@@ -938,10 +999,10 @@ function Cashbook({ db }) {
 
   function download() {
     const head = "Date,Entry,Borrower,Detail,Cash out,Cash in,Of which interest,Interest charged\n";
+    const csvCell = (value) => '"' + String(value ?? "").replace(/"/g, '""') + '"';
     const body = inYear
       .slice().sort((a, b) => d(a.on) - d(b.on))
-      .map((r) => [r.on, r.kind, r.who, '"' + r.note.replace(/"/g, "'") + '"',
-                   r.out || "", r.cash || "", r.interest || "", r.charged || ""].join(","))
+      .map((r) => [r.on, r.kind, r.who, r.note, r.out ?? "", r.cash ?? "", r.interest ?? "", r.charged ?? ""].map(csvCell).join(","))
       .join("\n");
     const url = URL.createObjectURL(new Blob([head + body], { type: "text/csv" }));
     const a = document.createElement("a");
@@ -1080,7 +1141,7 @@ function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onResto
           <div className="kpi-value">{open.length}</div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-label">Outstanding Principal</div>
+          <div className="kpi-label">Outstanding Balance</div>
           <div className="kpi-value">{K(outstanding)}</div>
         </div>
         <div className="kpi-card">
@@ -1259,9 +1320,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
         </p>
       </div>
 
-      <div className="pb-actions" style={{ marginBottom: 20 }}>
-        <button className="pb-btn warn" onClick={() => onDropLoan(l)}>Delete this loan</button>
-      </div>
+      {(!l.repayments?.length && !l.charges?.length && s !== "forfeited") && <div className="pb-actions" style={{ marginBottom: 20 }}><button className="pb-btn warn" onClick={() => onDropLoan(l)}>Delete this loan</button></div>}
     </>
   );
 }

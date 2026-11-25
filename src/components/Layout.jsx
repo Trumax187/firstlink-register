@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 
 export default function Layout({ activeTab, setTab, children, searchQuery, setSearchQuery }) {
   const tabs = [
@@ -11,6 +11,7 @@ export default function Layout({ activeTab, setTab, children, searchQuery, setSe
   ];
 
   return (
+    <div className="pb">
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar-brand">
@@ -73,6 +74,7 @@ export default function Layout({ activeTab, setTab, children, searchQuery, setSe
           </button>
         ))}
       </nav>
+    </div>
     </div>
   );
 }
