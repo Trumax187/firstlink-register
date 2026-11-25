@@ -389,30 +389,25 @@ function restoreBackup(event) {
 }
 
   function renew(l) {
-    const amt = nextCharge(l);
-    const n = l.renewals + 1;
     write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({
-        ...x,
-        renewals: n,
-        dueOn: addDays(x.dueOn, x.interest.periodDays),
-        charges: [
-          ...x.charges,
-          { id: uid("ch"), kind: "renewal", amount: amt, on: iso(TODAY), note: chargeNote(x, "renewal", n) },
-        ],
+      const current = s.loans.find((x) => x.id === l.id);
+      if (!current || !["active", "overdue"].includes(statusOf(current))) return s;
+      const amt = nextCharge(current), n = current.renewals + 1;
+      let next = patchLoan(s, current.id, (x) => ({
+        ...x, renewals: n, dueOn: addDays(x.dueOn, x.interest.periodDays),
+        charges: [...x.charges, { id: uid("ch"), kind: "renewal", amount: amt, on: iso(TODAY), note: chargeNote(x, "renewal", n) }],
       }));
-      return log(
-        next, l.id,
-        "Renewed " + l.interest.periodDays + " days. Interest charge " + K(amt) + " added. Principal unchanged"
-      );
+      return log(next, current.id, "Renewed " + current.interest.periodDays + " days. Interest charge " + K(amt) + " added. Principal unchanged");
     });
   }
 
   function forfeit(l) {
     write((s) => {
-      let next = patchLoan(s, l.id, (x) => ({ ...x, status: "forfeited" }));
-      next = patchItem(next, l.itemId, "forfeited");
-      return log(next, l.id, "Collateral forfeited after " + daysLate(l) + " days overdue. Balance " + K(owing(l)));
+      const current = s.loans.find((x) => x.id === l.id);
+      if (!current || !["active", "overdue"].includes(statusOf(current)) || !canForfeit(current)) return s;
+      let next = patchLoan(s, current.id, (x) => ({ ...x, status: "forfeited" }));
+      next = patchItem(next, current.itemId, "forfeited");
+      return log(next, current.id, "Collateral forfeited after " + daysLate(current) + " days overdue. Balance " + K(owing(current)));
     });
   }
 
@@ -432,27 +427,40 @@ function restoreBackup(event) {
   }
 
   function removeLoan(l) {
-    confirmThen("Delete this whole loan and everything in its history? This cannot be undone.", "Delete the loan", () => {
-      write((s) => ({
-        ...s,
-        loans: s.loans.filter((x) => x.id !== l.id),
-        events: s.events.filter((e) => e.loanId !== l.id),
-        items: s.items.map((c) => (c.id === l.itemId && c.status !== "released" ? { ...c, status: "held" } : c)),
-      }));
+    const hasFinancialHistory = (loan) => (Array.isArray(loan.repayments) && loan.repayments.length > 0) || (Array.isArray(loan.charges) && loan.charges.length > 0) || statusOf(loan) === "forfeited";
+    if (hasFinancialHistory(l)) { window.alert("This loan has repayment, interest-charge, or forfeiture history and cannot be deleted. Keep it in the register for record-keeping."); return; }
+    confirmThen("Delete this loan? This is only allowed when no repayments or interest charges have been recorded.", "Delete the loan", () => {
+      write((s) => {
+        const current = s.loans.find((x) => x.id === l.id);
+        if (!current || hasFinancialHistory(current)) return s;
+        return { ...s, loans: s.loans.filter((x) => x.id !== l.id), events: s.events.filter((e) => e.loanId !== l.id), items: s.items.map((c) => c.id === current.itemId && c.status !== "released" && c.status !== "forfeited" ? { ...c, status: "held" } : c) };
+      });
       setScreen({ kind: "borrower", id: l.borrowerId });
     });
   }
 
   function removeItem(c) {
-    confirmThen("Remove " + c.desc + " from the register?", "Remove it", () =>
-      write((s) => ({ ...s, items: s.items.filter((x) => x.id !== c.id) })));
+    if (db.loans.some((l) => l.itemId === c.id)) {
+      window.alert("This item is linked to loan history and cannot be removed. Keep it in the register for record-keeping.");
+      return;
+    }
+    confirmThen("Remove " + c.desc + " from the register?", "Remove it", () => write((s) => {
+      if (s.loans.some((l) => l.itemId === c.id)) return s;
+      return { ...s, items: s.items.filter((x) => x.id !== c.id) };
+    }));
   }
 
   function removeBorrower(b) {
+    if (db.loans.some((l) => l.borrowerId === b.id) || db.items.some((c) => c.borrowerId === b.id)) {
+      window.alert("This customer has collateral or loan records and cannot be removed. Keep the customer record for record-keeping.");
+      return;
+    }
     confirmThen("Remove " + b.name + " from the register?", "Remove them", () => {
-      write((s) => ({ ...s, borrowers: s.borrowers.filter((x) => x.id !== b.id) }));
-      setTab("borrowers");
-      home();
+      write((s) => {
+        if (s.loans.some((l) => l.borrowerId === b.id) || s.items.some((c) => c.borrowerId === b.id)) return s;
+        return { ...s, borrowers: s.borrowers.filter((x) => x.id !== b.id) };
+      });
+      setTab("borrowers"); home();
     });
   }
 
@@ -1080,7 +1088,7 @@ function Dashboard({ db, borrower, item, onOpen, onAddBorrower, onClear, onResto
           <div className="kpi-value">{open.length}</div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-label">Outstanding Principal</div>
+          <div className="kpi-label">Outstanding Balance</div>
           <div className="kpi-value">{K(outstanding)}</div>
         </div>
         <div className="kpi-card">
@@ -1259,9 +1267,7 @@ function LoanDetail({ l, b, it, events, form, setForm, onBack, onRepay, onRenew,
         </p>
       </div>
 
-      <div className="pb-actions" style={{ marginBottom: 20 }}>
-        <button className="pb-btn warn" onClick={() => onDropLoan(l)}>Delete this loan</button>
-      </div>
+      {(!l.repayments?.length && !l.charges?.length && s !== "forfeited") && <div className="pb-actions" style={{ marginBottom: 20 }}><button className="pb-btn warn" onClick={() => onDropLoan(l)}>Delete this loan</button></div>}
     </>
   );
 }
